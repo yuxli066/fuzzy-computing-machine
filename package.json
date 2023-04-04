@@ -1,0 +1,51 @@
+{
+  "name": "leoportfolio",
+  "version": "2.0.0",
+  "private": true,
+  "author": "Leo Li",
+  "scripts": {
+    "start": "SKIP_PREFLIGHT_CHECK=true FAST_REFRESH=true DISABLE_ESLINT_PLUGIN=true CHOKIDAR_USEPOLLING=true react-scripts --openssl-legacy-provider start",
+    "build": "SKIP_PREFLIGHT_CHECK=true FAST_REFRESH=true DISABLE_ESLINT_PLUGIN=true CHOKIDAR_USEPOLLING=true react-scripts --openssl-legacy-provider build",
+    "eject": "react-scripts eject",
+    "lint": "eslint --cache src --fix --ext .js,.jsx ."
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/material": "^5.2.5",
+    "@vercel/analytics": "^0.1.11",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.60.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

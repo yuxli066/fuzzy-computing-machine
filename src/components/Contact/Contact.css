@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat|Permanent+Marker');
+
+.contact {
+  flex-direction: column;
+  margin-right: 15px !important;
+}
+
+.contact p {
+  font-family: 'Caveat', cursive;
+  font-weight: bolder;
+  font-size: 22px;
+  color: #770303;
+}
+
+.click-me {
+  text-align: end;
+  width: 100%;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+}
+
+.ps-note {
+  margin-block-start: 2.5em;
+  color: #770303;
+}
+
+.contact_icons {
+  display: flex;
+  justify-content: center;
+  padding: 2px !important;
+}
+
+.MuiSvgIcon-fontSizeLarge {
+  color: darkgoldenrod;
+  font-size: 3rem !important;
+}
+
+.MuiSvgIcon-fontSizeLarge:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+}

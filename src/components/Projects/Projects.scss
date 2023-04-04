@@ -1,0 +1,173 @@
+/** basic classes for ui elements */
+p
+{
+  font-family: courier, monospace;
+  font-size: 18px;
+  font-weight: bold;
+  margin-block-end: unset !important;
+}
+
+.container-styles
+{
+  position: relative;
+  background-image: url("../../images/terminal-bg.png");
+  background-size: 100% 100%;
+  min-height: 34.5em;
+  max-height: 34.5em;
+  width: 66em !important;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+  overflow: hidden;
+  padding-left: unset !important;
+  padding-right: unset !important;
+}
+
+.grid-styles
+{
+  position: absolute;
+  top: 17%;
+  background-color: rgb(153,153,153);
+  margin-left: 2em;
+  max-width: 92%;
+  max-height: 26.4em;
+  overflow-y : scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(153,153,153);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  &:hover {
+    background: gray;
+  }
+}
+
+.shell
+{
+  color: #0f0
+}
+
+.path
+{
+  color: royalblue;
+}
+
+.MuiInputBase-input
+{
+  padding: 1px 0 !important;
+  user-select: none
+}
+
+.typography-styles
+{
+  float: left;
+}
+
+.input-styles
+{
+  font-family: courier, monospace !important;
+  font-size: 19px !important;
+  font-weight: bold !important;
+  color: white !important;
+  min-width: 90%;
+}
+
+.padding-left
+{
+  padding-left: 0.5em !important;
+}
+
+.list-styles
+{
+  padding-left: 1em;
+}
+
+.list-styles2
+{
+  padding-left: 1.75rem;
+}
+
+.color-yellow
+{
+  color: yellow;
+}
+
+.color-pink
+{
+  color: #ff0096;
+}
+
+.color-white
+{
+  color: white;
+}
+
+.color-blue
+{
+  color: mediumblue;
+}
+
+.color-primary
+{
+  color: #f4ff00;
+}
+
+/** mixins & mixin logic */
+
+@mixin mui-input-styles {
+  border-bottom: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+@mixin animation-styles {
+  color: white;
+  display: inline-flex;
+  animation: type 1s steps(200, end);
+  animation-fill-mode: backwards;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+@mixin animation-delays($num) {
+  @if $num != 0 {
+    animation-delay: $num+1.5s;
+  } @else {
+    animation-delay: 0.5s;
+  }
+}
+
+.MuiInput-underline
+{
+  float: left;
+  &:before {
+    @include mui-input-styles;
+  }
+  &:after {
+    @include mui-input-styles;
+  }
+}
+
+@for $i from 0 through 20 {
+  .animate#{$i} {
+    @include animation-styles;
+    @include animation-delays($i);
+  }
+}
+
+@keyframes type{
+  from {
+    color: rgb(153,153,153);
+    width: 0;
+  }
+}

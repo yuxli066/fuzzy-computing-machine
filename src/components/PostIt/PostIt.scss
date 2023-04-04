@@ -1,0 +1,70 @@
+/* Adapted from https://codepen.io/carlotm/pen/bKXBxp */
+@import url('https://fonts.googleapis.com/css?family=Caveat|Permanent+Marker');
+$bg: #7fa99b;
+$c: #fde668;
+$c-d: darken($c, 12);
+$c-dd: darken($c, 18);
+$c-ddd: darken($c, 40);
+$r: 3px;
+
+@mixin text {
+  font-family: 'Caveat', cursive;
+  font-weight: bolder;
+  color: black;
+}
+
+@mixin post-it {
+  font-family: 'Caveat', cursive;
+  background: $c;
+  color: $c-ddd;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: $r;
+  z-index: 100;
+
+  ul {
+    list-style: none;
+  }
+
+}
+
+.post-text-styles {
+  @include text;
+  font-size: 32px;
+  padding-left: 0.5em;
+}
+
+.post-text-styles2 {
+  @include text;
+  width: 295px;
+  font-size: 22px;
+  padding-left: 1em;
+}
+
+.post-text-styles3 {
+  @include text;
+  font-size: 22px;
+  padding-left: 1em;
+  padding-top: 0.5em;
+}
+
+.post-it-styles {
+  @include post-it;
+  height: 260px;
+  position: absolute;
+  top: 5em;
+  left: -1.5em;
+  transform: rotate(-6deg);
+  box-shadow: 0 30px 60px -30px darken($bg, 20);
+}
+
+.post-it-styles-commands {
+  @include post-it;
+  height: 240px;
+  position: absolute;
+  top: 28em;
+  right: 1.5em;
+  transform: rotate(5deg);
+  box-shadow: 30px 0 60px -30px darken($bg, 20);
+}
