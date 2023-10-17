@@ -64,7 +64,7 @@ function Projects() {
     'cat work-experiences.txt': {
       content: [
         [
-          'Visa - Sr. Software Test Engineer - April 2022 – Present',
+          'Visa - Sr. Software Test Engineer - April 2022 – August 2023',
           {
             line1: [
               'Created & executed test plans, test designs & test cases covering feature ',
@@ -359,12 +359,12 @@ function Projects() {
                             {results === 'RESUME' && (
                             <p className={commandObjectState[command].class[i]}>
                               <a
-                                href="https://leoportfolio.blob.core.windows.net/leoresume2023/Yuxuan_Leo_Li_Resume.pdf"
+                                href="https://drive.google.com/file/d/1UwR3x1Lx4be48vt0VB10MxxeMwkw3ew7/view?usp=share_link"
                                 rel="noreferrer"
                                 target="_blank"
                                 className="color-blue"
                               >
-                                {results}
+                                { results }
                                 <span className="color-white">
                                   {' <---'}
                                   {' '}
