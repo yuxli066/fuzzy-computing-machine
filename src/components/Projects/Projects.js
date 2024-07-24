@@ -64,6 +64,23 @@ function Projects() {
     'cat work-experiences.txt': {
       content: [
         [
+          'Walmart Global Tech - SDET - Nov 2023 – Present',
+          {
+            line1: [
+              'Created and executed manual & automation tests, conducted periodic ',
+              'measurement analysis. Delivered, and communicated test results. ',
+            ],
+            line2: [
+              'Designed and implemented functional and end-to-end tests working at UI, API ',
+              'and database levels. '
+            ],
+            line3: [
+              'Contributed to planning and estimation activities, including monitoring processes and ',
+              'reviewing QA deliverables and tasks. '
+            ]
+          },
+        ],
+        [
           'Visa - Sr. Software Test Engineer - April 2022 – August 2023',
           {
             line1: [
@@ -156,6 +173,16 @@ function Projects() {
         'animate18',
         'animate19',
         'animate20',
+        'animate21',
+        'animate22',
+        'animate23',
+        'animate24',
+        'animate25',
+        'animate26',
+        'animate27',
+        'animate28',
+        'animate29',
+        'animate30',
       ],
     },
     'cat my-projects.txt': {
@@ -264,7 +291,7 @@ function Projects() {
                       <ul>
                         <li>
                           <p
-                            className={commandObjectState[command].class[i * 4]}
+                            className={commandObjectState[command].class[i]}
                           >
                             <span className="color-yellow">{results[0]}</span>
                           </p>
@@ -275,7 +302,7 @@ function Projects() {
                                   <p
                                     className={
                                         commandObjectState[command].class[
-                                          i * 4 + descIndex + 1
+                                          i
                                         ]
                                       }
                                   >
@@ -291,7 +318,7 @@ function Projects() {
                                     <p
                                       className={
                                           commandObjectState[command].class[
-                                            i * 4 + descIndex + 1
+                                            i
                                           ]
                                         }
                                     >
@@ -305,7 +332,7 @@ function Projects() {
                                     <p
                                       className={
                                           commandObjectState[command].class[
-                                            i * 4 + descIndex + 1
+                                            i
                                           ]
                                         }
                                     >
@@ -367,7 +394,7 @@ function Projects() {
                             {results === 'RESUME' && (
                             <p className={commandObjectState[command].class[i]}>
                               <a
-                                href="https://drive.google.com/file/d/1UwR3x1Lx4be48vt0VB10MxxeMwkw3ew7/view?usp=share_link"
+                                href="https://drive.google.com/file/d/11ZuLrN_m878e7AGAdjD6ly2UbNZPfOdk/view?usp=sharing"
                                 rel="noreferrer"
                                 target="_blank"
                                 className="color-blue"

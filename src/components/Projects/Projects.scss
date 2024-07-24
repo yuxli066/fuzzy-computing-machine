@@ -158,7 +158,7 @@ p
   }
 }
 
-@for $i from 0 through 20 {
+@for $i from 0 through 30 {
   .animate#{$i} {
     @include animation-styles;
     @include animation-delays($i);
