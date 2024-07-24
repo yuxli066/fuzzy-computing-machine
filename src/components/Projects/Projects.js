@@ -161,12 +161,20 @@ function Projects() {
     'cat my-projects.txt': {
       content: [
         {
-          name: 'Bunny Battler',
-          link: 'https://github.com/yuxli066/DanzoShimura',
+          name: 'Auto Apply (Auto Apply to Jobs on LinkedIn)',
+          link: 'https://github.com/yuxli066/HashiramaSenju',
         },
         {
-          name: 'Recipe Book',
-          link: 'http://20.102.36.29',
+          name: 'Del Rosa Massage (https://delrosamassage.co)',
+          link: 'https://delrosamassage.co',
+        },
+        {
+          name: 'Mom\'s Recipe Book (https://asianmomrecipes.com)',
+          link: 'https://asianmomrecipes.com/',
+        },
+        {
+          name: 'Bunny Battler',
+          link: 'https://github.com/yuxli066/DanzoShimura',
         },
         {
           name: 'Clueless',
@@ -178,7 +186,7 @@ function Projects() {
         },
         {
           name: 'IdentifyAI',
-          link: 'https://twitter.com/identifyai',
+          link: 'https://x.com/identifyai',
         },
         {
           name: 'Twitter Sentiment Analyzer',
@@ -190,7 +198,7 @@ function Projects() {
         },
       ],
       gridLength: 12,
-      class: ['animate0', 'animate1', 'animate2', 'animate3', 'animate4', 'animate5', 'animate6'],
+      class: ['animate0', 'animate1', 'animate2', 'animate3', 'animate4', 'animate5', 'animate6', 'animate7', 'animate8'],
     },
     'cat contact-me.txt': {
       content: ['Contact me via my email @'],
