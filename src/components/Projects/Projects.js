@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Input from '@material-ui/core/Input';
 import { projects } from '../../portfolio';
 import './Projects.scss';
 
@@ -19,8 +18,6 @@ function Projects() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [currentCommand, setCurrentCommand] = useState('');
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [commandObjectState, setCommandObjectState] = useState({
     ls: {
@@ -72,12 +69,12 @@ function Projects() {
             ],
             line2: [
               'Designed and implemented functional and end-to-end tests working at UI, API ',
-              'and database levels. '
+              'and database levels. ',
             ],
             line3: [
               'Contributed to planning and estimation activities, including monitoring processes and ',
-              'reviewing QA deliverables and tasks. '
-            ]
+              'reviewing QA deliverables and tasks. ',
+            ],
           },
         ],
         [
@@ -234,29 +231,63 @@ function Projects() {
       class: ['animate0', 'animate1'],
     },
   });
+  const commandRef = useRef(null);
 
-  const handleChange = (e) => {
-    setCurrentCommand(e.target.value);
+  const forceRepaint = () => {
+    /**
+     * the function below forces a repaint,
+     * so our old command is removed from our content-editable element
+     */
+    requestAnimationFrame(() => {
+      // eslint-disable-next-line no-shadow
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(commandRef.current);
+      range.collapse(false); // move caret to end
+      sel.removeAllRanges();
+      sel.addRange(range);
+    });
+  }
+
+  const handleCommand = (shellCommand) => {
+    // handle command
+    if (shellCommand === 'clear') {
+      setPastCommands([]);
+    } else if (validCommands.indexOf(shellCommand) === -1) {
+      setCommandObjectState((oldState) => ({
+        ...oldState,
+        [shellCommand]: {
+          content: [`${shellCommand}: command not found.`],
+          gridLength: 12,
+          class: ['animate0'],
+        },
+      }));
+      setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
+    } else {
+      setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
+    }
   };
+  /**
+   * Added below to simulate real cursor on terminal
+   * @type {React.MutableRefObject<null>}
+   */
+  const handleKeyDown = (e) => {
+    const sel = window.getSelection();
+    const offset = sel?.anchorOffset;
 
-  const handleCommand = (e) => {
-    if (e.keyCode === 13) {
-      if (currentCommand === 'clear') {
-        setPastCommands([]);
-      } else if (validCommands.indexOf(currentCommand) === -1) {
-        setCommandObjectState((oldState) => ({
-          ...oldState,
-          [currentCommand]: {
-            content: [`${currentCommand}: command not found.`],
-            gridLength: 12,
-            class: ['animate0'],
-          },
-        }));
-        setPastCommands((prevCommands) => [...prevCommands, currentCommand]);
-      } else {
-        setPastCommands((prevCommands) => [...prevCommands, currentCommand]);
+    // prevent backspace if caret is at offset 0 of an editable node
+    if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+      if (offset === 0) {
+        e.preventDefault();
       }
-      setCurrentCommand('');
+    }
+
+    if (e.key === 'Enter') {
+      const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
+      const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
+      handleCommand(shellCommand);
+      commandRef.current.innerText = '';
+      forceRepaint()
     }
   };
 
@@ -413,20 +444,29 @@ function Projects() {
               ))}
             </React.Fragment>
           ))}
-        <Grid item xs={4.5}>
-          <p>
-            <span className="shell">yuxuanleoli@desktop:</span>
-            <span className="path">~/portfolio $</span>
-          </p>
-        </Grid>
-        <Grid item xs={7.5}>
-          <Input
-            onChange={handleChange}
-            onKeyDown={handleCommand}
-            value={currentCommand}
-            className="input-styles"
-            autoFocus
-          />
+        <Grid item xs={12}>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            contentEditable
+            style={{
+              width: '100%',
+              display: 'flex',
+              border: '1px solid #ccc',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all',
+              overflowWrap: 'anywhere',
+              zIndex: 1,
+            }}
+            onKeyDown={handleKeyDown}
+          >
+            <p style={{ margin: 0 }}>
+              <span contentEditable={false}>
+                <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
+                <span contentEditable={false} className="path">~/portfolio $</span>
+              </span>
+              <span ref={commandRef} />
+            </p>
+          </div>
         </Grid>
       </Grid>
     </Container>
