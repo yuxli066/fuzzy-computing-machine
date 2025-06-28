@@ -260,8 +260,6 @@ function Projects() {
     }
   };
 
-  // TODO: add sticky note on the top right
-  // TODO: add link to resume, change colors of name and contact icons
   return (
     <Container className="container-styles">
       <Grid container spacing={0} className="grid-styles">

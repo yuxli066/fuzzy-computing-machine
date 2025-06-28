@@ -11,7 +11,7 @@ const about = {
 };
 
 const projects = [
-  // projects can be added an removed
+  // projects can be added and removed
   // if there are no projects, Projects section won't show up
   {
     name: 'Project 1',
