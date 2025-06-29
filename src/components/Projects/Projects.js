@@ -247,7 +247,7 @@ function Projects() {
       sel.removeAllRanges();
       sel.addRange(range);
     });
-  }
+  };
 
   const handleCommand = (shellCommand) => {
     // handle command
@@ -272,23 +272,32 @@ function Projects() {
    * @type {React.MutableRefObject<null>}
    */
   const handleKeyDown = (e) => {
+    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const sel = window.getSelection();
     const offset = sel?.anchorOffset;
-
     // prevent backspace if caret is at offset 0 of an editable node
     if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
       if (offset === 0) {
         e.preventDefault();
       }
+      // Prevent backspace if caret is at offset 0 of an editable node
+      const text = commandRef.current.innerText;
+
+      // Below is edge case
+      if (text.length === 1 && offset === 1) {
+        commandRef.current.innerText = '';
+        e.preventDefault();
+      }
     }
 
     if (e.key === 'Enter') {
-      const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
       const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
       handleCommand(shellCommand);
       commandRef.current.innerText = '';
-      forceRepaint()
+      commandRef.current.textContent = '';
+      forceRepaint();
     }
+
   };
 
   return (
@@ -389,7 +398,7 @@ function Projects() {
                           >
                             {commandObjectState[command].email}
                             <span className="color-white">
-                            &#8195;
+                              &#8195;
                               {'<---'}
                               {' '}
                               click me!
@@ -407,7 +416,7 @@ function Projects() {
                             <a href={results.link} rel="noreferrer" target="_blank">
                               <span className="color-primary">{results.name}</span>
                               {' '}
-                          &#8195;
+                              &#8195;
                               {'<---'}
                               {' '}
                               click me!
@@ -449,6 +458,7 @@ function Projects() {
           <div
             contentEditable
             style={{
+              userSelect: 'none',
               width: '100%',
               display: 'flex',
               border: '1px solid #ccc',
