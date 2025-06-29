@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { projects } from '../../portfolio';
+import Caret from '../Caret/Caret';
 import './Projects.scss';
 
 const validCommands = [
@@ -290,6 +291,25 @@ function Projects() {
       }
     }
 
+    if (e.key === 'ArrowRight') {
+      const commandEl = commandRef.current;
+      const { focusNode, focusOffset } = sel;
+      if (
+        focusNode.nodeType === Node.TEXT_NODE
+          && focusOffset === focusNode.textContent.length
+      ) {
+        e.preventDefault();
+      }
+
+      if (
+        focusNode === commandEl
+          && focusOffset >= commandEl.childNodes.length
+      ) {
+        e.preventDefault();
+      }
+
+    }
+
     if (e.key === 'Enter') {
       const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
       handleCommand(shellCommand);
@@ -297,7 +317,6 @@ function Projects() {
       commandRef.current.textContent = '';
       forceRepaint();
     }
-
   };
 
   return (
@@ -457,11 +476,12 @@ function Projects() {
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
           <div
             contentEditable
+            suppressContentEditableWarning
+            className="input-styles"
             style={{
               userSelect: 'none',
               width: '100%',
               display: 'flex',
-              border: '1px solid #ccc',
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-all',
               overflowWrap: 'anywhere',
@@ -474,8 +494,14 @@ function Projects() {
                 <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
                 <span contentEditable={false} className="path">~/portfolio $</span>
               </span>
-              <span ref={commandRef} />
+              <span
+                style={{
+                  margin: '0.25em',
+                }}
+                ref={commandRef}
+              />
             </p>
+            <Caret editorRef={commandRef} />
           </div>
         </Grid>
       </Grid>
