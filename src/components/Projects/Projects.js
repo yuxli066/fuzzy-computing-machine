@@ -255,18 +255,18 @@ function Projects() {
       setPastCommands([]);
     } else if (validCommands.indexOf(shellCommand) === -1) {
       // we need to break the invalid input up into lines
-      const CHARLIMIT = 88;
+      const CHAR_LIMIT = 88;
       const invalidCommand = `${shellCommand}: command not found.`;
       let invalidCommandContent = [`${invalidCommand}`];
-      if (invalidCommand.length >= CHARLIMIT) {
+      if (invalidCommand.length >= CHAR_LIMIT) {
         const breakUpLongWord = (invalidString) => {
           const stringArr = [];
           let pointer = 0;
           for (let i = 0; i < invalidString.length; i += 1) {
-            if (i === pointer + CHARLIMIT) {
+            if (i === pointer + CHAR_LIMIT) {
               stringArr.push(invalidString.slice(pointer, i + 1));
               pointer = i + 1;
-            } else if (i < pointer + CHARLIMIT && i === invalidString.length - 1) {
+            } else if (i < pointer + CHAR_LIMIT && i === invalidString.length - 1) {
               stringArr.push(invalidString.slice(pointer, i + 1));
             }
           }
@@ -279,7 +279,7 @@ function Projects() {
         [shellCommand]: {
           content: invalidCommandContent,
           gridLength: 12,
-          class: invalidCommandContent.map((_,index) => `animate${index}`),
+          class: invalidCommandContent.map((_, index) => `animate${index}`),
         },
       }));
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
