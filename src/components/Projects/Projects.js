@@ -372,7 +372,7 @@ function Projects() {
                     overflowWrap: 'anywhere',
                   }}
                 >
-                  <p style={{ margin: 0 }}>
+                  <p style={{ margin: 0, userSelect: 'none' }}>
                     <span>
                       <span className="shell">yuxuanleoli@desktop:</span>
                       <span className="path">~/portfolio $</span>
@@ -548,7 +548,7 @@ function Projects() {
             onKeyDown={handleKeyDown}
             onMouseUp={handleClickInside}
           >
-            <p style={{ margin: 0 }}>
+            <p style={{ margin: 0, userSelect: 'none' }}>
               <span contentEditable={false}>
                 <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
                 <span contentEditable={false} className="path">~/portfolio $</span>
