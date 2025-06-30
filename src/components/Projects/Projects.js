@@ -249,7 +249,6 @@ function Projects() {
       sel.addRange(range);
     });
   };
-
   const handleCommand = (shellCommand) => {
     // handle command
     if (shellCommand === 'clear') {
@@ -307,10 +306,10 @@ function Projects() {
       ) {
         e.preventDefault();
       }
-
     }
 
     if (e.key === 'Enter') {
+      e.preventDefault(); // prevent default <p> tag from being inserted
       const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
       handleCommand(shellCommand);
       commandRef.current.innerText = '';
@@ -318,7 +317,23 @@ function Projects() {
       forceRepaint();
     }
   };
+  const handleClickInside = () => {
+    const sel = window.getSelection();
+    const commandEl = commandRef.current;
 
+    if (!sel || !commandEl) return;
+
+    const { focusNode } = sel;
+
+    // If the click landed outside commandRef, snap cursor back to end
+    if (!commandEl.contains(focusNode)) {
+      const range = document.createRange();
+      range.selectNodeContents(commandEl);
+      range.collapse(false); // move to end of content
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
   return (
     <Container className="container-styles">
       <Grid container spacing={0} className="grid-styles">
@@ -479,15 +494,15 @@ function Projects() {
             suppressContentEditableWarning
             className="input-styles"
             style={{
+              caretColor: 'transparent',
               userSelect: 'none',
               width: '100%',
-              display: 'flex',
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-all',
               overflowWrap: 'anywhere',
-              zIndex: 1,
             }}
             onKeyDown={handleKeyDown}
+            onMouseUp={handleClickInside}
           >
             <p style={{ margin: 0 }}>
               <span contentEditable={false}>
@@ -500,8 +515,8 @@ function Projects() {
                 }}
                 ref={commandRef}
               />
+              <Caret editorRef={commandRef} />
             </p>
-            <Caret editorRef={commandRef} />
           </div>
         </Grid>
       </Grid>

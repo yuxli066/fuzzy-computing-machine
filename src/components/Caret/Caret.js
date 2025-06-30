@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-// import './App.css'; // Or use inline styles
+import React, { useRef, useState, useEffect } from 'react';
+import './Caret.css'; // Or use inline styles
 
 const FakeCaret = ({ editorRef }) => {
   const caretRef = useRef(null);
@@ -41,25 +41,25 @@ const FakeCaret = ({ editorRef }) => {
   }, []);
 
   return (
-    <>
-      <div
-        contentEditable={false}
-        ref={caretRef}
-        id="leos-fake-caret"
-        style={{
-          position: 'relative',
-          display: 'inline-flex',
-          width: '10px',
-          height: '1.15em',
-          backgroundColor: 'white',
-          top: `${Number(caretPos.top) + 5}px`,
-          left: `${caretPos.left}px`,
-          animation: 'blink 1s step-end infinite',
-          pointerEvents: 'none',
-          zIndex: 100,
-        }}
-      />
-    </>
+    <span
+      contentEditable={false}
+      ref={caretRef}
+      id="leos-fake-caret"
+      style={{
+        position: 'relative',
+        display: 'inline-flex',
+        alignSelf: 'center',
+        width: '8px',
+        height: '21px',
+        top: '5px',
+        backgroundColor: 'white',
+        left: `${caretPos.left}px`,
+        animation: 'blink 1s step-end infinite',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        zIndex: 100,
+      }}
+    />
   );
 };
 
