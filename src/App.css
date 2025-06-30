@@ -7,9 +7,18 @@
   height: 100vh;
 }
 
+#top {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
 .laptop {
   position: relative;
   padding-block-start: 7em;
+  margin-block-end: 10em;
+  margin-left: 7em !important;
   min-height: 50em;
   min-width: 100em;
   background-image: url('./images/laptop.png');
