@@ -511,7 +511,7 @@ function Projects() {
               </span>
               <span
                 style={{
-                  margin: '0.25em',
+                  margin: '0.15em',
                 }}
                 ref={commandRef}
               />
