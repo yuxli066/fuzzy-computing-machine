@@ -254,12 +254,32 @@ function Projects() {
     if (shellCommand === 'clear') {
       setPastCommands([]);
     } else if (validCommands.indexOf(shellCommand) === -1) {
+      // we need to break the invalid input up into lines
+      const CHARLIMIT = 88;
+      const invalidCommand = `${shellCommand}: command not found.`;
+      let invalidCommandContent = [`${invalidCommand}`];
+      if (invalidCommand.length >= CHARLIMIT) {
+        const breakUpLongWord = (invalidString) => {
+          const stringArr = [];
+          let pointer = 0;
+          for (let i = 0; i < invalidString.length; i += 1) {
+            if (i === pointer + CHARLIMIT) {
+              stringArr.push(invalidString.slice(pointer, i + 1));
+              pointer = i + 1;
+            } else if (i < pointer + CHARLIMIT && i === invalidString.length - 1) {
+              stringArr.push(invalidString.slice(pointer, i + 1));
+            }
+          }
+          return stringArr;
+        };
+        invalidCommandContent = breakUpLongWord(invalidCommand);
+      }
       setCommandObjectState((oldState) => ({
         ...oldState,
         [shellCommand]: {
-          content: [`${shellCommand}: command not found.`],
+          content: invalidCommandContent,
           gridLength: 12,
-          class: ['animate0'],
+          class: invalidCommandContent.map((_,index) => `animate${index}`),
         },
       }));
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
@@ -338,17 +358,34 @@ function Projects() {
     <Container className="container-styles">
       <Grid container spacing={0} className="grid-styles">
         {pastCommands
-          && pastCommands.map((command, index) => (
+          && pastCommands.map((cmd) => String(cmd).trim()).map((command, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <React.Fragment key={`${command}-${index}`}>
-              <Grid item xs={4.5}>
-                <p>
-                  <span className="shell">yuxuanleoli@desktop:</span>
-                  <span className="path">~/portfolio $</span>
-                </p>
-              </Grid>
-              <Grid item xs={7.5}>
-                <p className="input-styles">{command}</p>
+              <Grid item xs={12}>
+                <div
+                  className="input-styles"
+                  style={{
+                    userSelect: 'none',
+                    width: '100%',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-all',
+                    overflowWrap: 'anywhere',
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    <span>
+                      <span className="shell">yuxuanleoli@desktop:</span>
+                      <span className="path">~/portfolio $</span>
+                    </span>
+                    <span
+                      style={{
+                        margin: '0.15em',
+                      }}
+                    >
+                      {command}
+                    </span>
+                  </p>
+                </div>
               </Grid>
               {commandObjectState[command].content.map((results, i) => (
                 <Grid
@@ -369,7 +406,7 @@ function Projects() {
                           </p>
                           <ul>
                             {Object.values(results[1]).map(
-                              (description, descIndex) => (typeof description === 'string' ? (
+                              (description) => (typeof description === 'string' ? (
                                 <li className="list-styles">
                                   <p
                                     className={
@@ -459,8 +496,15 @@ function Projects() {
                         ) : (
                           <>
                             {results !== 'RESUME' && (
-                            <p className={commandObjectState[command].class[i]}>
-                              <span className="color-white">{results}</span>
+                            <p>
+                              <span
+                                className={`${commandObjectState[command].class[i]} color-white`}
+                                style={{
+                                  wordBreak: 'break-all',
+                                }}
+                              >
+                                {results}
+                              </span>
                             </p>
                             )}
                             {results === 'RESUME' && (
