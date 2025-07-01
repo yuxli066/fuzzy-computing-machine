@@ -233,6 +233,9 @@ function Projects() {
     },
   });
   const commandRef = useRef(null);
+  const caretRef = useRef(null);
+  const [currentCommand, setCurrentCommand] = useState('');
+  const [currentCaretIndex, setCurrentCaretIndex] = useState(null);
 
   const forceRepaint = () => {
     /**
@@ -287,16 +290,50 @@ function Projects() {
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
     }
   };
-  /**
-   * Added below to simulate real cursor on terminal
-   * @type {React.MutableRefObject<null>}
-   */
+  const updateFakeCaret = () => {
+    const calculateIndex = () => currentCommand.length - currentCaretIndex;
+    const caretPos = calculateIndex();
+    console.log('new caretPos', caretPos);
+    // move caret
+    caretRef.current.style.right = `${caretPos}rem`;
+  };
+
+  const trackInputChanged = (e) => {
+    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
+    const text = String(e.target.innerText).replace(shellUsername, '').trim();
+    let previousText = '';
+
+    setCurrentCommand((prevText) => {
+      previousText = prevText;
+      return text;
+    });
+
+    setCurrentCaretIndex((prevIndex) => {
+      // if user has not clicked left arrow yet.
+      if (!prevIndex || prevIndex === previousText.length) {
+        return text.length;
+      }
+      // if user has clicked left arrow, we calculate caret position.
+      let difference;
+      if (previousText.length > text.length) {
+        difference = previousText.length - text.length;
+      } else {
+        difference = text.length - previousText.length;
+      }
+      console.log('removed character count:', difference);
+      // eslint-disable-next-line max-len
+      const index = previousText.length > text.length ? prevIndex - difference : prevIndex + difference;
+      console.log('setting index:', index);
+      return index;
+    });
+  };
+
   const handleKeyDown = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const sel = window.getSelection();
     const offset = sel?.anchorOffset;
     // prevent backspace if caret is at offset 0 of an editable node
-    if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+    if (e.key === 'Backspace') {
       if (offset === 0) {
         e.preventDefault();
       }
@@ -308,6 +345,13 @@ function Projects() {
         commandRef.current.innerText = '';
         e.preventDefault();
       }
+    }
+
+    // handle 'Arrow Left' & 'Right'
+    if (e.key === 'ArrowLeft') {
+      console.log('Clicking Arrow Left');
+      setCurrentCaretIndex((prevIndex) => prevIndex - 1);
+      requestAnimationFrame(updateFakeCaret);
     }
 
     if (e.key === 'ArrowRight') {
@@ -545,6 +589,7 @@ function Projects() {
               wordBreak: 'break-all',
               overflowWrap: 'anywhere',
             }}
+            onInput={trackInputChanged}
             onKeyDown={handleKeyDown}
             onMouseUp={handleClickInside}
           >
@@ -559,7 +604,7 @@ function Projects() {
                 }}
                 ref={commandRef}
               />
-              <Caret editorRef={commandRef} />
+              <Caret caretRef={caretRef} />
             </p>
           </div>
         </Grid>
