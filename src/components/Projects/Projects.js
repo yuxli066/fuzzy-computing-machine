@@ -291,13 +291,13 @@ function Projects() {
     }
   };
   const updateFakeCaret = () => {
+    console.log(`${currentCommand.length} - ${currentCaretIndex}`)
     const calculateIndex = () => currentCommand.length - currentCaretIndex;
     const caretPos = calculateIndex();
     console.log('new caretPos', caretPos);
     // move caret
-    caretRef.current.style.right = `${caretPos}rem`;
+    caretRef.current.style.right = `${caretPos * 10.80125}px`;
   };
-
   const trackInputChanged = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const text = String(e.target.innerText).replace(shellUsername, '').trim();
@@ -307,13 +307,12 @@ function Projects() {
       previousText = prevText;
       return text;
     });
-
     setCurrentCaretIndex((prevIndex) => {
       // if user has not clicked left arrow yet.
-      if (!prevIndex || prevIndex === previousText.length) {
-        return text.length;
+      if (!prevIndex || text.length === 0) {
+        return text.length - 1;
       }
-      // if user has clicked left arrow, we calculate caret position.
+      // handle insertions & deletions
       let difference;
       if (previousText.length > text.length) {
         difference = previousText.length - text.length;
@@ -327,7 +326,6 @@ function Projects() {
       return index;
     });
   };
-
   const handleKeyDown = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const sel = window.getSelection();
@@ -347,13 +345,18 @@ function Projects() {
       }
     }
 
-    // handle 'Arrow Left' & 'Right'
+    // handle 'Arrow Left'
     if (e.key === 'ArrowLeft') {
-      console.log('Clicking Arrow Left');
-      setCurrentCaretIndex((prevIndex) => prevIndex - 1);
-      requestAnimationFrame(updateFakeCaret);
+      const { focusOffset } = sel;
+      if (focusOffset === 0) {
+        e.preventDefault();
+      } else {
+        setCurrentCaretIndex((prevIndex) => ((prevIndex - 1 > 0) ? prevIndex - 1 : 0));
+        requestAnimationFrame(updateFakeCaret);
+      }
     }
 
+    // handle 'Arrow Right'
     if (e.key === 'ArrowRight') {
       const commandEl = commandRef.current;
       const { focusNode, focusOffset } = sel;
@@ -362,14 +365,18 @@ function Projects() {
           && focusOffset === focusNode.textContent.length
       ) {
         e.preventDefault();
+        return;
       }
-
       if (
         focusNode === commandEl
           && focusOffset >= commandEl.childNodes.length
       ) {
         e.preventDefault();
+        return;
       }
+      // eslint-disable-next-line max-len
+      setCurrentCaretIndex((prevIndex) => ((prevIndex + 1 > currentCommand.length - 1) ? currentCommand.length - 1 : prevIndex + 1));
+      requestAnimationFrame(updateFakeCaret);
     }
 
     if (e.key === 'Enter') {
