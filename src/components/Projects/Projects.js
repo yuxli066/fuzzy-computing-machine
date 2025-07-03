@@ -370,6 +370,8 @@ function Projects() {
       e.preventDefault(); // prevent default <p> tag from being inserted
       const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
       handleCommand(shellCommand);
+      setCurrentCommand('');
+      setCurrentCaretIndex(0);
       commandRef.current.innerText = '';
       commandRef.current.textContent = '';
       forceRepaint();
