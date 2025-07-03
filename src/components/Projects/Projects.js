@@ -13,6 +13,21 @@ const validCommands = [
   'cat my-projects.txt',
   'clear',
 ];
+function toValidJsonKey(str) {
+
+  if (/^\d+$/.test(str)) {
+    return String(str);
+  }
+
+  return str
+    .toString()
+    .normalize('NFKD') // Normalize accents
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+    .replace(/[^a-zA-Z0-9_$]/g, '_') // Replace invalid chars with _
+    .replace(/^[^a-zA-Z_$]+/, '') // Remove invalid starting chars
+    .replace(/_{2,}/g, '_') // Collapse multiple underscores
+    .replace(/^_+|_+$/g, ''); // Trim underscores from ends
+}
 
 function Projects() {
   if (!projects.length) return null;
@@ -21,7 +36,7 @@ function Projects() {
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [commandObjectState, setCommandObjectState] = useState({
-    ls: {
+    [toValidJsonKey('ls')]: {
       content: [
         'about-me.txt',
         'work-experiences.txt',
@@ -32,7 +47,7 @@ function Projects() {
       gridLength: 4,
       class: ['animate0', 'animate1', 'animate2', 'animate3', 'animate4'],
     },
-    'cat about-me.txt': {
+    [toValidJsonKey('cat about-me.txt')]: {
       content: [
         "Hi! My name is Leo and I'm a software engineer who's passionate about technology and ",
         'building software.',
@@ -59,7 +74,7 @@ function Projects() {
         'animate9',
       ],
     },
-    'cat work-experiences.txt': {
+    [toValidJsonKey('cat work-experiences.txt')]: {
       content: [
         [
           'Walmart Global Tech - SDET - Nov 2023 – Present',
@@ -183,7 +198,7 @@ function Projects() {
         'animate30',
       ],
     },
-    'cat my-projects.txt': {
+    [toValidJsonKey('cat my-projects.txt')]: {
       content: [
         {
           name: 'Auto Apply (Auto Apply to Jobs on LinkedIn)',
@@ -225,7 +240,7 @@ function Projects() {
       gridLength: 12,
       class: ['animate0', 'animate1', 'animate2', 'animate3', 'animate4', 'animate5', 'animate6', 'animate7', 'animate8'],
     },
-    'cat contact-me.txt': {
+    [toValidJsonKey('cat contact-me.txt')]: {
       content: ['Contact me via my email @'],
       email: 'leoli7405@gmail.com',
       gridLength: 12,
@@ -238,70 +253,74 @@ function Projects() {
   const [currentCaretIndex, setCurrentCaretIndex] = useState(null);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
-      const calculateIndex = () => currentCommand.length - currentCaretIndex;
-      const caretPos = calculateIndex();
-      // move caret
-      caretRef.current.style.right = `${caretPos * 10.80125}px`;
-    });
+    if (currentCaretIndex === 0 && currentCommand === '') {
+      requestAnimationFrame(() => {
+        // eslint-disable-next-line no-shadow
+        const sel = window.getSelection();
+        const range = document.createRange();
+        const el = commandRef.current;
+
+        if (!el || !document.body.contains(el)) { return; }
+        range.selectNodeContents(commandRef.current);
+        range.collapse(false); // move caret to end
+        sel.removeAllRanges();
+        sel.addRange(range);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        const calculateIndex = () => currentCommand.length - currentCaretIndex;
+        const caretPos = calculateIndex();
+        // move caret
+        caretRef.current.style.right = `${caretPos * 10.80125}px`;
+      });
+    }
   }, [currentCaretIndex]);
-  const forceRepaint = () => {
-    /**
-     * the function below forces a repaint,
-     * so our old command is removed from our content-editable element
-     */
-    requestAnimationFrame(() => {
-      // eslint-disable-next-line no-shadow
-      const sel = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(commandRef.current);
-      range.collapse(false); // move caret to end
-      sel.removeAllRanges();
-      sel.addRange(range);
-    });
-  };
   const handleCommand = (shellCommand) => {
     // handle command
     if (shellCommand === 'clear') {
       setPastCommands([]);
     } else if (validCommands.indexOf(shellCommand) === -1) {
       // we need to break the invalid input up into lines
-      const CHAR_LIMIT = 88;
-      const invalidCommand = `${shellCommand}: command not found.`;
-      let invalidCommandContent = [`${invalidCommand}`];
-      if (invalidCommand.length >= CHAR_LIMIT) {
-        const breakUpLongWord = (invalidString) => {
-          const stringArr = [];
-          let pointer = 0;
-          for (let i = 0; i < invalidString.length; i += 1) {
-            if (i === pointer + CHAR_LIMIT) {
-              stringArr.push(invalidString.slice(pointer, i + 1));
-              pointer = i + 1;
-            } else if (i < pointer + CHAR_LIMIT && i === invalidString.length - 1) {
-              stringArr.push(invalidString.slice(pointer, i + 1));
+      try {
+        const CHAR_LIMIT = 88;
+        const COMMAND_KEY = toValidJsonKey(shellCommand);
+        const invalidCommand = `${shellCommand}: command not found.`;
+        let invalidCommandContent = [`${invalidCommand}`];
+        if (invalidCommand.length >= CHAR_LIMIT) {
+          const breakUpLongWord = (invalidString) => {
+            const stringArr = [];
+            let pointer = 0;
+            for (let i = 0; i < invalidString.length; i += 1) {
+              if (i === pointer + CHAR_LIMIT) {
+                stringArr.push(invalidString.slice(pointer, i + 1));
+                pointer = i + 1;
+              } else if (i < pointer + CHAR_LIMIT && i === invalidString.length - 1) {
+                stringArr.push(invalidString.slice(pointer, i + 1));
+              }
             }
-          }
-          return stringArr;
-        };
-        invalidCommandContent = breakUpLongWord(invalidCommand);
+            return stringArr;
+          };
+          invalidCommandContent = breakUpLongWord(invalidCommand);
+        }
+        setCommandObjectState((oldState) => ({
+          ...oldState,
+          [COMMAND_KEY]: {
+            content: invalidCommandContent,
+            gridLength: 12,
+            class: invalidCommandContent.map((_, index) => `animate${index}`),
+          },
+        }));
+        setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
+      } catch (e) {
+        console.error(e);
       }
-      setCommandObjectState((oldState) => ({
-        ...oldState,
-        [shellCommand]: {
-          content: invalidCommandContent,
-          gridLength: 12,
-          class: invalidCommandContent.map((_, index) => `animate${index}`),
-        },
-      }));
-      setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
     } else {
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
     }
   };
   const trackInputChanged = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
-    const text = String(e.target.innerText).replace(shellUsername, '').trimStart();
-
+    const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
     let previousText = '';
     setCurrentCommand((prevText) => {
       previousText = prevText;
@@ -313,17 +332,20 @@ function Projects() {
         return text.length;
       }
       // handle insertions & deletions
-      return previousText.length > text.length ? prevIndex - 1 : prevIndex + 1;
+      if (previousText.length > text.length) {
+        return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
+      }
+      return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
     });
   };
   const handleKeyDown = (e) => {
-    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const sel = window.getSelection();
     const { focusNode, focusOffset, anchorOffset } = sel;
-    if (focusNode === Node.ELEMENT_NODE && !(/^[a-zA-Z]$/.test(e.key))) {
-      e.preventDefault();
+
+    if ((/^[a-zA-Z0-9]$/.test(e.key))) {
       return;
     }
+
     // prevent backspace if caret is at offset 0 of an editable node
     if (e.key === 'Backspace') {
       if (anchorOffset === 0 || focusOffset === 0) {
@@ -331,12 +353,6 @@ function Projects() {
         return;
       }
       if (currentCaretIndex === 0) {
-        e.preventDefault();
-        return;
-      }
-      // Below are edge cases caused by browser instability
-      if (currentCommand.length === 1 && anchorOffset === 1) {
-        setCurrentCommand('');
         e.preventDefault();
         return;
       }
@@ -367,14 +383,17 @@ function Projects() {
     }
     // handle 'Enter'
     if (e.key === 'Enter') {
-      e.preventDefault(); // prevent default <p> tag from being inserted
-      const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
-      handleCommand(shellCommand);
-      setCurrentCommand('');
-      setCurrentCaretIndex(0);
-      commandRef.current.innerText = '';
-      commandRef.current.textContent = '';
-      forceRepaint();
+      try {
+        e.preventDefault(); // prevent default <p> tag from being inserted
+        // const shellCommand = String(currentCommand).replace(shellUsername, '').trimStart();
+        handleCommand(currentCommand);
+        setCurrentCommand('');
+        setCurrentCaretIndex(0);
+        commandRef.current.textContent = '';
+        commandRef.current.innerText = '';
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
   const handleClickInside = () => {
@@ -388,10 +407,38 @@ function Projects() {
     // If the click landed outside commandRef, snap cursor back to end
     if (!commandEl.contains(focusNode)) {
       const range = document.createRange();
+      if (!commandEl || !document.body.contains(commandEl)) { return; }
       range.selectNodeContents(commandEl);
       range.collapse(false); // move to end of content
       sel.removeAllRanges();
       sel.addRange(range);
+    }
+  };
+  const disable = (e) => {
+    e.preventDefault();
+  };
+  const handleBeforeInput = (e) => {
+    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
+    const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
+    if (
+      e.data === '. '
+    ) {
+      let previousText = '';
+      setCurrentCommand((prevText) => {
+        previousText = prevText;
+        return text;
+      });
+      setCurrentCaretIndex((prevIndex) => {
+        // if user has not clicked left arrow yet.
+        if (prevIndex === null || text.length === 0) {
+          return text.length;
+        }
+        // handle insertions & deletions
+        if (previousText.length > text.length) {
+          return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
+        }
+        return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
+      });
     }
   };
   return (
@@ -427,10 +474,10 @@ function Projects() {
                   </p>
                 </div>
               </Grid>
-              {commandObjectState[command].content.map((results, i) => (
+              {commandObjectState[toValidJsonKey(command)].content.map((results, i) => (
                 <Grid
                   item
-                  xs={commandObjectState[command].gridLength}
+                  xs={commandObjectState[toValidJsonKey(command)].gridLength}
                   /* eslint-disable-next-line react/no-array-index-key */
                   key={`${results}-${i}`}
                 >
@@ -440,7 +487,7 @@ function Projects() {
                       <ul>
                         <li>
                           <p
-                            className={commandObjectState[command].class[i]}
+                            className={commandObjectState[toValidJsonKey(command)].class[i]}
                           >
                             <span className="color-yellow">{results[0]}</span>
                           </p>
@@ -450,7 +497,7 @@ function Projects() {
                                 <li className="list-styles">
                                   <p
                                     className={
-                                        commandObjectState[command].class[
+                                        commandObjectState[toValidJsonKey(command)].class[
                                           i
                                         ]
                                       }
@@ -466,7 +513,7 @@ function Projects() {
                                   <li className="list-styles">
                                     <p
                                       className={
-                                          commandObjectState[command].class[
+                                          commandObjectState[toValidJsonKey(command)].class[
                                             i
                                           ]
                                         }
@@ -480,7 +527,7 @@ function Projects() {
                                   <li className="list-styles2">
                                     <p
                                       className={
-                                          commandObjectState[command].class[
+                                          commandObjectState[toValidJsonKey(command)].class[
                                             i
                                           ]
                                         }
@@ -499,7 +546,7 @@ function Projects() {
                     ) // eslint-disable-next-line no-nested-ternary
                       : command === 'cat contact-me.txt' ? (
                         <p
-                          className={commandObjectState[command].class[i]}
+                          className={commandObjectState[toValidJsonKey(command)].class[i]}
                           style={{ marginLeft: '22%' }}
                         >
                           <span className="color-white">{results}</span>
@@ -507,7 +554,7 @@ function Projects() {
                             href="mailto::leoli7405@gmail.com"
                             className="color-pink"
                           >
-                            {commandObjectState[command].email}
+                            {commandObjectState[toValidJsonKey(command)].email}
                             <span className="color-white">
                               &#8195;
                               {'<---'}
@@ -518,12 +565,12 @@ function Projects() {
                         </p>
                       ) // eslint-disable-next-line no-nested-ternary
                         : command === 'cat about-me.txt' ? (
-                          <p className={commandObjectState[command].class[i]}>
+                          <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
                             <span className="color-primary">{results}</span>
                             <br />
                           </p>
                         ) : command === 'cat my-projects.txt' ? (
-                          <p className={commandObjectState[command].class[i]}>
+                          <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
                             <a href={results.link} rel="noreferrer" target="_blank">
                               <span className="color-primary">{results.name}</span>
                               {' '}
@@ -538,7 +585,7 @@ function Projects() {
                             {results !== 'RESUME' && (
                             <p>
                               <span
-                                className={`${commandObjectState[command].class[i]} color-white`}
+                                className={`${commandObjectState[toValidJsonKey(command)].class[i]} color-white`}
                                 style={{
                                   wordBreak: 'break-all',
                                 }}
@@ -548,7 +595,7 @@ function Projects() {
                             </p>
                             )}
                             {results === 'RESUME' && (
-                            <p className={commandObjectState[command].class[i]}>
+                            <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
                               <a
                                 href="https://drive.google.com/file/d/11ZuLrN_m878e7AGAdjD6ly2UbNZPfOdk/view?usp=sharing"
                                 rel="noreferrer"
@@ -585,9 +632,16 @@ function Projects() {
               wordBreak: 'break-all',
               overflowWrap: 'anywhere',
             }}
+            onPaste={disable}
+            onCopy={disable}
+            onCut={disable}
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
             onInput={trackInputChanged}
             onKeyDown={handleKeyDown}
             onMouseUp={handleClickInside}
+            onBeforeInput={handleBeforeInput}
           >
             <p style={{ margin: 0, userSelect: 'none' }}>
               <span contentEditable={false}>
