@@ -76,7 +76,7 @@ function Projects() {
     [toValidJsonKey('cat work-experiences.txt')]: {
       content: [
         [
-          'Walmart Global Tech - SDET - Nov 2023 – Present',
+          'Walmart Global Tech - SDET - Nov 2023 – May 2025',
           {
             line1: [
               'Created and executed manual & automation tests, conducted periodic ',
@@ -602,7 +602,7 @@ function Projects() {
                             {results === 'RESUME' && (
                             <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
                               <a
-                                href="https://drive.google.com/file/d/11ZuLrN_m878e7AGAdjD6ly2UbNZPfOdk/view?usp=sharing"
+                                href="https://drive.google.com/file/d/14yyn6ct_GIblKy87MSOG8N0wvak8SJpT/view?usp=sharing"
                                 rel="noreferrer"
                                 target="_blank"
                                 className="color-blue"
