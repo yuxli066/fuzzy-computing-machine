@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import {projects} from '../../portfolio';
+import { projects } from '../../portfolio';
 import Caret from '../Caret/Caret';
 import './Projects.scss';
 
@@ -300,9 +300,9 @@ function Projects() {
   };
   const trackInputChanged = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
-    const text = String(e.target.innerText).replace(shellUsername, '').trim();
-    let previousText = '';
+    const text = String(e.target.innerText).replace(shellUsername, '').trimStart();
 
+    let previousText = '';
     setCurrentCommand((prevText) => {
       previousText = prevText;
       return text;
@@ -319,54 +319,53 @@ function Projects() {
   const handleKeyDown = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const sel = window.getSelection();
-    const offset = sel?.anchorOffset;
+    const { focusNode, focusOffset, anchorOffset } = sel;
+    if (focusNode === Node.ELEMENT_NODE && !(/^[a-zA-Z]$/.test(e.key))) {
+      e.preventDefault();
+      return;
+    }
     // prevent backspace if caret is at offset 0 of an editable node
     if (e.key === 'Backspace') {
-      if (offset === 0) {
+      if (anchorOffset === 0 || focusOffset === 0) {
         e.preventDefault();
+        return;
       }
-      // Prevent backspace if caret is at offset 0 of an editable node
-      const text = commandRef.current.innerText;
-
-      // Below is edge case
-      if (text.length === 1 && offset === 1) {
-        commandRef.current.innerText = '';
+      if (currentCaretIndex === 0) {
         e.preventDefault();
+        return;
+      }
+      // Below are edge cases caused by browser instability
+      if (currentCommand.length === 1 && anchorOffset === 1) {
+        setCurrentCommand('');
+        e.preventDefault();
+        return;
       }
     }
-
     // handle 'Arrow Left'
     if (e.key === 'ArrowLeft') {
-      const { focusOffset } = sel;
-      if (focusOffset === 0) {
+      if (currentCaretIndex === 0) {
         e.preventDefault();
-      } else {
-        setCurrentCaretIndex((prevIndex) => ((prevIndex - 1 > 0) ? prevIndex - 1 : 0));
+        return;
       }
+      setCurrentCaretIndex((prevIndex) => ((prevIndex - 1 > 0) ? prevIndex - 1 : 0));
     }
-
     // handle 'Arrow Right'
     if (e.key === 'ArrowRight') {
-      const commandEl = commandRef.current;
-      const { focusNode, focusOffset } = sel;
       if (
-        focusNode.nodeType === Node.TEXT_NODE
-          && focusOffset === focusNode.textContent.length
+        (focusNode.nodeType === Node.TEXT_NODE
+          && focusOffset === focusNode.textContent.length + 1)
       ) {
         e.preventDefault();
         return;
       }
-      if (
-        focusNode === commandEl
-          && focusOffset >= commandEl.childNodes.length
-      ) {
+      if (currentCaretIndex === currentCommand.length) {
         e.preventDefault();
         return;
       }
       // eslint-disable-next-line max-len
-      setCurrentCaretIndex((prevIndex) => ((prevIndex + 1 > currentCommand.length - 1) ? currentCommand.length - 1 : prevIndex + 1));
+      setCurrentCaretIndex((prevIndex) => (prevIndex + 1 > currentCommand.length ? currentCommand.length : prevIndex + 1));
     }
-
+    // handle 'Enter'
     if (e.key === 'Enter') {
       e.preventDefault(); // prevent default <p> tag from being inserted
       const shellCommand = String(commandRef.current?.textContent).replace(shellUsername, '').trim();
