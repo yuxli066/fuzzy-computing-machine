@@ -14,7 +14,6 @@ const validCommands = [
   'clear',
 ];
 function toValidJsonKey(str) {
-
   if (/^\d+$/.test(str)) {
     return String(str);
   }
@@ -251,29 +250,37 @@ function Projects() {
   const caretRef = useRef(null);
   const [currentCommand, setCurrentCommand] = useState('');
   const [currentCaretIndex, setCurrentCaretIndex] = useState(null);
+  const forceRepaint = () => {
+    requestAnimationFrame(() => {
+      // eslint-disable-next-line no-shadow
+      const sel = window.getSelection();
+      const range = document.createRange();
+      const el = commandRef.current;
+      if (!el || !document.body.contains(el)) { return; }
 
+      // clear ui text nodes
+      range.selectNodeContents(el);
+      range.deleteContents();
+      range.collapse(false); // move caret to end
+      sel.removeAllRanges();
+      sel.addRange(range);
+      el.appendChild(document.createTextNode(''));
+    });
+  };
   useEffect(() => {
-    if (currentCaretIndex === 0 && currentCommand === '') {
-      requestAnimationFrame(() => {
-        // eslint-disable-next-line no-shadow
-        const sel = window.getSelection();
-        const range = document.createRange();
-        const el = commandRef.current;
-
-        if (!el || !document.body.contains(el)) { return; }
-        range.selectNodeContents(commandRef.current);
-        range.collapse(false); // move caret to end
-        sel.removeAllRanges();
-        sel.addRange(range);
-      });
-    } else {
-      requestAnimationFrame(() => {
-        const calculateIndex = () => currentCommand.length - currentCaretIndex;
-        const caretPos = calculateIndex();
-        // move caret
-        caretRef.current.style.right = `${caretPos * 10.80125}px`;
-      });
+    if (currentCommand === '') {
+      commandRef.current.textContent = '';
+      commandRef.current.innerText = '';
+      forceRepaint();
     }
+  }, [currentCommand]);
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const calculateIndex = () => currentCommand.length - currentCaretIndex;
+      const caretPos = calculateIndex();
+      // move caret
+      caretRef.current.style.right = `${caretPos * 10.80125}px`;
+    });
   }, [currentCaretIndex]);
   const handleCommand = (shellCommand) => {
     // handle command
@@ -387,10 +394,8 @@ function Projects() {
         e.preventDefault(); // prevent default <p> tag from being inserted
         // const shellCommand = String(currentCommand).replace(shellUsername, '').trimStart();
         handleCommand(currentCommand);
-        setCurrentCommand('');
-        setCurrentCaretIndex(0);
-        commandRef.current.textContent = '';
-        commandRef.current.innerText = '';
+        setCurrentCommand(() => '');
+        setCurrentCaretIndex(() => 0);
       } catch (error) {
         console.error(error);
       }
