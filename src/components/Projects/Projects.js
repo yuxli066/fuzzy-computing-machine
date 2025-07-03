@@ -653,7 +653,12 @@ function Projects() {
                 <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
                 <span contentEditable={false} className="path">~/portfolio $</span>
               </span>
-              <span ref={commandRef} />
+              <span
+                style={{
+                  margin: '0.15em',
+                }}
+                ref={commandRef}
+              />
               <Caret caretRef={caretRef} />
             </p>
           </div>
