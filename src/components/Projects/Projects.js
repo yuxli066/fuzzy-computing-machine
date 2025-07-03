@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { projects } from '../../portfolio';
+import {projects} from '../../portfolio';
 import Caret from '../Caret/Caret';
 import './Projects.scss';
 
@@ -237,6 +237,14 @@ function Projects() {
   const [currentCommand, setCurrentCommand] = useState('');
   const [currentCaretIndex, setCurrentCaretIndex] = useState(null);
 
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const calculateIndex = () => currentCommand.length - currentCaretIndex;
+      const caretPos = calculateIndex();
+      // move caret
+      caretRef.current.style.right = `${caretPos * 10.80125}px`;
+    });
+  }, [currentCaretIndex]);
   const forceRepaint = () => {
     /**
      * the function below forces a repaint,
@@ -290,14 +298,6 @@ function Projects() {
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
     }
   };
-  const updateFakeCaret = () => {
-    console.log(`${currentCommand.length} - ${currentCaretIndex}`)
-    const calculateIndex = () => currentCommand.length - currentCaretIndex;
-    const caretPos = calculateIndex();
-    console.log('new caretPos', caretPos);
-    // move caret
-    caretRef.current.style.right = `${caretPos * 10.80125}px`;
-  };
   const trackInputChanged = (e) => {
     const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
     const text = String(e.target.innerText).replace(shellUsername, '').trim();
@@ -309,21 +309,11 @@ function Projects() {
     });
     setCurrentCaretIndex((prevIndex) => {
       // if user has not clicked left arrow yet.
-      if (!prevIndex || text.length === 0) {
-        return text.length - 1;
+      if (prevIndex === null || text.length === 0) {
+        return text.length;
       }
       // handle insertions & deletions
-      let difference;
-      if (previousText.length > text.length) {
-        difference = previousText.length - text.length;
-      } else {
-        difference = text.length - previousText.length;
-      }
-      console.log('removed character count:', difference);
-      // eslint-disable-next-line max-len
-      const index = previousText.length > text.length ? prevIndex - difference : prevIndex + difference;
-      console.log('setting index:', index);
-      return index;
+      return previousText.length > text.length ? prevIndex - 1 : prevIndex + 1;
     });
   };
   const handleKeyDown = (e) => {
@@ -352,7 +342,6 @@ function Projects() {
         e.preventDefault();
       } else {
         setCurrentCaretIndex((prevIndex) => ((prevIndex - 1 > 0) ? prevIndex - 1 : 0));
-        requestAnimationFrame(updateFakeCaret);
       }
     }
 
@@ -376,7 +365,6 @@ function Projects() {
       }
       // eslint-disable-next-line max-len
       setCurrentCaretIndex((prevIndex) => ((prevIndex + 1 > currentCommand.length - 1) ? currentCommand.length - 1 : prevIndex + 1));
-      requestAnimationFrame(updateFakeCaret);
     }
 
     if (e.key === 'Enter') {
@@ -605,12 +593,7 @@ function Projects() {
                 <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
                 <span contentEditable={false} className="path">~/portfolio $</span>
               </span>
-              <span
-                style={{
-                  margin: '0.15em',
-                }}
-                ref={commandRef}
-              />
+              <span ref={commandRef} />
               <Caret caretRef={caretRef} />
             </p>
           </div>

@@ -10,7 +10,7 @@ const FakeCaret = ({ caretRef }) => (
       position: 'relative',
       display: 'inline-flex',
       alignSelf: 'center',
-      width: '8px',
+      width: '10px',
       height: '21px',
       top: '5px',
       backgroundColor: 'white',
