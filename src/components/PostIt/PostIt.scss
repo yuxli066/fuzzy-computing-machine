@@ -1,5 +1,6 @@
 /* Adapted from https://codepen.io/carlotm/pen/bKXBxp */
 @import url('https://fonts.googleapis.com/css?family=Caveat|Permanent+Marker');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gloria+Hallelujah&family=Indie+Flower&family=Reenie+Beanie&family=Shadows+Into+Light&display=swap');
 $bg: #7fa99b;
 $c: #fde668;
 $c-d: darken($c, 12);
@@ -8,13 +9,13 @@ $c-ddd: darken($c, 40);
 $r: 3px;
 
 @mixin text {
-  font-family: 'Caveat', cursive;
+  font-family: 'Indie Flower', 'Patrick Hand', 'Caveat', cursive;
   font-weight: bolder;
   color: black;
 }
 
 @mixin post-it {
-  font-family: 'Caveat', cursive;
+  font-family: 'Indie Flower', 'Patrick Hand', 'Caveat', cursive;
   background: $c;
   color: $c-ddd;
   max-width: 300px;
@@ -38,7 +39,7 @@ $r: 3px;
 .post-text-styles2 {
   @include text;
   width: 295px;
-  font-size: 22px;
+  font-size: 19px;
   padding-left: 1em;
 }
 
@@ -51,6 +52,9 @@ $r: 3px;
 
 .post-it-styles {
   @include post-it;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 260px;
   position: absolute;
   top: 5em;
@@ -61,6 +65,9 @@ $r: 3px;
 
 .post-it-styles-commands {
   @include post-it;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 240px;
   position: absolute;
   top: 28em;

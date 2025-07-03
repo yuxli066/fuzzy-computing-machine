@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { projects } from '../../portfolio';
 import Caret from '../Caret/Caret';
 import './Projects.scss';
 
@@ -29,8 +28,6 @@ function toValidJsonKey(str) {
 }
 
 function Projects() {
-  if (!projects.length) return null;
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
