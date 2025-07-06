@@ -7,7 +7,8 @@
     "start": "SKIP_PREFLIGHT_CHECK=true FAST_REFRESH=true DISABLE_ESLINT_PLUGIN=true CHOKIDAR_USEPOLLING=true react-scripts --openssl-legacy-provider start",
     "build": "SKIP_PREFLIGHT_CHECK=true FAST_REFRESH=true DISABLE_ESLINT_PLUGIN=true CHOKIDAR_USEPOLLING=true react-scripts --openssl-legacy-provider build",
     "eject": "react-scripts eject",
-    "lint": "eslint --cache src --fix --ext .js,.jsx ."
+    "lint": "eslint --cache src --fix --ext .js,.jsx .",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -28,7 +29,9 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.25.1",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": ">=7",
+    "lint-staged": ">=10"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +49,12 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --cache --fix --max-warnings 0 ."
     ]
   }
 }
