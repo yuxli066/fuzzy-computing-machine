@@ -1,10 +1,9 @@
 .app {
-  padding-block-start: 4%;
   font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   color: var(--clr-fg);
   background-color: #d5f2fd;
-  height: 100vh;
+  height: 91vh;
 }
 
 #top {
@@ -15,10 +14,9 @@
 }
 
 .laptop {
+  margin: auto !important;
   position: relative;
   padding-block-start: 7em;
-  margin-block-end: 10em;
-  margin-left: 7em !important;
   min-height: 50em;
   min-width: 100em;
   background-image: url('./images/laptop.png');
