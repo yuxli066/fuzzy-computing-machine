@@ -27,7 +27,8 @@ function toValidJsonKey(str) {
     .replace(/^_+|_+$/g, ''); // Trim underscores from ends
 }
 
-function Projects() {
+function Projects(props) {
+  const { terminalRef:resumeRef } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -597,7 +598,7 @@ function Projects() {
                             </p>
                             )}
                             {results === 'RESUME' && (
-                            <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
+                            <p ref={resumeRef} className={commandObjectState[toValidJsonKey(command)].class[i]}>
                               <a
                                 href="https://drive.google.com/file/d/14yyn6ct_GIblKy87MSOG8N0wvak8SJpT/view?usp=sharing"
                                 rel="noreferrer"
