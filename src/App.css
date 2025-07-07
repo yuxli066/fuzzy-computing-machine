@@ -7,9 +7,10 @@
 }
 
 #top {
+  margin: 3rem !important;
+  width: fit-content;
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
 }
 
