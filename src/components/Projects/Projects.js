@@ -469,7 +469,6 @@ function Projects() {
   };
   return (
     <Container className="container-styles">
-      <PostIt type="contact" />
       <Grid container spacing={0} className="grid-styles">
         {pastCommands
           && pastCommands
@@ -731,6 +730,7 @@ function Projects() {
           </div>
         </Grid>
       </Grid>
+      <PostIt type="contact" />
       <PostIt type="commands" />
     </Container>
   );

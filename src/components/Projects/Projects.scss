@@ -2,7 +2,7 @@
 p
 {
   font-family: courier, monospace;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   margin-block-end: unset !important;
 }
@@ -12,9 +12,9 @@ p
   position: relative;
   background-image: url("../../images/terminal-bg.png");
   background-size: 100% 100%;
-  min-height: 34.5em;
-  max-height: 34.5em;
-  width: 66em !important;
+  min-height: 29.5em;
+  max-height: 29.5em;
+  width: 41em !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   padding-left: unset !important;
@@ -28,9 +28,9 @@ p
   top: 17%;
   background-color: rgb(153,153,153);
   margin-left: 2em;
-  max-width: 92%;
-  max-height: 26.4em;
-  overflow-y : scroll;
+  max-width: 91%;
+  max-height: 21em;
+  overflow-y : auto;
   overflow-x: hidden;
 }
 
@@ -77,7 +77,7 @@ p
 .input-styles
 {
   font-family: courier, monospace !important;
-  font-size: 19px !important;
+  font-size: 15px !important;
   font-weight: bold !important;
   color: white !important;
   min-width: 90%;

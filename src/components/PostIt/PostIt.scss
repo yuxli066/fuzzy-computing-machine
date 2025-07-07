@@ -18,7 +18,7 @@ $r: 3px;
   font-family: 'Indie Flower', 'Patrick Hand', 'Caveat', cursive;
   background: $c;
   color: $c-ddd;
-  max-width: 300px;
+  max-width: 200px;
   width: 100%;
   margin: 0 auto;
   border-radius: $r;
@@ -32,20 +32,22 @@ $r: 3px;
 
 .post-text-styles {
   @include text;
-  font-size: 32px;
+  font-size: 20px;
   padding-left: 0.5em;
 }
 
 .post-text-styles2 {
   @include text;
   width: 295px;
-  font-size: 19px;
+  font-size: 12px;
   padding-left: 1em;
+  text-wrap: wrap;
+  width: 100%;
 }
 
 .post-text-styles3 {
   @include text;
-  font-size: 22px;
+  font-size: 12px;
   padding-left: 1em;
   padding-top: 0.5em;
 }
@@ -55,10 +57,10 @@ $r: 3px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 260px;
+  height: 180px;
   position: absolute;
-  top: -5rem;
-  left: -18rem;
+  top: 8.5em;
+  right: -12.5rem;
   transform: rotate(-6deg);
   box-shadow: 0 30px 60px -30px darken($bg, 20);
 }
@@ -68,10 +70,10 @@ $r: 3px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 240px;
+  height: 180px;
   position: absolute;
-  top: 24em;
-  right: -16.5rem;
+  top: 20em;
+  right: -12.5rem;
   transform: rotate(5deg);
   box-shadow: 30px 0 60px -30px darken($bg, 20);
 }
