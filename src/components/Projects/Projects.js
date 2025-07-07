@@ -28,7 +28,7 @@ function toValidJsonKey(str) {
 }
 
 function Projects(props) {
-  const { terminalRef:resumeRef } = props;
+  const { terminalRef: terminalTextRef } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -206,7 +206,7 @@ function Projects(props) {
           link: 'https://delrosamassage.co',
         },
         {
-          name: 'Mom\'s Recipe Book (https://asianmomrecipes.com)',
+          name: "Mom's Recipe Book (https://asianmomrecipes.com)",
           link: 'https://asianmomrecipes.com/',
         },
         {
@@ -235,7 +235,17 @@ function Projects(props) {
         },
       ],
       gridLength: 12,
-      class: ['animate0', 'animate1', 'animate2', 'animate3', 'animate4', 'animate5', 'animate6', 'animate7', 'animate8'],
+      class: [
+        'animate0',
+        'animate1',
+        'animate2',
+        'animate3',
+        'animate4',
+        'animate5',
+        'animate6',
+        'animate7',
+        'animate8',
+      ],
     },
     [toValidJsonKey('cat contact-me.txt')]: {
       content: ['Contact me via my email @'],
@@ -254,7 +264,9 @@ function Projects(props) {
       const sel = window.getSelection();
       const range = document.createRange();
       const el = commandRef.current;
-      if (!el || !document.body.contains(el)) { return; }
+      if (!el || !document.body.contains(el)) {
+        return;
+      }
 
       // clear ui text nodes
       range.selectNodeContents(el);
@@ -299,7 +311,10 @@ function Projects(props) {
               if (i === pointer + CHAR_LIMIT) {
                 stringArr.push(invalidString.slice(pointer, i + 1));
                 pointer = i + 1;
-              } else if (i < pointer + CHAR_LIMIT && i === invalidString.length - 1) {
+              } else if (
+                i < pointer + CHAR_LIMIT
+                && i === invalidString.length - 1
+              ) {
                 stringArr.push(invalidString.slice(pointer, i + 1));
               }
             }
@@ -324,7 +339,10 @@ function Projects(props) {
     }
   };
   const trackInputChanged = (e) => {
-    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
+    const shellUsername = new RegExp(
+      'yuxuanleoli@desktop:~/portfolio\\s\\$',
+      'gm',
+    );
     const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
     let previousText = '';
     setCurrentCommand((prevText) => {
@@ -347,7 +365,7 @@ function Projects(props) {
     const sel = window.getSelection();
     const { focusNode, focusOffset, anchorOffset } = sel;
 
-    if ((/^[a-zA-Z0-9]$/.test(e.key))) {
+    if (/^[a-zA-Z0-9]$/.test(e.key)) {
       return;
     }
 
@@ -368,13 +386,13 @@ function Projects(props) {
         e.preventDefault();
         return;
       }
-      setCurrentCaretIndex((prevIndex) => ((prevIndex - 1 > 0) ? prevIndex - 1 : 0));
+      setCurrentCaretIndex((prevIndex) => (prevIndex - 1 > 0 ? prevIndex - 1 : 0));
     }
     // handle 'Arrow Right'
     if (e.key === 'ArrowRight') {
       if (
-        (focusNode.nodeType === Node.TEXT_NODE
-          && focusOffset === focusNode.textContent.length + 1)
+        focusNode.nodeType === Node.TEXT_NODE
+        && focusOffset === focusNode.textContent.length + 1
       ) {
         e.preventDefault();
         return;
@@ -384,7 +402,9 @@ function Projects(props) {
         return;
       }
       // eslint-disable-next-line max-len
-      setCurrentCaretIndex((prevIndex) => (prevIndex + 1 > currentCommand.length ? currentCommand.length : prevIndex + 1));
+      setCurrentCaretIndex((prevIndex) => (prevIndex + 1 > currentCommand.length
+        ? currentCommand.length
+        : prevIndex + 1));
     }
     // handle 'Enter'
     if (e.key === 'Enter') {
@@ -410,7 +430,9 @@ function Projects(props) {
     // If the click landed outside commandRef, snap cursor back to end
     if (!commandEl.contains(focusNode)) {
       const range = document.createRange();
-      if (!commandEl || !document.body.contains(commandEl)) { return; }
+      if (!commandEl || !document.body.contains(commandEl)) {
+        return;
+      }
       range.selectNodeContents(commandEl);
       range.collapse(false); // move to end of content
       sel.removeAllRanges();
@@ -421,11 +443,12 @@ function Projects(props) {
     e.preventDefault();
   };
   const handleBeforeInput = (e) => {
-    const shellUsername = new RegExp('yuxuanleoli@desktop:~/portfolio\\s\\$', 'gm');
+    const shellUsername = new RegExp(
+      'yuxuanleoli@desktop:~/portfolio\\s\\$',
+      'gm',
+    );
     const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
-    if (
-      e.data === '. '
-    ) {
+    if (e.data === '. ') {
       let previousText = '';
       setCurrentCommand((prevText) => {
         previousText = prevText;
@@ -446,181 +469,222 @@ function Projects(props) {
   };
   return (
     <Container className="container-styles">
-      <Grid container spacing={0} className="grid-styles">
+      <Grid ref={terminalTextRef} container spacing={0} className="grid-styles">
         {pastCommands
-          && pastCommands.map((cmd) => String(cmd).trim()).map((command, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <React.Fragment key={`${command}-${index}`}>
-              <Grid item xs={12}>
-                <div
-                  className="input-styles"
-                  style={{
-                    userSelect: 'none',
-                    width: '100%',
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-all',
-                    overflowWrap: 'anywhere',
-                  }}
-                >
-                  <p style={{ margin: 0, userSelect: 'none' }}>
-                    <span>
-                      <span className="shell">yuxuanleoli@desktop:</span>
-                      <span className="path">~/portfolio $</span>
-                    </span>
-                    <span
-                      style={{
-                        margin: '0.15em',
-                      }}
+          && pastCommands
+            .map((cmd) => String(cmd).trim())
+            .map((command, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <React.Fragment key={`${command}-${index}`}>
+                <Grid item xs={12}>
+                  <div
+                    className="input-styles"
+                    style={{
+                      userSelect: 'none',
+                      width: '100%',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-all',
+                      overflowWrap: 'anywhere',
+                    }}
+                  >
+                    <p style={{ margin: 0, userSelect: 'none' }}>
+                      <span>
+                        <span className="shell">yuxuanleoli@desktop:</span>
+                        <span className="path">~/portfolio $</span>
+                      </span>
+                      <span
+                        style={{
+                          margin: '0.15em',
+                        }}
+                      >
+                        {command}
+                      </span>
+                    </p>
+                  </div>
+                </Grid>
+                {commandObjectState[toValidJsonKey(command)].content.map(
+                  (results, i) => (
+                    <Grid
+                      item
+                      xs={
+                        commandObjectState[toValidJsonKey(command)].gridLength
+                      }
+                      /* eslint-disable-next-line react/no-array-index-key */
+                      key={`${results}-${i}`}
                     >
-                      {command}
-                    </span>
-                  </p>
-                </div>
-              </Grid>
-              {commandObjectState[toValidJsonKey(command)].content.map((results, i) => (
-                <Grid
-                  item
-                  xs={commandObjectState[toValidJsonKey(command)].gridLength}
-                  /* eslint-disable-next-line react/no-array-index-key */
-                  key={`${results}-${i}`}
-                >
-                  {
-                    // eslint-disable-next-line no-nested-ternary
-                    command === 'cat work-experiences.txt' ? (
-                      <ul>
-                        <li>
-                          <p
-                            className={commandObjectState[toValidJsonKey(command)].class[i]}
-                          >
-                            <span className="color-yellow">{results[0]}</span>
-                          </p>
+                      {
+                        // eslint-disable-next-line no-nested-ternary
+                        command === 'cat work-experiences.txt' ? (
                           <ul>
-                            {Object.values(results[1]).map(
-                              (description) => (typeof description === 'string' ? (
-                                <li className="list-styles">
-                                  <p
-                                    className={
-                                        commandObjectState[toValidJsonKey(command)].class[
-                                          i
-                                        ]
-                                      }
-                                  >
-                                    <span className="color-pink">&gt;</span>
-                                    {' '}
-                                      &#8195;
-                                    {description}
-                                  </p>
-                                </li>
-                              ) : (
-                                <>
+                            <li>
+                              <p
+                                className={
+                                  commandObjectState[toValidJsonKey(command)]
+                                    .class[i]
+                                }
+                              >
+                                <span className="color-yellow">
+                                  {results[0]}
+                                </span>
+                              </p>
+                              <ul>
+                                {Object.values(results[1]).map((description) => (typeof description === 'string' ? (
                                   <li className="list-styles">
                                     <p
                                       className={
-                                          commandObjectState[toValidJsonKey(command)].class[
-                                            i
-                                          ]
+                                          commandObjectState[
+                                            toValidJsonKey(command)
+                                          ].class[i]
                                         }
                                     >
                                       <span className="color-pink">&gt;</span>
                                       {' '}
                                         &#8195;
-                                      {description[0]}
+                                      {description}
                                     </p>
                                   </li>
-                                  <li className="list-styles2">
-                                    <p
-                                      className={
-                                          commandObjectState[toValidJsonKey(command)].class[
-                                            i
-                                          ]
-                                        }
-                                    >
-                                        &#8195;
-                                      {description[1]}
-                                    </p>
-                                  </li>
-                                </>
-                              )),
-                            )}
-                          </ul>
-                        </li>
-                        <br />
-                      </ul>
-                    ) // eslint-disable-next-line no-nested-ternary
-                      : command === 'cat contact-me.txt' ? (
-                        <p
-                          className={commandObjectState[toValidJsonKey(command)].class[i]}
-                          style={{ marginLeft: '22%' }}
-                        >
-                          <span className="color-white">{results}</span>
-                          <a
-                            href="mailto::leoli7405@gmail.com"
-                            className="color-pink"
-                          >
-                            {commandObjectState[toValidJsonKey(command)].email}
-                            <span className="color-white">
-                              &#8195;
-                              {'<---'}
-                              {' '}
-                              click me!
-                            </span>
-                          </a>
-                        </p>
-                      ) // eslint-disable-next-line no-nested-ternary
-                        : command === 'cat about-me.txt' ? (
-                          <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
-                            <span className="color-primary">{results}</span>
+                                ) : (
+                                  <>
+                                    <li className="list-styles">
+                                      <p
+                                        className={
+                                            commandObjectState[
+                                              toValidJsonKey(command)
+                                            ].class[i]
+                                          }
+                                      >
+                                        <span className="color-pink">
+                                          &gt;
+                                        </span>
+                                        {' '}
+                                          &#8195;
+                                        {description[0]}
+                                      </p>
+                                    </li>
+                                    <li className="list-styles2">
+                                      <p
+                                        className={
+                                            commandObjectState[
+                                              toValidJsonKey(command)
+                                            ].class[i]
+                                          }
+                                      >
+                                          &#8195;
+                                        {description[1]}
+                                      </p>
+                                    </li>
+                                  </>
+                                )))}
+                              </ul>
+                            </li>
                             <br />
-                          </p>
-                        ) : command === 'cat my-projects.txt' ? (
-                          <p className={commandObjectState[toValidJsonKey(command)].class[i]}>
-                            <a href={results.link} rel="noreferrer" target="_blank">
-                              <span className="color-primary">{results.name}</span>
-                              {' '}
-                              &#8195;
-                              {'<---'}
-                              {' '}
-                              click me!
-                            </a>
-                          </p>
-                        ) : (
-                          <>
-                            {results !== 'RESUME' && (
-                            <p>
-                              <span
-                                className={`${commandObjectState[toValidJsonKey(command)].class[i]} color-white`}
-                                style={{
-                                  wordBreak: 'break-all',
-                                }}
-                              >
-                                {results}
-                              </span>
-                            </p>
-                            )}
-                            {results === 'RESUME' && (
-                            <p ref={resumeRef} className={commandObjectState[toValidJsonKey(command)].class[i]}>
+                          </ul>
+                        ) // eslint-disable-next-line no-nested-ternary
+                          : command === 'cat contact-me.txt' ? (
+                            <p
+                              className={
+                              commandObjectState[toValidJsonKey(command)].class[
+                                i
+                              ]
+                            }
+                              style={{ marginLeft: '22%' }}
+                            >
+                              <span className="color-white">{results}</span>
                               <a
-                                href="https://drive.google.com/file/d/14yyn6ct_GIblKy87MSOG8N0wvak8SJpT/view?usp=sharing"
-                                rel="noreferrer"
-                                target="_blank"
-                                className="color-blue"
+                                href="mailto::leoli7405@gmail.com"
+                                className="color-pink"
                               >
-                                { results }
+                                {
+                                commandObjectState[toValidJsonKey(command)]
+                                  .email
+                              }
                                 <span className="color-white">
-                                  {' <---'}
+                                &#8195;
+                                  {'<---'}
                                   {' '}
                                   click me!
                                 </span>
                               </a>
                             </p>
-                            )}
-                          </>
-                        )
-                  }
-                </Grid>
-              ))}
-            </React.Fragment>
-          ))}
+                          ) // eslint-disable-next-line no-nested-ternary
+                            : command === 'cat about-me.txt' ? (
+                              <p
+                                className={
+                              commandObjectState[toValidJsonKey(command)].class[
+                                i
+                              ]
+                            }
+                              >
+                                <span className="color-primary">{results}</span>
+                                <br />
+                              </p>
+                            ) : command === 'cat my-projects.txt' ? (
+                              <p
+                                className={
+                              commandObjectState[toValidJsonKey(command)].class[
+                                i
+                              ]
+                            }
+                              >
+                                <a
+                                  href={results.link}
+                                  rel="noreferrer"
+                                  target="_blank"
+                                >
+                                  <span className="color-primary">
+                                    {results.name}
+                                  </span>
+                                  {' '}
+                              &#8195;
+                                  {'<---'}
+                                  {' '}
+                                  click me!
+                                </a>
+                              </p>
+                            ) : (
+                              <>
+                                {results !== 'RESUME' && (
+                                <p>
+                                  <span
+                                    className={`${commandObjectState[toValidJsonKey(command)].class[i]} color-white`}
+                                    style={{
+                                      wordBreak: 'break-all',
+                                    }}
+                                  >
+                                    {results}
+                                  </span>
+                                </p>
+                                )}
+                                {results === 'RESUME' && (
+                                <p
+                                  className={
+                                  commandObjectState[toValidJsonKey(command)]
+                                    .class[i]
+                                }
+                                >
+                                  <a
+                                    href="https://drive.google.com/file/d/14yyn6ct_GIblKy87MSOG8N0wvak8SJpT/view?usp=sharing"
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    className="color-blue"
+                                  >
+                                    {results}
+                                    <span className="color-white">
+                                      {' <---'}
+                                      {' '}
+                                      click me!
+                                    </span>
+                                  </a>
+                                </p>
+                                )}
+                              </>
+                            )
+                      }
+                    </Grid>
+                  ),
+                )}
+              </React.Fragment>
+            ))}
         <Grid item xs={12}>
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
           <div
@@ -648,8 +712,12 @@ function Projects(props) {
           >
             <p style={{ margin: 0, userSelect: 'none' }}>
               <span contentEditable={false}>
-                <span contentEditable={false} className="shell">yuxuanleoli@desktop:</span>
-                <span contentEditable={false} className="path">~/portfolio $</span>
+                <span contentEditable={false} className="shell">
+                  yuxuanleoli@desktop:
+                </span>
+                <span contentEditable={false} className="path">
+                  ~/portfolio $
+                </span>
               </span>
               <span
                 style={{
