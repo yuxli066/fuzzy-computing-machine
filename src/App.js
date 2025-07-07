@@ -9,13 +9,18 @@ import './App.css';
 
 function App() {
   const postitRef = useRef(null);
-  const terminalRef = useRef(null);
+  const terminalRef1 = useRef(null);
+  const terminalRef2 = useRef(null);
   useEffect(() => {
     const checkOverlap = () => {
-      if (postitRef.current && terminalRef.current) {
+      if (postitRef.current && terminalRef1.current && terminalRef2.current) {
         const postit = postitRef.current.getBoundingClientRect();
-        const terminal = terminalRef.current.getBoundingClientRect();
-        const isOverlapping = !(postit.right < terminal.left - 10);
+        const terminal1 = terminalRef1.current.getBoundingClientRect();
+        const terminal2 = terminalRef2.current.getBoundingClientRect();
+        const isOverlapping = !(
+          postit.right < terminal1.left - 10
+          && postit.right < terminal2.left - 10
+        );
         if (isOverlapping) {
           console.log('Postit is overlapping!');
           postit.current.style.left = '-2.5em;'; // handle overlap
@@ -37,7 +42,7 @@ function App() {
       <Container className="laptop">
         <PostIt type="contact" postitRef={postitRef} />
         <PostIt type="commands" />
-        <Projects terminalRef={terminalRef} />
+        <Projects terminalRef1={terminalRef1} terminalRef2={terminalRef2} />
         <Footer />
       </Container>
       <Analytics />

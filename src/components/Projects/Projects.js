@@ -28,7 +28,7 @@ function toValidJsonKey(str) {
 }
 
 function Projects(props) {
-  const { terminalRef: terminalTextRef } = props;
+  const { terminalRef1: terminalTextRef1, terminalRef2: terminalTextRef2 } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -469,7 +469,7 @@ function Projects(props) {
   };
   return (
     <Container className="container-styles">
-      <Grid ref={terminalTextRef} container spacing={0} className="grid-styles">
+      <Grid container spacing={0} className="grid-styles">
         {pastCommands
           && pastCommands
             .map((cmd) => String(cmd).trim())
@@ -487,7 +487,10 @@ function Projects(props) {
                       overflowWrap: 'anywhere',
                     }}
                   >
-                    <p style={{ margin: 0, userSelect: 'none' }}>
+                    <p
+                      ref={terminalTextRef2}
+                      style={{ margin: 0, userSelect: 'none' }}
+                    >
                       <span>
                         <span className="shell">yuxuanleoli@desktop:</span>
                         <span className="path">~/portfolio $</span>
@@ -710,7 +713,7 @@ function Projects(props) {
             onMouseUp={handleClickInside}
             onBeforeInput={handleBeforeInput}
           >
-            <p style={{ margin: 0, userSelect: 'none' }}>
+            <p ref={terminalTextRef1} style={{ margin: 0, userSelect: 'none' }}>
               <span contentEditable={false}>
                 <span contentEditable={false} className="shell">
                   yuxuanleoli@desktop:
