@@ -3,9 +3,9 @@ import Contact from '../Contact/Contact';
 import './PostIt.scss';
 
 function PostIt(props) {
-  const { type, postitRef } = props;
+  const { type } = props;
   return type === 'contact' ? (
-    <Box className="post-it-styles" ref={postitRef}>
+    <Box className="post-it-styles">
       <p className="post-text-styles">Yuxuan (Leo) Li</p>
       {/* eslint-disable-next-line react/no-unescaped-entities */}
       <p className="post-text-styles2">

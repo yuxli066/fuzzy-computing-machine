@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Caret from '../Caret/Caret';
+import PostIt from '../PostIt/PostIt';
 import './Projects.scss';
 
 const validCommands = [
@@ -27,8 +28,7 @@ function toValidJsonKey(str) {
     .replace(/^_+|_+$/g, ''); // Trim underscores from ends
 }
 
-function Projects(props) {
-  const { terminalRef1: terminalTextRef1, terminalRef2: terminalTextRef2 } = props;
+function Projects() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pastCommands, setPastCommands] = useState(['ls']);
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -469,6 +469,7 @@ function Projects(props) {
   };
   return (
     <Container className="container-styles">
+      <PostIt type="contact" />
       <Grid container spacing={0} className="grid-styles">
         {pastCommands
           && pastCommands
@@ -487,10 +488,7 @@ function Projects(props) {
                       overflowWrap: 'anywhere',
                     }}
                   >
-                    <p
-                      ref={terminalTextRef2}
-                      style={{ margin: 0, userSelect: 'none' }}
-                    >
+                    <p style={{ margin: 0, userSelect: 'none' }}>
                       <span>
                         <span className="shell">yuxuanleoli@desktop:</span>
                         <span className="path">~/portfolio $</span>
@@ -713,7 +711,7 @@ function Projects(props) {
             onMouseUp={handleClickInside}
             onBeforeInput={handleBeforeInput}
           >
-            <p ref={terminalTextRef1} style={{ margin: 0, userSelect: 'none' }}>
+            <p style={{ margin: 0, userSelect: 'none' }}>
               <span contentEditable={false}>
                 <span contentEditable={false} className="shell">
                   yuxuanleoli@desktop:
@@ -733,6 +731,7 @@ function Projects(props) {
           </div>
         </Grid>
       </Grid>
+      <PostIt type="commands" />
     </Container>
   );
 }
