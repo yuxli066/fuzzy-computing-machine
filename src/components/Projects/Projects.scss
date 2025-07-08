@@ -12,14 +12,15 @@ p
   position: relative;
   background-image: url("../../images/terminal-bg.png");
   background-size: 100% 100%;
-  min-height: 24.5em;
-  max-height: 24.5em;
-  width: 41em !important;
+  min-height: 21.5em;
+  max-height: 21.5em;
+  width: 37em !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   padding-left: unset !important;
   padding-right: unset !important;
   margin-top: 2.5em;
+  margin-right: 11.5em !important;
   overflow: visible;
 }
 
@@ -28,7 +29,7 @@ p
   position: absolute;
   top: 17%;
   background-color: rgb(153,153,153);
-  margin-left: 2em;
+  margin-left: 0.9em;
   max-width: 91%;
   max-height: 21em;
   overflow-y : auto;
