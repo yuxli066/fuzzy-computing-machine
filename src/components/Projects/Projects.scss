@@ -12,13 +12,14 @@ p
   position: relative;
   background-image: url("../../images/terminal-bg.png");
   background-size: 100% 100%;
-  min-height: 29.5em;
-  max-height: 29.5em;
+  min-height: 24.5em;
+  max-height: 24.5em;
   width: 41em !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   padding-left: unset !important;
   padding-right: unset !important;
+  margin-top: 2.5em;
   overflow: visible;
 }
 

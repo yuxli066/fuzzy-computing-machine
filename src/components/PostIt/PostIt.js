@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
-import Contact from '../Contact/Contact';
 import './PostIt.scss';
 
+// import Contact from '../Contact/Contact';
 function PostIt(props) {
   const { type } = props;
   return type === 'contact' ? (
@@ -11,7 +11,7 @@ function PostIt(props) {
       <p className="post-text-styles2">
         A Full Stack Engineer with a passion for building apps
       </p>
-      <Contact />
+      {/* <Contact /> */}
     </Box>
   ) : (
     <Box className="post-it-styles-commands">

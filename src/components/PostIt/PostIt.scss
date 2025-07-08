@@ -56,24 +56,24 @@ $r: 3px;
   @include post-it;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 180px;
+  justify-content: start;
+  height: 120px;
   position: absolute;
-  top: 8.5em;
+  top: 4.5em;
   right: -12.5rem;
-  transform: rotate(-6deg);
-  box-shadow: 0 30px 60px -30px darken($bg, 20);
+  transform: rotate(-12deg);
+  box-shadow: inset 15px 10px 20px -20px darken($bg, 20);
 }
 
 .post-it-styles-commands {
   @include post-it;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 180px;
+  justify-content: start;
+  height: 150px;
   position: absolute;
-  top: 20em;
+  top: 11em;
   right: -12.5rem;
-  transform: rotate(5deg);
-  box-shadow: 30px 0 60px -30px darken($bg, 20);
+  transform: rotate(4deg);
+  box-shadow: inset 15px 10px 20px -20px darken($bg, 20);
 }
