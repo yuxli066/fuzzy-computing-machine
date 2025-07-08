@@ -18,19 +18,43 @@
     justify-content: center;
 }
 
+/** keyboard stacks */
+.keyboard-stack {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.layer-1 { transform: translate(1px, 1px); background: #666; }
+.layer-2 { transform: translate(2px, 2px); background: #666; }
+.layer-3 { transform: translate(3px, 3px); background: #666; }
+.layer-4 { transform: translate(4px, 4px); background: #666; }
+.layer-5 { transform: translate(5px, 5px); background: #666; }
+.layer-6 { transform: translate(6px, 6px); background: #666; }
+.layer-7 { transform: translate(7px, 7px); background: #666; }
+.layer-8 { transform: translate(8px, 8px); background: #666; }
+
 /* 60 column grid. */
 /* 1u key (standard keysize) = 4 columns */
 .keyboard {
+    position: relative;
     background-color: var(--colorLightGray);
-    border-radius: var(--baseBorderRadius);
+    /*border-radius: var(--baseBorderRadius);*/
     display: grid;
     grid-template-columns: repeat(60, 8px);
     grid-gap: var(--gridGap);
     padding: 16px 7px 7px 7px;
-    box-shadow:
-            0 2px 2px 0 rgba(0,0,0,0.14),
-            0 3px 1px -2px rgba(0,0,0,0.2),
-            0 1px 5px 0 rgba(0,0,0,0.12);
+    /*box-shadow:*/
+    /*        0 2px 2px 0 rgba(0,0,0,0.14),*/
+    /*        0 3px 1px -2px rgba(0,0,0,0.2),*/
+    /*        0 1px 5px 0 rgba(0,0,0,0.12);*/
 }
 
 /* See keycap sizing: https://deskthority.net/wiki/Keycap_size_by_keyboard */

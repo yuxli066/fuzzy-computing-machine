@@ -136,37 +136,47 @@ const getKeys = (rowNumber) => {
 function MechKeyboard() {
   return (
     <Box className="keyboard_container">
-      <div className="keyboard" id="60-percent-keyboard">
-        {new Array(5).fill(0).reduce(
-          (prev, curr, i) => {
-            const currentRow = getKeys(i + 1).map((key, index) => {
-              const customIndex = `${index}-${index}`;
-              if (typeof key === 'object') {
+      <div className="keyboard-stack">
+        <div className="layer layer-8" />
+        <div className="layer layer-7" />
+        <div className="layer layer-6" />
+        <div className="layer layer-5" />
+        <div className="layer layer-4" />
+        <div className="layer layer-3" />
+        <div className="layer layer-2" />
+        <div className="layer layer-1" />
+        <div className="keyboard">
+          {new Array(5).fill(0).reduce(
+            (prev, curr, i) => {
+              const currentRow = getKeys(i + 1).map((key, index) => {
+                const customIndex = `${index}-${index}`;
+                if (typeof key === 'object') {
+                  return (
+                    <div
+                      key={`${key.key}_${customIndex}`}
+                      className={key.class}
+                      data-key-text={key.key}
+                    />
+                  );
+                }
                 return (
                   <div
-                    key={`${key.key}_${customIndex}`}
-                    className={key.class}
-                    data-key-text={key.key}
+                    key={`${key}_${customIndex}`}
+                    className="keyboard__key"
+                    data-key-text={key}
                   />
                 );
-              }
+              });
               return (
-                <div
-                  key={`${key}_${customIndex}`}
-                  className="keyboard__key"
-                  data-key-text={key}
-                />
+                <>
+                  {prev}
+                  {currentRow}
+                </>
               );
-            });
-            return (
-              <>
-                {prev}
-                {currentRow}
-              </>
-            );
-          },
-          <></>,
-        )}
+            },
+            <></>,
+          )}
+        </div>
       </div>
     </Box>
   );
