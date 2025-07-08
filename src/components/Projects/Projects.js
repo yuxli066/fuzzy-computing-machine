@@ -600,7 +600,7 @@ function Projects() {
                               }
                                 <span className="color-white">
                                 &#8195;
-                                  {'<---'}
+                                  {'<-'}
                                   {' '}
                                   click me!
                                 </span>
@@ -636,7 +636,7 @@ function Projects() {
                                   </span>
                                   {' '}
                               &#8195;
-                                  {'<---'}
+                                  {'<-'}
                                   {' '}
                                   click me!
                                 </a>
@@ -670,7 +670,7 @@ function Projects() {
                                   >
                                     {results}
                                     <span className="color-white">
-                                      {' <---'}
+                                      {' <-'}
                                       {' '}
                                       click me!
                                     </span>
