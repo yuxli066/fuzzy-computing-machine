@@ -1,0 +1,117 @@
+/**
+ Adapted from this codepen: https://codepen.io/coreybruyere/pen/VMVaqM
+ */
+
+:root {
+    --colorLightGray: #E3E1C9;
+    --colorLightGrayShade: #b5b39a;
+    --colorBlack: #000000;
+    --baseBorderRadius: 2px;
+    --gridGap: 2px;
+    --keyCapHeight: 35px;
+}
+
+.keyboard_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* 60 column grid. */
+/* 1u key (standard keysize) = 4 columns */
+.keyboard {
+    background-color: var(--colorLightGray);
+    border-radius: var(--baseBorderRadius);
+    display: grid;
+    grid-template-columns: repeat(60, 8px);
+    grid-gap: var(--gridGap);
+    padding: 16px 7px 7px 7px;
+    box-shadow:
+            0 2px 2px 0 rgba(0,0,0,0.14),
+            0 3px 1px -2px rgba(0,0,0,0.2),
+            0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+/* See keycap sizing: https://deskthority.net/wiki/Keycap_size_by_keyboard */
+/* Standard 1u key */
+.keyboard__key {
+    display: flex;
+    grid-column: span 4;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: var(--keyCapHeight);
+    background-color: var(--colorLightGray);
+    background-image:
+            linear-gradient(to bottom right, var(--colorLightGray), var(--colorLightGrayShade));
+    border-radius: var(--baseBorderRadius);
+}
+/* Printed text on keycap */
+.keyboard__key::before {
+    content: attr(data-key-text);
+    z-index: 1;
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--colorBlack);
+    opacity: 0.65;
+    white-space: nowrap;
+    font-size: 8px
+}
+/* Top of key */
+.keyboard__key::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    bottom: 4px;
+    left: 5px;
+    display: block;
+    width: auto;
+    height: calc(var(--keyCapHeight) - 8px);
+    background-color: inherit;
+    filter: contrast(105%);
+    border-radius: calc(var(--baseBorderRadius) + 2px);
+}
+
+/* Keycap sizes */
+/* 1.25u key */
+.keyboard__key--1-25u {
+    grid-column: span 5;
+}
+
+/* 1.5u key */
+.keyboard__key--1-5u {
+    grid-column: span 6;
+}
+
+/* 1.75u key */
+.keyboard__key--1-75u {
+    grid-column: span 7;
+}
+
+/* 2u key */
+.keyboard__key--2u {
+    grid-column: span 8;
+}
+
+/* 2.25u key */
+.keyboard__key--2-25u {
+    grid-column: span 9;
+}
+
+/* 2.5u key */
+.keyboard__key--2-5u {
+    grid-column: span 10;
+}
+
+/* 2.75u key */
+.keyboard__key--2-75u {
+    grid-column: span 11;
+}
+
+/* 6.25u space key */
+.keyboard__key--6-25u {
+    grid-column: span 25;
+}

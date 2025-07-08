@@ -10,7 +10,7 @@
   margin: 0 7rem 3rem 7rem !important;
   background: inherit;
   width: fit-content;
-  height: 35em;
+  /*height: 35em;*/
   display: flex;
   flex-direction: column;
   align-items: center;

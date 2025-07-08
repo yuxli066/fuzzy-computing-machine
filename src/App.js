@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import { Analytics } from "@vercel/analytics/react";
 import Projects from './components/Projects/Projects';
 import Footer from './components/Footer/Footer';
+import MechKeyboard from './components/keyboard/mechKeyboard';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Projects />
         <Footer />
       </Container>
+      <MechKeyboard />
       <Analytics />
     </div>
   );
