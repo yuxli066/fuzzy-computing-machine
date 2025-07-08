@@ -39,8 +39,11 @@ body {
 }
 
 html {
+  /*background-image: url('./images/bg.jpg');*/
+  background-size: cover;
   scroll-behavior: smooth;
   background-color: #d5f2fd;
+  height: 100vh;
 }
 
 h1,
