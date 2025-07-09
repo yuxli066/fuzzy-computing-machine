@@ -10,23 +10,24 @@ p
 .container-styles
 {
   position: relative;
-  //background-image: url("../../images/terminal-bg.png");
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: self-start;
   background-size: 100% 100%;
   min-height: 18.5em;
   max-height: 18.5em;
-  width: 39em !important;
+  width: 100% !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
-  margin: 2.5em 11.5em 0 6em !important;
-  padding: 3em 0 0 0 !important;
+  padding: 5.5em 0 0 12.9em !important;
+  margin-block-end: 2.9em;
   overflow: visible;
 }
 
 .grid-styles
 {
-  position: absolute;
   left: 14%;
-  //background-color: rgb(153,153,153);
   margin-left: 0.9em;
   max-width: 82%;
   max-height: 15em;

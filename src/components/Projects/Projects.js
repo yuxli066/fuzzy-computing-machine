@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Caret from '../Caret/Caret';
 import PostIt from '../PostIt/PostIt';
 import './Projects.scss';
@@ -734,8 +735,17 @@ function Projects() {
           </div>
         </Grid>
       </Grid>
-      <PostIt type="contact" />
-      <PostIt type="commands" />
+      <Box
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <PostIt type="contact" />
+        <PostIt type="commands" />
+      </Box>
     </Container>
   );
 }
