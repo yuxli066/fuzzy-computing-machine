@@ -10,25 +10,23 @@ p
 .container-styles
 {
   position: relative;
-  background-image: url("../../images/terminal-bg.png");
+  //background-image: url("../../images/terminal-bg.png");
   background-size: 100% 100%;
   min-height: 21.5em;
   max-height: 21.5em;
-  width: 37em !important;
+  width: 35.5em !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
-  padding-left: unset !important;
-  padding-right: unset !important;
-  margin-top: 2.5em;
-  margin-right: 11.5em !important;
+  margin: 2.5em 11.5em 0 6em !important;
+  padding: 4em 0 0 0 !important;
   overflow: visible;
 }
 
 .grid-styles
 {
   position: absolute;
-  top: 17%;
-  background-color: rgb(153,153,153);
+  left: 14%;
+  //background-color: rgb(153,153,153);
   margin-left: 0.9em;
   max-width: 91%;
   max-height: 21em;

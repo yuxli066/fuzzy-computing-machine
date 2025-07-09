@@ -3,7 +3,7 @@
  */
 
 :root {
-    --colorLightGray: #E3E1C9;
+    --colorLightGray: #DCD8CD;
     --colorLightGrayShade: #b5b39a;
     --colorBlack: #000000;
     --baseBorderRadius: 2px;
@@ -16,6 +16,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-left: -5em;
 }
 
 /** keyboard stacks */
