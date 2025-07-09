@@ -11,21 +11,21 @@ p
 {
   width: unset !important;
   position: absolute;
-  top: 13.5%;
-  left: 25.2%;
+  top: -5%;
+  left: 27%;
+  column-gap: 2%;
   display: flex !important;
   flex-direction: row;
   justify-content: center;
   align-items: self-start;
   overflow: visible;
-  column-gap: 6.5%;
   height: 53%;
 }
 
 .grid-styles
 {
-  min-width: 70%;
-  width: 70%;
+  min-width: 63%;
+  width: 63% !important;
   overflow-y: auto;
   overflow-x: hidden;
 }

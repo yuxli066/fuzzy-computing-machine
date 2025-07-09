@@ -44,7 +44,7 @@ function CableCanvas() {
         canvas.height = rect.height * dpr;
 
         // Set canvas style size (CSS pixels)
-        canvas.style.width = `${rect.width}px`;
+        canvas.style.width = `300px`;
         canvas.style.height = `${rect.height}px`;
 
         // Scale drawing context to match
@@ -54,21 +54,16 @@ function CableCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Define the points as {x, y}
-      const start = { x: 200, y: 500 };
-      const cp1 = { x: -125, y: 525 };
-      const end = { x: 150, y: 675 };
+      const start = { x: 128, y: 15 };
+      const cp1 = { x: 350, y: 100 };
+      const end = { x: -100, y: 120 };
 
       let offset = 0;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         ctx.beginPath();
         ctx.moveTo(start.x + offset, start.y + offset);
-        ctx.quadraticCurveTo(
-          cp1.x,
-          cp1.y,
-          end.x + offset * 4,
-          end.y + offset * 4,
-        );
-        ctx.lineWidth = 8;
+        ctx.quadraticCurveTo(cp1.x, cp1.y, end.x + offset, end.y + offset);
+        ctx.lineWidth = 12;
         ctx.strokeStyle = "#b5b39a";
         ctx.lineCap = "square";
         ctx.stroke();
@@ -76,23 +71,18 @@ function CableCanvas() {
         // Draw main cable body
         ctx.beginPath();
         ctx.moveTo(start.x + offset, start.y + offset);
-        ctx.quadraticCurveTo(
-          cp1.x,
-          cp1.y,
-          end.x + offset * 4,
-          end.y + offset * 4,
-        );
-        ctx.lineWidth = 6;
+        ctx.quadraticCurveTo(cp1.x, cp1.y, end.x + offset, end.y + offset);
+        ctx.lineWidth = 10;
         ctx.strokeStyle = "#DCD8CD";
         ctx.stroke();
 
         // animate with dots
-        drawFlowingDots(
-          { x: start.x + offset, y: start.y + offset },
-          { x: cp1.x, y: cp1.y },
-          { x: end.x + offset * 4, y: end.y + offset * 4 },
-          time,
-        );
+        // drawFlowingDots(
+        //   { x: start.x + offset, y: start.y + offset },
+        //   { x: cp1.x, y: cp1.y },
+        //   { x: end.x + offset , y: end.y + offset },
+        //   time,
+        // );
 
         offset += 5;
       }
