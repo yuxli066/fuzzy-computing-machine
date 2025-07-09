@@ -14,62 +14,39 @@ function App() {
       <Box
         style={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          position: 'relative',
           width: '100%',
+          aspectRatio: '16 / 9',
         }}
       >
+        {/* Background Image */}
+        <Box
+          component="img"
+          src={bg}
+          alt="background"
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            display: 'block',
+          }}
+        />
+        <Projects />
+        <Footer />
         <Box
           style={{
-            height: '100%',
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            position: 'relative',
           }}
         >
-          <Box
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16 / 9',
-            }}
-          >
-            {/* Background Image */}
-            <Box
-              component="img"
-              src={bg}
-              alt="background"
-              sx={{
-                width: '85%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                marginBottom: '-8em',
-                marginTop: '-10em',
-              }}
-            />
-            <Projects />
-            <Footer />
-            <Box
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'relative',
-              }}
-            >
-              <MechKeyboard />
-              <CableCanvas />
-            </Box>
-          </Box>
+          <MechKeyboard />
+          <CableCanvas />
         </Box>
       </Box>
       <Analytics />
