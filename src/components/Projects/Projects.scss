@@ -10,12 +10,12 @@ p
 .container-styles
 {
   position: absolute;
-  left: 1%;
+  top: 13.5%;
+  left: 25.2%;
   display: flex !important;
   flex-direction: row;
   justify-content: center;
   align-items: self-start;
-  padding: 9.5% 0 0 26% !important;
   overflow: visible;
   column-gap: 6.5%;
   height: 53%;
@@ -23,9 +23,8 @@ p
 
 .grid-styles
 {
-  min-width: 68%;
-  width: 68%;
-  max-width: 68%;
+  min-width: 70%;
+  width: 70%;
   overflow-y: auto;
   overflow-x: hidden;
 }
