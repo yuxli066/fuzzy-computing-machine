@@ -26,6 +26,8 @@ p {
   position: relative;
   padding: 0 3em 0 3em;
   min-height: 40em;
+  min-width: 60em !important;
+  max-width: 60em !important;
   width: 60em !important;
   background-image: url('images/retro_normal.png');
   background-size: 100% 100%;

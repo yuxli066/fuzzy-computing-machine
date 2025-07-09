@@ -17,6 +17,8 @@ p
   background-size: 100% 100%;
   min-height: 18.5em;
   max-height: 18.5em;
+  min-width: 100% !important;
+  max-width: 100% !important;
   width: 100% !important;
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
@@ -29,6 +31,8 @@ p
 {
   left: 14%;
   margin-left: 0.9em;
+  min-width: 82%;
+  width: 82%;
   max-width: 82%;
   max-height: 15em;
   overflow-y : auto;
