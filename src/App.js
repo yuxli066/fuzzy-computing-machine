@@ -10,18 +10,27 @@ import CableCanvas from './components/ComputerCable/ComputerCable';
 
 function App() {
   return (
-    <div id="top" className="app">
+    <>
       <Box
         style={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          minWidth: '1300px',
+          height: '100%',
+          width: '100%',
         }}
       >
         <CableCanvas />
-        <Box>
+        <Box
+          style={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Container className="laptop">
             <Projects />
             <Footer />
@@ -30,7 +39,7 @@ function App() {
         </Box>
       </Box>
       <Analytics />
-    </div>
+    </>
   );
 }
 
