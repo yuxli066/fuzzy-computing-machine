@@ -289,7 +289,7 @@ function Projects() {
       const calculateIndex = () => currentCommand.length - currentCaretIndex;
       const caretPos = calculateIndex();
       // move caret
-      caretRef.current.style.right = `${caretPos * 10.80125}px`;
+      caretRef.current.style.right = `${caretPos * 7.2}px`;
     });
   }, [currentCaretIndex]);
   const handleCommand = (shellCommand) => {
@@ -299,7 +299,7 @@ function Projects() {
     } else if (validCommands.indexOf(shellCommand) === -1) {
       // we need to break the invalid input up into lines
       try {
-        const CHAR_LIMIT = 88;
+        const CHAR_LIMIT = 69;
         const COMMAND_KEY = toValidJsonKey(shellCommand);
         const invalidCommand = `${shellCommand}: command not found.`;
         let invalidCommandContent = [`${invalidCommand}`];
@@ -710,7 +710,11 @@ function Projects() {
             onMouseUp={handleClickInside}
             onBeforeInput={handleBeforeInput}
           >
-            <p style={{ margin: 0, userSelect: 'none' }}>
+            <p
+              style={{
+                userSelect: 'none',
+              }}
+            >
               <span contentEditable={false}>
                 <span contentEditable={false} className="shell">
                   yuxuanleoli@desktop:

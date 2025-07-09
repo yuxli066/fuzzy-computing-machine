@@ -17,6 +17,7 @@ function App() {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
+          minWidth: '1300px',
         }}
       >
         <CableCanvas />

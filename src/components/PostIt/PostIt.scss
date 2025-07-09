@@ -38,7 +38,6 @@ $r: 3px;
 
 .post-text-styles2 {
   @include text;
-  width: 295px;
   font-size: 12px;
   padding-left: 1em;
   text-wrap: wrap;
@@ -59,8 +58,8 @@ $r: 3px;
   justify-content: flex-start;
   height: 120px;
   position: absolute;
-  top: 4.5em;
-  right: -12.5rem;
+  top: 7em;
+  right: -16rem;
   transform: rotate(-12deg);
   box-shadow: inset 15px 10px 20px -20px darken($bg, 20);
 }
@@ -72,8 +71,8 @@ $r: 3px;
   justify-content: flex-start;
   height: 150px;
   position: absolute;
-  top: 11em;
-  right: -12.5rem;
+  top: 13em;
+  right: -16rem;
   transform: rotate(4deg);
   box-shadow: inset 15px 10px 20px -20px darken($bg, 20);
 }
