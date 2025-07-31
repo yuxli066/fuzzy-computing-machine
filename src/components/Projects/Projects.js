@@ -6,6 +6,7 @@ import Caret from '../Caret/Caret';
 import PostIt from '../PostIt/PostIt';
 import './Projects.scss';
 
+// ================== use for other purposes on other event hooks =========================== //
 // ================================== disabled event hooks ================================== //
 // const handleClickInside = () => {
 //   const sel = window.getSelection();
@@ -333,7 +334,7 @@ function Projects() {
         const calculateIndex = () => currentCommand.length - currentCaretIndex;
         const caretPos = calculateIndex();
         // move caret
-        caretRef.current.style.right = `${caretPos * 7.2}px`;
+        caretRef.current.style.right = `${caretPos * 7.55}px`;
       }
     });
   };
@@ -396,27 +397,31 @@ function Projects() {
     }
   };
   const trackInputChanged = (e) => {
-    const shellUsername = new RegExp(
-      'yuxuanleoli@desktop:~/portfolio\\s\\$',
-      'gm',
-    );
-    const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
-    let previousText = '';
-    setCurrentCommand((prevText) => {
-      previousText = prevText;
-      return text;
-    });
-    setCurrentCaretIndex((prevIndex) => {
-      // if user has not clicked left arrow yet.
-      if (prevIndex === null || text.length === 0) {
-        return text.length;
-      }
-      // handle insertions & deletions
-      if (previousText.length > text.length) {
-        return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
-      }
-      return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
-    });
+    const controlKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Enter'];
+
+    if (!controlKeys.includes(e.key)) {
+      const shellUsername = new RegExp(
+        'yuxuanleoli@desktop:~/portfolio\\s\\$',
+        'gm',
+      );
+      const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
+      let previousText = '';
+      setCurrentCommand((prevText) => {
+        previousText = prevText;
+        return text;
+      });
+      setCurrentCaretIndex((prevIndex) => {
+        // if user has not clicked left arrow yet.
+        if (prevIndex === null || text.length === 0) {
+          return text.length;
+        }
+        // handle insertions & deletions
+        if (previousText.length > text.length) {
+          return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
+        }
+        return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
+      });
+    }
   };
   const handleKeyDown = (e) => {
     const sel = window.getSelection();
@@ -425,13 +430,13 @@ function Projects() {
     if (e.key === 'Backspace') {
       if (anchorOffset === 0 || focusOffset === 0) {
         e.preventDefault();
+        e.stopPropagation();
         return;
       }
       if (currentCaretIndex === 0) {
         e.preventDefault();
-        return;
+        e.stopPropagation();
       }
-      setCurrentCaretIndex((prevIndex) => (prevIndex - 1 > 0 ? prevIndex - 1 : 0));
     } else if (e.key === 'ArrowLeft') {
       // handle 'Arrow Left'
       if (currentCaretIndex === null) {
@@ -439,12 +444,6 @@ function Projects() {
         return;
       }
       setCurrentCaretIndex((prevIndex) => (prevIndex - 1 > 0 ? prevIndex - 1 : 0));
-      console.log(
-        'currentCommand:',
-        currentCommand,
-        'currentCaretIndex:',
-        currentCaretIndex,
-      );
     } else if (e.key === 'ArrowRight') {
       // handle 'Arrow Right'
       if (
