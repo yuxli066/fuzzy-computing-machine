@@ -5,7 +5,7 @@ import Projects from './components/Projects/Projects';
 import Footer from './components/Footer/Footer';
 import MechKeyboard from './components/keyboard/mechKeyboard';
 import './App.css';
-import CableCanvas from './components/ComputerCable/ComputerCable';
+// import CableCanvas from './components/ComputerCable/ComputerCable';
 import bg from './images/retro_normal.png';
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
           }}
         >
           <MechKeyboard />
-          <CableCanvas />
+          {/* <CableCanvas /> */}
         </Box>
       </Box>
       <Analytics />

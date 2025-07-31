@@ -30,7 +30,7 @@ function PostIt(props) {
         </li>
         <li>
           <p className="post-text-styles3">
-            E.G.) cat about-me.txt, cat work-experiences.txt
+            E.G.) cat about-me.txt, cat work-exp.txt
           </p>
         </li>
       </ul>
