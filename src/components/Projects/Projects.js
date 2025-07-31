@@ -52,29 +52,6 @@ import './Projects.scss';
 //     });
 //   }
 // };
-// const trackInputChanged = (e) => {
-//   const shellUsername = new RegExp(
-//       'yuxuanleoli@desktop:~/portfolio\\s\\$',
-//       'gm',
-//   );
-//   const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
-//   let previousText = '';
-//   setCurrentCommand((prevText) => {
-//     previousText = prevText;
-//     return text;
-//   });
-//   setCurrentCaretIndex((prevIndex) => {
-//     // if user has not clicked left arrow yet.
-//     if (prevIndex === null || text.length === 0) {
-//       return text.length;
-//     }
-//     // handle insertions & deletions
-//     if (previousText.length > text.length) {
-//       return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
-//     }
-//     return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
-//   });
-// };
 // ========================================================================================= //
 
 const validCommands = [
@@ -329,9 +306,9 @@ function Projects() {
   const commandRef = useRef(null);
   const caretRef = useRef(null);
   const [currentCommand, setCurrentCommand] = useState('');
-  const [prevCurrentCaretIndex, setPrevCurrentCaretIndex] = useState(null);
   const [currentCaretIndex, setCurrentCaretIndex] = useState(null);
-  const forceRepaint = () => {
+  /** forced repaints * */
+  const forceCommandRepaint = () => {
     requestAnimationFrame(() => {
       // eslint-disable-next-line no-shadow
       const sel = window.getSelection();
@@ -350,21 +327,28 @@ function Projects() {
       el.appendChild(document.createTextNode(''));
     });
   };
+  const forceCursorRepaint = () => {
+    requestAnimationFrame(() => {
+      if (currentCaretIndex !== null) {
+        const calculateIndex = () => currentCommand.length - currentCaretIndex;
+        const caretPos = calculateIndex();
+        // move caret
+        caretRef.current.style.right = `${caretPos * 7.2}px`;
+      }
+    });
+  };
+
   useEffect(() => {
     if (currentCommand === '') {
       commandRef.current.textContent = '';
       commandRef.current.innerText = '';
-      forceRepaint();
+      forceCommandRepaint();
     }
   }, [currentCommand]);
   useEffect(() => {
-    requestAnimationFrame(() => {
-      const calculateIndex = () => currentCommand.length - currentCaretIndex;
-      const caretPos = calculateIndex();
-      // move caret
-      caretRef.current.style.right = `${caretPos * 7.2}px`;
-    });
+    forceCursorRepaint();
   }, [currentCaretIndex]);
+
   const handleCommand = (shellCommand) => {
     // handle command
     if (shellCommand === 'clear') {
@@ -411,57 +395,49 @@ function Projects() {
       setPastCommands((prevCommands) => [...prevCommands, shellCommand]);
     }
   };
-  const handleKeyDown = (e) => {
-    const sel = window.getSelection();
-    const { focusNode, focusOffset, anchorOffset } = sel;
-
-    // handle normal user input here instead of using separate hook
+  const trackInputChanged = (e) => {
     const shellUsername = new RegExp(
       'yuxuanleoli@desktop:~/portfolio\\s\\$',
       'gm',
     );
+    const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
+    let previousText = '';
+    setCurrentCommand((prevText) => {
+      previousText = prevText;
+      return text;
+    });
+    setCurrentCaretIndex((prevIndex) => {
+      // if user has not clicked left arrow yet.
+      if (prevIndex === null || text.length === 0) {
+        return text.length;
+      }
+      // handle insertions & deletions
+      if (previousText.length > text.length) {
+        return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
+      }
+      return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
+    });
+  };
+  const handleKeyDown = (e) => {
+    const sel = window.getSelection();
+    const { focusNode, focusOffset, anchorOffset } = sel;
 
-    if (/^[a-zA-Z0-9]$/.test(e.key)) {
-      const userInputCommand = e.target.innerText;
-      const text = String(userInputCommand).replace(shellUsername, '');
-      let previousText = '';
-      setCurrentCommand((prevText) => {
-        previousText = prevText;
-        return text;
-      });
-      setCurrentCaretIndex((prevIndex) => {
-        // if user has not clicked left arrow yet.
-        if (prevIndex === null || text.length === 0) {
-          return text.length;
-        }
-        // handle insertions & deletions
-        if (previousText.length > text.length) {
-          return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
-        }
-        return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
-      });
-      return;
-    }
-
-    // prevent backspace if caret is at offset 0 of an editable node
     if (e.key === 'Backspace') {
       if (anchorOffset === 0 || focusOffset === 0) {
         e.preventDefault();
         return;
       }
-      if (currentCaretIndex === 0 || prevCurrentCaretIndex === 0) {
+      if (currentCaretIndex === 0) {
         e.preventDefault();
         return;
       }
-      setPrevCurrentCaretIndex(() => currentCaretIndex);
       setCurrentCaretIndex((prevIndex) => (prevIndex - 1 > 0 ? prevIndex - 1 : 0));
     } else if (e.key === 'ArrowLeft') {
       // handle 'Arrow Left'
-      if (currentCaretIndex === null || prevCurrentCaretIndex === 0) {
+      if (currentCaretIndex === null) {
         e.preventDefault();
         return;
       }
-      setPrevCurrentCaretIndex(() => currentCaretIndex);
       setCurrentCaretIndex((prevIndex) => (prevIndex - 1 > 0 ? prevIndex - 1 : 0));
       console.log(
         'currentCommand:',
@@ -483,7 +459,6 @@ function Projects() {
         return;
       }
       // eslint-disable-next-line max-len
-      setPrevCurrentCaretIndex(() => currentCaretIndex);
       setCurrentCaretIndex((prevIndex) => (prevIndex + 1 > currentCommand.length
         ? currentCommand.length
         : prevIndex + 1));
@@ -491,7 +466,6 @@ function Projects() {
       // handle 'Enter'
       try {
         e.preventDefault(); // prevent default <p> tag from being inserted
-        // const shellCommand = String(currentCommand).replace(shellUsername, '').trimStart();
         handleCommand(currentCommand);
         setCurrentCommand(() => '');
         setCurrentCaretIndex(() => 0);
@@ -749,7 +723,7 @@ function Projects() {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck={false}
-            // onInput={trackInputChanged}
+            onInput={trackInputChanged}
             onKeyDown={handleKeyDown}
           >
             <p
