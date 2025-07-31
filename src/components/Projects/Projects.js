@@ -397,31 +397,27 @@ function Projects() {
     }
   };
   const trackInputChanged = (e) => {
-    const controlKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Enter'];
-
-    if (!controlKeys.includes(e.key)) {
-      const shellUsername = new RegExp(
-        'yuxuanleoli@desktop:~/portfolio\\s\\$',
-        'gm',
-      );
-      const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
-      let previousText = '';
-      setCurrentCommand((prevText) => {
-        previousText = prevText;
-        return text;
-      });
-      setCurrentCaretIndex((prevIndex) => {
-        // if user has not clicked left arrow yet.
-        if (prevIndex === null || text.length === 0) {
-          return text.length;
-        }
-        // handle insertions & deletions
-        if (previousText.length > text.length) {
-          return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
-        }
-        return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
-      });
-    }
+    const shellUsername = new RegExp(
+      'yuxuanleoli@desktop:~/portfolio\\s\\$',
+      'gm',
+    );
+    const text = String(e.target.innerText).replace(shellUsername, ''); // trimStart
+    let previousText = '';
+    setCurrentCommand((prevText) => {
+      previousText = prevText;
+      return text;
+    });
+    setCurrentCaretIndex((prevIndex) => {
+      // if user has not clicked left arrow yet.
+      if (prevIndex === null || text.length === 0) {
+        return text.length;
+      }
+      // handle insertions & deletions
+      if (previousText.length > text.length) {
+        return prevIndex - 1 < 0 ? 0 : prevIndex - 1;
+      }
+      return prevIndex + 1 > text.length ? text.length : prevIndex + 1;
+    });
   };
   const handleKeyDown = (e) => {
     const sel = window.getSelection();
