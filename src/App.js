@@ -22,32 +22,41 @@ function App() {
           aspectRatio: '16 / 9',
         }}
       >
-        {/* Background Image */}
         <Box
-          component="img"
-          src={bg}
-          alt="background"
           sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            display: 'block',
-            marginBottom: '-7em !important',
-          }}
-        />
-        <Projects />
-        <Footer />
-        <Box
-          style={{
+            position: 'relative',
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            position: 'relative',
           }}
         >
-          <MechKeyboard />
-          {/* <CableCanvas /> */}
+          {/* Background Image */}
+          <Box
+            component="img"
+            src={bg}
+            alt="background"
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              marginBottom: '-7em !important',
+            }}
+          />
+          <Projects />
+          <Footer />
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+            }}
+          >
+            <MechKeyboard />
+          </Box>
         </Box>
       </Box>
       <Analytics />

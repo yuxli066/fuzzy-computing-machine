@@ -23,14 +23,21 @@ html {
   width: 1600px
 }
 
-body {
+html, body {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
 }
 
 #root {
-  height: 100%;
-  width: 100%;
+  width: 90vw;
+  height: 90vh;
 }
 
 h1,
