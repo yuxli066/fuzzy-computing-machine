@@ -32,6 +32,7 @@ function App() {
             height: '100%',
             objectFit: 'contain',
             display: 'block',
+            marginBottom: '-7em !important',
           }}
         />
         <Projects />
