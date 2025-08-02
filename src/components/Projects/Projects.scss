@@ -178,6 +178,30 @@ $base-margin: 18em;
     top: 12.5%;
     left: 23%;
   }
+
+  [class^="animate"] {
+    line-height: 1 !important;
+    font-size: 7px !important;;
+  }
+
+  .shell {
+    line-height: 1 !important;
+    font-size: 7px !important;;
+  }
+
+  .path {
+    line-height: 1 !important;
+    font-size: 7px !important;;
+  }
+
+  div[class="input-styles"] p > span:last-child {
+    line-height: 1 !important;
+    font-size: 7px !important;
+  }
+
+  .color-blue > span {
+    display: none !important;
+  }
 }
 
 $j: 1;

@@ -607,7 +607,7 @@ function Projects() {
                                 commandObjectState[toValidJsonKey(command)]
                                   .email
                               }
-                                <span className="color-white">
+                                <span className="color-white resume">
                                 &#8195;
                                   {'<-'}
                                   {' '}
