@@ -9,6 +9,8 @@ p
 
 .container-styles
 {
+  top: 12.5% !important;
+  left: 23%;
   position: absolute;
   display: flex !important;
   flex-direction: row;
@@ -166,206 +168,52 @@ p
   }
 }
 
-//@media (min-width: 1920px) {
-//  .container-styles {
-//    top: 9.5%;
-//    left: 23.4%;
-//  }
-//  .grid-styles {
-//    width: 68% !important;
-//  }
-//  .filler {
-//    display: none;
-//    width: 0;
-//    flex-grow: 0;
-//  }
-//}
-//
-//@media (min-width: 1600px) and (max-width: 1920px) {
-//  .container-styles {
-//    top: 9.5%;
-//    left: 23.4%;
-//  }
-//  .grid-styles {
-//    width: 68% !important;
-//  }
-//  .filler {
-//    display: none;
-//    width: 0;
-//    flex-grow: 0;
-//  }
-//}
-//
-//@media (min-width: 1205px) and (max-width: 1600px) {
-//  .container-styles {
-//    top: 9.5%;
-//    left: 23.4%;
-//  }
-//  .grid-styles {
-//    width: 68% !important;
-//  }
-//  .filler {
-//    display: none;
-//    width: 0;
-//    flex-grow: 0;
-//  }
-//}
-//
-//@media (min-width: 1170px) and (max-width: 1205px) {
-//  .container-styles {
-//    top: 12.5%;
-//    left: 23%;
-//  }
-//  .grid-styles {
-//    width: 68% !important;
-//  }
-//  .filler {
-//    display: none;
-//    width: 0;
-//    flex-grow: 0;
-//  }
-//}
-//
-//@media (min-width: 1120px) and (max-width: 1170px) {
-//  .container-styles {
-//    top: 12%;
-//    left: 23%;
-//    margin-left: -10em;
-//  }
-//  .grid-styles {
-//    width: 100% !important;
-//  }
-//  .filler {
-//    width: 5em;
-//  }
-//}
-//
-//@media (min-width: 800px) and (max-width: 1120px) {
-//  .container-styles {
-//    top: 12%;
-//    left: 23%;
-//    margin-left: -10em;
-//  }
-//  .grid-styles {
-//    width: 100% !important;
-//  }
-//  .filler {
-//    width: 5em;
-//  }
-//}
-//
-//@media (max-width: 800px) {
-//  .container-styles {
-//    top: 12.5%;
-//    left: 23%;
-//  }
-//  .grid-styles {
-//    width: 100% !important;
-//  }
-//}
-
-$start-width: 2000;
-$end-width: 800;
+$start-width: 4000;
+$end-width: 700;
 $base-margin: 18em;
-$j: 1;
 
-// below is similar to limit in math, the we get to width 0, the bigger the padding must be
-@for $i from 0 through (calc((800 - 100) / 1)) {
-  $breakpoint: 800 - ($i * 1);
-  $margin: 10 + ($i * .01em);
+// media queries from 0 to 700, will keep decreasing until 0, kinda like limits in math :D
+@media (min-width: 0px) and (max-width: 700px) {
+  .container-styles {
+    top: 12.5%;
+    left: 23%;
+  }
+}
+
+$j: 1;
+$differenceOffset: 0.05em;
+$widthOffset: .5%;
+@for $i from 0 through (calc(700 / 1)) {
+  $breakpoint: 700 - ($i * 1);
+  $margin: 9em;
+
   @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 1}px) {
     .container-styles {
       top: 12.5%;
       left: 23%;
-      padding-right: #{if($margin - ($j * 0.05em) > 0, $margin - ($j * 0.1em), 0)} !important;
+      padding-right: #{if($margin - $differenceOffset > 3em, $margin - $differenceOffset, 3em)} !important;;
     }
     .grid-styles {
-      width: 55% !important;
+      width: #{if(65% - $widthOffset > 55%, 65% - $widthOffset, 55%)} !important;
     }
   }
   $j: $j + 0.5 !global;
+  $differenceOffset: $differenceOffset + 0.03em !global;
+  $widthOffset: $widthOffset + .05% !global;
 }
 
-@for $i from 0 through (calc(($start-width - $end-width) / 100)) {
-  $breakpoint: $start-width - ($i * 100);
-  $margin: $base-margin + ($i * .01em);
+$upper_cutoff: 1200;
+$lower_cutoff: 700;
+// media queries from 1200 to 800
 
-  @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 100}px) {
-    @if calc($breakpoint + 100) < 830 {
+// media queries from 1200 onwards
+@for $i from 0 through (calc(($start-width - $end-width) / 50)) {
+  $breakpoint: $start-width - ($i * 50);
+  $margin: $base-margin + ($i * .01em);
+  @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 50}px) {
+    @if calc($breakpoint + 50) >= $upper_cutoff {
       .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 8em} !important;
-      }
-      .grid-styles {
-        width: 48% !important;
-      }
-    } @else if calc($breakpoint + 100) < 840 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 15em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 850 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 13em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 900 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 11em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 950 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 9em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 1025 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 7em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 1150 {
-      .container-styles {
-        top: 12.5%;
-        left: 23%;
-        padding-right: #{$margin - 5em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else if calc($breakpoint + 100) < 1275 {
-      .container-styles {
-        top: 9.5%;
-        left: 23%;
-        padding-right: #{$margin - 3em} !important;
-      }
-      .grid-styles {
-        width: 68% !important;
-      }
-    } @else {
-      .container-styles {
-        top: 9.5%;
+        top: 10% !important;
         left: 23%;
         padding-right: $margin !important;
       }

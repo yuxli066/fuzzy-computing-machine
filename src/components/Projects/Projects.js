@@ -745,7 +745,7 @@ function Projects() {
           </div>
         </Grid>
       </Grid>
-      {/* <Box className="filler"/> */}
+      <Box className="filler" />
       <Box
         style={{
           display: 'flex',
