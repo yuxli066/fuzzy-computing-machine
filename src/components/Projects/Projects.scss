@@ -172,6 +172,34 @@ $start-width: 4000;
 $end-width: 700;
 $base-margin: 18em;
 
+@media (min-width: 0px) and (max-width: 700px) {
+  .post-it-styles {
+    min-width: 150px;
+    max-width: 150px;
+    width: 100%;
+    height: 80px;
+  }
+
+  .post-text-styles {
+    font-size: 14px;
+  }
+
+  .post-text-styles2 {
+    font-size: 6px;
+  }
+
+  .post-text-styles3 {
+    font-size: 6px;
+  }
+
+  .post-it-styles-commands {
+    min-width: 150px;
+    max-width: 150px;
+    width: 100%;
+    height: 80px;
+  }
+}
+
 // media queries from 0 to 700, will keep decreasing until 0, kinda like limits in math :D
 @media (min-width: 0px) and (max-width: 700px) {
   .container-styles {
