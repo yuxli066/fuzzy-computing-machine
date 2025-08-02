@@ -189,8 +189,6 @@ $widthOffset: .5%;
 
   @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 1}px) {
     .container-styles {
-      top: 12.5%;
-      left: 23%;
       padding-right: #{if($margin - $differenceOffset > 3em, $margin - $differenceOffset, 3em)} !important;;
     }
     .grid-styles {
