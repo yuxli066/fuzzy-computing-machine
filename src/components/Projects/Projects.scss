@@ -169,10 +169,11 @@ p
 }
 
 $start-width: 4000;
-$end-width: 700;
+$end-width: 1200;
+$tablet-view: 800;
 $base-margin: 18em;
 
-@media (min-width: 0px) and (max-width: 700px) {
+@media (min-width: 0px) and (max-width: #{$tablet-view}px) {
   .post-it-styles {
     min-width: 150px;
     max-width: 150px;
@@ -199,9 +200,34 @@ $base-margin: 18em;
     height: 80px;
   }
 }
+@media (min-width: #{$tablet-view}px) and (max-width: #{$end-width}px) {
+  .post-it-styles {
+    min-width: 175px;
+    max-width: 175px;
+    width: 100%;
+    height: 100px;
+  }
 
-// media queries from 0 to 700, will keep decreasing until 0, kinda like limits in math :D
-@media (min-width: 0px) and (max-width: 700px) {
+  .post-text-styles {
+    font-size: 18px;
+  }
+
+  .post-text-styles2 {
+    font-size: 8px;
+  }
+
+  .post-text-styles3 {
+    font-size: 8px;
+  }
+
+  .post-it-styles-commands {
+    min-width: 175px;
+    max-width: 175px;
+    width: 100%;
+    height: 100px;
+  }
+}
+@media (min-width: 0px) and (max-width: #{$tablet-view}px) {
   .container-styles {
     top: 12.5%;
     left: 23%;
@@ -209,17 +235,17 @@ $base-margin: 18em;
 
   [class^="animate"] {
     line-height: 1 !important;
-    font-size: 7px !important;;
+    font-size: 7px !important;
   }
 
   .shell {
     line-height: 1 !important;
-    font-size: 7px !important;;
+    font-size: 7px !important;
   }
 
   .path {
     line-height: 1 !important;
-    font-size: 7px !important;;
+    font-size: 7px !important;
   }
 
   div[class="input-styles"] p > span:last-child {
@@ -232,15 +258,19 @@ $base-margin: 18em;
   }
 }
 
+// media queries from 0 to 800, will keep decreasing until 0, kinda like limits in math :D, but we are missing
+// a variable that gradually reduces to 0
 $j: 1;
 $differenceOffset: 0.05em;
 $widthOffset: .5%;
-@for $i from 0 through (calc(700 / 1)) {
-  $breakpoint: 700 - ($i * 1);
-  $margin: 9em;
+@for $i from 0 through (calc($tablet-view / 1)) {
+  $breakpoint: $tablet-view - ($i * 1);
+  $margin: 10em;
 
   @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 1}px) {
     .container-styles {
+      top: 11.5% !important;
+      left: 22%;
       padding-right: #{if($margin - $differenceOffset > 3em, $margin - $differenceOffset, 3em)} !important;;
     }
     .grid-styles {
@@ -248,13 +278,44 @@ $widthOffset: .5%;
     }
   }
   $j: $j + 0.5 !global;
-  $differenceOffset: $differenceOffset + 0.03em !global;
-  $widthOffset: $widthOffset + .05% !global;
+  $differenceOffset: $differenceOffset + 0.025em !global;
+  $widthOffset: $widthOffset + .035% !global;
 }
 
-$upper_cutoff: 1200;
-$lower_cutoff: 700;
 // media queries from 1200 to 800
+$upper_cutoff: 1200;
+$lower_cutoff: 800;
+$base-margin-1200-800: 18em;
+$widthOffsetTablet: .5%;
+$topOffsetBeta: 1;
+
+@for $i from 0 through (calc(($upper_cutoff - $lower_cutoff) / 50)) {
+  $breakpoint: $upper_cutoff - ($i * 50);
+  $margin: $base-margin-1200-800 - ($i * 1em);
+
+  // similar to limit with $topOffsetBeta getting closer to 0.1 every iteration
+  $topOffset: 11.5% + ($i * $topOffsetBeta) * 1%;
+  @if $topOffset < 12% {
+    $topOffset: 12%;
+  }
+  @if $breakpoint + 50 == 1200 { // this is terrible, don't do this, this is a one time hack ;D
+    $topOffset: 11.5%;
+  }
+  @media (min-width: #{$breakpoint + 1}px) and (max-width: #{$breakpoint + 50}px) {
+    @if calc($breakpoint + 50) >= $lower_cutoff {
+      .container-styles {
+        top: $topOffset !important; // we cap max top offset @ 12%, we don't want a bigger gap than that
+        left: 23%;
+        padding-right: $margin !important;
+      }
+      .grid-styles {
+        width: #{if(68% - $widthOffsetTablet > 63%, 68% - $widthOffsetTablet, 63%)} !important;;
+      }
+    }
+  }
+  $widthOffsetTablet: $widthOffsetTablet + .55% !global;
+  $topOffsetBeta: if( $topOffsetBeta - 0.25 > 0.1, $topOffsetBeta - 0.25, 0.1) !global;
+}
 
 // media queries from 1200 onwards
 @for $i from 0 through (calc(($start-width - $end-width) / 50)) {
