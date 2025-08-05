@@ -263,6 +263,7 @@ $base-margin: 18em;
 $j: 1;
 $differenceOffset: 0.05em;
 $widthOffset: .5%;
+$footerOffset: .05%;
 @for $i from 0 through (calc($tablet-view / 1)) {
   $breakpoint: $tablet-view - ($i * 1);
   $margin: 10em;
@@ -276,10 +277,17 @@ $widthOffset: .5%;
     .grid-styles {
       width: #{if(65% - $widthOffset > 55%, 65% - $widthOffset, 55%)} !important;
     }
+    .footer {
+      bottom: #{if(50% + $footerOffset < 54%, 50% + $footerOffset, 54%)} !important;
+    }
+    .footer > p {
+      font-size: 8px !important;
+    }
   }
   $j: $j + 0.5 !global;
   $differenceOffset: $differenceOffset + 0.025em !global;
   $widthOffset: $widthOffset + .035% !global;
+  $footerOffset: $footerOffset + 0.0125% !global;
 }
 
 // media queries from 1200 to 800
@@ -317,14 +325,25 @@ $topOffsetBeta: 1;
   $topOffsetBeta: if( $topOffsetBeta - 0.25 > 0.1, $topOffsetBeta - 0.25, 0.1) !global;
 }
 
-// media queries from 1200 onwards
+// media queries from 1200 -> Infinity
+$topOffsetBeta2: 0.01;
 @for $i from 0 through (calc(($start-width - $end-width) / 50)) {
   $breakpoint: $start-width - ($i * 50);
   $margin: $base-margin + ($i * .01em);
+
+  @if $breakpoint + 50 == 1250 {
+    $topOffsetBeta2: 0.02
+  }
+
+  $topOffset: 9% + ($i * $topOffsetBeta2) * 1%;
+
+  @if $topOffset > 10.5% {
+    $topOffset: 10.5%;
+  }
   @media (min-width: #{$breakpoint}px) and (max-width: #{$breakpoint + 50}px) {
     @if calc($breakpoint + 50) >= $upper_cutoff {
       .container-styles {
-        top: 10% !important;
+        top: $topOffset !important;
         left: 23%;
         padding-right: $margin !important;
       }
