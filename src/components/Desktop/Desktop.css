@@ -240,29 +240,34 @@
 .dialog-ok-button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
   padding-top: 10px;
 }
 
 .dialog-ok-button {
-  background: linear-gradient(to bottom, #ece9d8 0%, #d4d0c8 100%);
-  border: none;
+  background-color: #ece9d8;
+  border: 1px outset #ece9d8;
   color: #000;
   font-weight: bold;
-  font-size: 13px;
-  padding: 6px 24px;
+  font-size: 14px;
+  padding: 8px 32px;
   cursor: pointer;
   font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
-  min-width: 80px;
+  min-width: 100px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
 }
 
 .dialog-ok-button:hover {
-  background: linear-gradient(to bottom, #d4d0c8 0%, #c0bdb0 100%);
+  background-color: #d4d0c8;
 }
 
 .dialog-ok-button:active {
-  border: 2px inset #ece9d8;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+  border: 1px inset #ece9d8;
+  background-color: #c0c0c0;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .window-pdf-viewer {
@@ -284,10 +289,35 @@
   overflow-wrap: break-word;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
   font-size: 14px;
   line-height: 1.7;
   color: #000;
   font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.window-pdf-viewer .pdf-content::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.window-pdf-viewer .pdf-content::-webkit-scrollbar-track {
+  background: #d4d0c8;
+  border: 1px inset #ece9d8;
+}
+
+.window-pdf-viewer .pdf-content::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 1px outset #ece9d8;
+}
+
+.window-pdf-viewer .pdf-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+.window-pdf-viewer .pdf-content::-webkit-scrollbar-corner {
+  background: #d4d0c8;
 }
 
 .window-pdf-viewer .pdf-content p {

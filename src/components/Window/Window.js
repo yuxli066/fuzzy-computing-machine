@@ -16,11 +16,23 @@ function Window({
   const [position, setPosition] = useState(
     defaultPosition || { x: 100, y: 100 },
   );
+  const [size, setSize] = useState({
+    width: 900,
+    height: id === "experience" ? 850 : null,
+  });
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
   const [hasUserDragged, setHasUserDragged] = useState(false);
   const windowRef = useRef(null);
   const titleBarRef = useRef(null);
+  const resizeHandleRef = useRef(null);
   const hasMeasuredRef = useRef(false);
 
   // Measure actual window height and recalculate centered position after render
@@ -55,6 +67,7 @@ function Window({
 
   const handleMouseDown = (e) => {
     if (e.target.closest(".window-controls")) return;
+    if (e.target.closest(".window-resize-handle")) return;
     if (onFocus) onFocus(id);
 
     setIsDragging(true);
@@ -122,12 +135,81 @@ function Window({
     if (onMinimize) onMinimize(id);
   };
 
+  const handleResizeStart = (e) => {
+    e.stopPropagation();
+    if (!windowRef.current) return;
+
+    const rect = windowRef.current.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    setIsResizing(true);
+    setResizeStart({
+      x: clientX,
+      y: clientY,
+      width: rect.width,
+      height: rect.height,
+    });
+  };
+
+  useEffect(() => {
+    const handleResizeMove = (e) => {
+      if (!isResizing || !windowRef.current) return;
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const deltaX = clientX - resizeStart.x;
+      const deltaY = clientY - resizeStart.y;
+
+      const minWidth = 400;
+      const minHeight = 300;
+
+      const newWidth = Math.max(minWidth, resizeStart.width + deltaX);
+      const newHeight = Math.max(minHeight, resizeStart.height + deltaY);
+
+      const isMobile = window.innerWidth <= 768;
+      const maxWidth = isMobile
+        ? window.innerWidth
+        : window.innerWidth - position.x;
+      const taskbarHeight = isMobile ? 50 : 65;
+      const maxHeight = window.innerHeight - position.y - taskbarHeight;
+
+      setSize({
+        width: Math.min(newWidth, maxWidth),
+        height: Math.min(newHeight, maxHeight),
+      });
+    };
+
+    const handleResizeEnd = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleResizeMove);
+      document.addEventListener("mouseup", handleResizeEnd);
+      document.addEventListener("touchmove", handleResizeMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleResizeEnd);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleResizeMove);
+      document.removeEventListener("mouseup", handleResizeEnd);
+      document.removeEventListener("touchmove", handleResizeMove);
+      document.removeEventListener("touchend", handleResizeEnd);
+    };
+  }, [isResizing, resizeStart, position]);
+
   if (minimized) return null;
 
   const windowStyle = {
     position: "absolute",
     left: `${position.x}px`,
     top: `${position.y}px`,
+    width: `${size.width}px`,
+    height: size.height ? `${size.height}px` : "auto",
   };
 
   const windowStyleWithZIndex = {
@@ -138,7 +220,7 @@ function Window({
   return (
     <div
       ref={windowRef}
-      className={`window ${isDragging ? "dragging" : ""} ${id === "about" ? "window-about" : ""} ${id === "contact" ? "window-contact" : ""}`}
+      className={`window ${isDragging ? "dragging" : ""} ${id === "about" ? "window-about" : ""} ${id === "contact" ? "window-contact" : ""} ${id === "experience" ? "window-experience" : ""}`}
       style={windowStyleWithZIndex}
       role="dialog"
       tabIndex={-1}
@@ -183,6 +265,15 @@ function Window({
         </div>
       </div>
       <div className="window-content">{children}</div>
+      <div
+        ref={resizeHandleRef}
+        className="window-resize-handle"
+        onMouseDown={handleResizeStart}
+        onTouchStart={handleResizeStart}
+        role="button"
+        tabIndex={0}
+        aria-label="Resize window"
+      />
     </div>
   );
 }

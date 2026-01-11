@@ -259,7 +259,7 @@ function Desktop() {
       case "about":
         return (
           <div className="window-text-content">
-            <h2>Welcome to LeoOS 1.0</h2>
+            <h2>LeoOS 7</h2>
             <div className="content-divider" />
             <p>{portfolioData.about.content.join(" ")}</p>
             <div className="dialog-ok-button-container">
