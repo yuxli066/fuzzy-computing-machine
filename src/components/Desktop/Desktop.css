@@ -335,6 +335,18 @@
   letter-spacing: 0.5px;
 }
 
+.window-contact .pdf-content {
+  font-weight: bold;
+}
+
+.window-contact .pdf-content p {
+  font-weight: bold;
+}
+
+.window-contact .pdf-content a {
+  font-weight: bold;
+}
+
 .start-menu {
   position: absolute;
   bottom: 65px;

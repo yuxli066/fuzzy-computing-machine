@@ -138,7 +138,7 @@ function Window({
   return (
     <div
       ref={windowRef}
-      className={`window ${isDragging ? "dragging" : ""} ${id === "about" ? "window-about" : ""}`}
+      className={`window ${isDragging ? "dragging" : ""} ${id === "about" ? "window-about" : ""} ${id === "contact" ? "window-contact" : ""}`}
       style={windowStyleWithZIndex}
       role="dialog"
       tabIndex={-1}

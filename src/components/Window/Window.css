@@ -19,6 +19,10 @@
   border: none;
 }
 
+.window-about .window-content {
+  padding: 8px;
+}
+
 .window.dragging {
   cursor: move;
   z-index: 1000;
@@ -94,7 +98,7 @@
 .window-content {
   flex: 1;
   background-color: #ffffff;
-  padding: 8px;
+  padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
   font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
