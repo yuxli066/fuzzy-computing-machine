@@ -21,6 +21,33 @@
 
 .window-about .window-content {
   padding: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.window-about .window-content::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.window-about .window-content::-webkit-scrollbar-track {
+  background: #d4d0c8;
+  border: 1px inset #ece9d8;
+}
+
+.window-about .window-content::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 1px outset #ece9d8;
+}
+
+.window-about .window-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+.window-about .window-content::-webkit-scrollbar-corner {
+  background: #d4d0c8;
 }
 
 .window.dragging {

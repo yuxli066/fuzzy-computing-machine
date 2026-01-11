@@ -195,6 +195,7 @@
   margin-bottom: 12px;
   line-height: 1.6;
   font-size: 18px;
+  white-space: pre-wrap;
 }
 
 .window-text-content h3 {
@@ -491,5 +492,110 @@
     overflow-wrap: break-word;
     display: inline-block;
     max-width: 100%;
+  }
+}
+
+.resize-helper-tooltip {
+  position: fixed;
+  z-index: 20000;
+  animation: fadeInSlide 0.5s ease-out;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  margin-top: -10px;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.resize-helper-arrow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #ece9d8;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.3));
+  z-index: 20001;
+}
+
+.resize-helper-content {
+  background-color: #ece9d8;
+  border: 2px outset #ece9d8;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  min-width: 250px;
+  max-width: 300px;
+  font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+  pointer-events: all;
+}
+
+.resize-helper-header {
+  background: linear-gradient(to bottom, #0080ff 0%, #0054e3 50%, #0040c0 100%);
+  color: white;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 13px;
+  border-bottom: 1px solid #000;
+}
+
+.resize-helper-icon {
+  font-size: 16px;
+}
+
+.resize-helper-title {
+  flex: 1;
+}
+
+.resize-helper-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: 'MS Sans Serif', sans-serif;
+}
+
+.resize-helper-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.resize-helper-body {
+  padding: 12px 16px;
+  color: #000;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .resize-helper-tooltip {
+    transform: translate(-50%, -100%);
+  }
+
+  .resize-helper-content {
+    min-width: auto;
+    max-width: 250px;
   }
 }

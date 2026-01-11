@@ -135,6 +135,9 @@ function Desktop() {
   const [touchStartPos, setTouchStartPos] = useState(null);
   const [touchStartIcon, setTouchStartIcon] = useState(null);
   const [hasMoved, setHasMoved] = useState(false);
+  // TODO: Re-enable tooltip feature
+  // const [showResizeHelper, setShowResizeHelper] = useState(false);
+  // const [resizeHandlePosition, setResizeHandlePosition] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -261,7 +264,9 @@ function Desktop() {
           <div className="window-text-content">
             <h2>LeoOS 7</h2>
             <div className="content-divider" />
-            <p>{portfolioData.about.content.join(" ")}</p>
+            <p style={{ whiteSpace: "pre-wrap" }}>
+              {portfolioData.about.content.join(" ")}
+            </p>
             <div className="dialog-ok-button-container">
               <button
                 type="button"
@@ -436,6 +441,34 @@ function Desktop() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  // TODO: Re-enable tooltip feature
+  // Show resize helper tooltip once on first load
+  // useEffect(() => {
+  //   const hasSeenHelper = localStorage.getItem("hasSeenResizeHelper");
+  //   if (!hasSeenHelper && openWindows.about && !minimizedWindows.about) {
+  //     // Delay showing the helper so the window can render first
+  //     const timer = setTimeout(() => {
+  //       // Find the resize handle element
+  //       const resizeHandle = document.querySelector('.window.window-about .window-resize-handle');
+  //       if (resizeHandle) {
+  //         const rect = resizeHandle.getBoundingClientRect();
+  //         setResizeHandlePosition({
+  //           x: rect.left + rect.width / 2,
+  //           y: rect.top + rect.height / 2,
+  //         });
+  //         setShowResizeHelper(true);
+  //       }
+  //     }, 1000);
+  //     return () => clearTimeout(timer);
+  //   }
+  //   return undefined;
+  // }, [openWindows.about, minimizedWindows.about]);
+
+  // const dismissResizeHelper = () => {
+  //   setShowResizeHelper(false);
+  //   localStorage.setItem("hasSeenResizeHelper", "true");
+  // };
+
   return (
     <div className="desktop">
       <div className="desktop-background">
@@ -501,6 +534,36 @@ function Desktop() {
           </Window>
         );
       })}
+
+      {/* TODO: Re-enable tooltip feature */}
+      {/* {showResizeHelper && resizeHandlePosition && openWindows.about && !minimizedWindows.about && (
+        <div
+          className="resize-helper-tooltip"
+          style={{
+            left: `${resizeHandlePosition.x}px`,
+            top: `${resizeHandlePosition.y - 120}px`,
+          }}
+        >
+          <div className="resize-helper-content">
+            <div className="resize-helper-header">
+              <span className="resize-helper-icon">💡</span>
+              <span className="resize-helper-title">Tip</span>
+              <button
+                type="button"
+                className="resize-helper-close"
+                onClick={dismissResizeHelper}
+                aria-label="Close tip"
+              >
+                ×
+              </button>
+            </div>
+            <div className="resize-helper-body">
+              Drag from the bottom-right corner to resize this window!
+            </div>
+          </div>
+          <div className="resize-helper-arrow" />
+        </div>
+      )} */}
 
       <div className="taskbar">
         <div className="taskbar-start">
