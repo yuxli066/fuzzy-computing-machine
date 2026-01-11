@@ -262,7 +262,7 @@ function Desktop() {
       case "about":
         return (
           <div className="window-text-content">
-            <h2>LeoOS 7</h2>
+            <h2>LeoXP 1</h2>
             <div className="content-divider" />
             <p style={{ whiteSpace: "pre-wrap" }}>
               {portfolioData.about.content.join(" ")}
