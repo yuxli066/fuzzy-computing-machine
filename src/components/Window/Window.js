@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './Window.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./Window.css";
 
 function Window({
   id,
@@ -18,7 +18,6 @@ function Window({
   );
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isMaximized, setIsMaximized] = useState(false);
   const [hasUserDragged, setHasUserDragged] = useState(false);
   const windowRef = useRef(null);
   const titleBarRef = useRef(null);
@@ -26,12 +25,7 @@ function Window({
 
   // Measure actual window height and recalculate centered position after render
   useEffect(() => {
-    if (
-      !windowRef.current
-      || hasMeasuredRef.current
-      || hasUserDragged
-      || isMaximized
-    ) return;
+    if (!windowRef.current || hasMeasuredRef.current || hasUserDragged) return;
 
     // Wait for next frame to ensure DOM is fully rendered
     requestAnimationFrame(() => {
@@ -57,10 +51,10 @@ function Window({
 
       hasMeasuredRef.current = true;
     });
-  }, [hasUserDragged, isMaximized, defaultPosition]);
+  }, [hasUserDragged, defaultPosition]);
 
   const handleMouseDown = (e) => {
-    if (e.target.closest('.window-controls')) return;
+    if (e.target.closest(".window-controls")) return;
     if (onFocus) onFocus(id);
 
     setIsDragging(true);
@@ -78,27 +72,25 @@ function Window({
     const handleMove = (e) => {
       if (!isDragging || !windowRef.current) return;
 
-      if (!isMaximized) {
-        const rect = windowRef.current.getBoundingClientRect();
-        const isMobile = window.innerWidth <= 768;
-        const taskbarHeight = isMobile ? 50 : 65;
-        const maxX = window.innerWidth - rect.width;
-        const maxY = window.innerHeight - taskbarHeight - rect.height;
+      const rect = windowRef.current.getBoundingClientRect();
+      const isMobile = window.innerWidth <= 768;
+      const taskbarHeight = isMobile ? 50 : 65;
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - taskbarHeight - rect.height;
 
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        let newX = clientX - dragOffset.x;
-        let newY = clientY - dragOffset.y;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      let newX = clientX - dragOffset.x;
+      let newY = clientY - dragOffset.y;
 
-        // Constrain to viewport
-        newX = Math.max(0, Math.min(newX, maxX));
-        newY = Math.max(0, Math.min(newY, maxY));
+      // Constrain to viewport
+      newX = Math.max(0, Math.min(newX, maxX));
+      newY = Math.max(0, Math.min(newY, maxY));
 
-        setPosition({
-          x: newX,
-          y: newY,
-        });
-      }
+      setPosition({
+        x: newX,
+        y: newY,
+      });
     };
 
     const handleUp = () => {
@@ -106,24 +98,19 @@ function Window({
     };
 
     if (isDragging) {
-      document.addEventListener('mousemove', handleMove);
-      document.addEventListener('mouseup', handleUp);
-      document.addEventListener('touchmove', handleMove, { passive: false });
-      document.addEventListener('touchend', handleUp);
+      document.addEventListener("mousemove", handleMove);
+      document.addEventListener("mouseup", handleUp);
+      document.addEventListener("touchmove", handleMove, { passive: false });
+      document.addEventListener("touchend", handleUp);
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseup', handleUp);
-      document.removeEventListener('touchmove', handleMove);
-      document.removeEventListener('touchend', handleUp);
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleUp);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("touchend", handleUp);
     };
-  }, [isDragging, dragOffset, isMaximized]);
-
-  const handleMaximize = (e) => {
-    e.stopPropagation();
-    setIsMaximized(!isMaximized);
-  };
+  }, [isDragging, dragOffset]);
 
   const handleClose = (e) => {
     e.stopPropagation();
@@ -137,21 +124,11 @@ function Window({
 
   if (minimized) return null;
 
-  const windowStyle = isMaximized
-    ? {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: '50px',
-      width: '100%',
-      height: 'calc(100% - 50px)',
-    }
-    : {
-      position: 'absolute',
-      left: `${position.x}px`,
-      top: `${position.y}px`,
-    };
+  const windowStyle = {
+    position: "absolute",
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+  };
 
   const windowStyleWithZIndex = {
     ...windowStyle,
@@ -161,7 +138,7 @@ function Window({
   return (
     <div
       ref={windowRef}
-      className={`window ${isDragging ? 'dragging' : ''}`}
+      className={`window ${isDragging ? "dragging" : ""} ${id === "about" ? "window-about" : ""}`}
       style={windowStyleWithZIndex}
       role="dialog"
       tabIndex={-1}
@@ -177,7 +154,7 @@ function Window({
           if (onFocus) onFocus(id);
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             handleMouseDown(e);
           }
         }}
@@ -194,14 +171,6 @@ function Window({
             aria-label="Minimize"
           >
             <span>—</span>
-          </button>
-          <button
-            type="button"
-            className="window-control window-control-maximize"
-            onClick={handleMaximize}
-            aria-label="Maximize"
-          >
-            <span>{isMaximized ? '❐' : '□'}</span>
           </button>
           <button
             type="button"
