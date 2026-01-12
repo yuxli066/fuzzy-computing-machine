@@ -143,6 +143,16 @@ function Window({
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        "setting resizeStart",
+        `\ncursor pointer x: ${clientX}`,
+        `\ncursor pointer y: ${clientY}`,
+        `\nwindow width: ${rect.width}`,
+        `\nwindow height: ${rect.height}`,
+      );
+    }
+
     setIsResizing(true);
     setResizeStart({
       x: clientX,
@@ -161,6 +171,14 @@ function Window({
 
       const deltaX = clientX - resizeStart.x;
       const deltaY = clientY - resizeStart.y;
+
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "handleResizeMove",
+          `\ndeltaX: ${clientX}`,
+          `\ndeltaY: ${clientY}`,
+        );
+      }
 
       const minWidth = 400;
       const minHeight = 300;
