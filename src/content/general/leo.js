@@ -2,11 +2,10 @@ const generalInfo = {
   about: {
     title: "About Me",
     content: [
-      "Hi! My name is Leo and I'm a software engineer who's passionate about technology and building software.",
-      "I have over 5 years of experience working with web technology.",
-      "I am a full stack developer, but my expertise lies within building scalable automation services using cutting edge tools & cloud technologies.",
-      "Outside of work, I enjoy working on cars, riding motorcycles, playing fps shooter games, snowboarding, and sightseeing.",
-      "For my next role, I am looking to work with a small collaborative team in order to gain more hands on experience with cloud technologies such as AWS or Azure and with building infrastructure for large scale web applications.",
+      "Hi! I'm Leo, a software engineer with 7+ years of experience in web technologies.",
+      "I'm a full-stack developer specializing in scalable automation services and SDET-focused testing frameworks using modern tools.",
+      "Outside of work, I enjoy cars, motorcycles, FPS games, snowboarding, and sightseeing.",
+      "I enjoy working on small, collaborative teams where I can contribute to quality-driven development, and if you come across any opportunities where you think I’d be a great fit, feel free to reach out.",
     ],
   },
   experience: {

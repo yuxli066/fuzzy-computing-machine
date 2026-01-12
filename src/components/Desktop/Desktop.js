@@ -168,6 +168,7 @@ function Desktop() {
             <p style={{ whiteSpace: "pre-wrap" }}>
               {portfolioInfo.about.content.join(" ")}
             </p>
+            <div className="content-divider" />
             <div className="dialog-ok-button-container">
               <button
                 type="button"
@@ -318,14 +319,21 @@ function Desktop() {
     { id: "contact", label: "CONTACT.XPS", icon: activeContactIcon },
   ];
 
-  const getCenteredPosition = () => {
+  const getCenteredPosition = (windowId) => {
     const isMobile = window.innerWidth <= 768;
     const windowWidth = isMobile ? Math.min(900, window.innerWidth * 0.9) : 900;
     const windowHeight = 370;
     const taskbarHeight = isMobile ? 50 : 65;
     const availableHeight = window.innerHeight - taskbarHeight;
     const centerX = (window.innerWidth - windowWidth) / 2;
-    const centerY = isMobile ? 50 : (availableHeight - windowHeight) / 2;
+    let centerY = isMobile ? 50 : (availableHeight - windowHeight) / 2;
+
+    // Move about and experience windows higher
+    if (windowId === "about" || windowId === "experience") {
+      const offset = isMobile ? 30 : 50; // Move up by 30px on mobile, 50px on desktop
+      centerY = Math.max(0, centerY - offset);
+    }
+
     return { x: Math.max(0, centerX), y: Math.max(0, centerY) };
   };
 
@@ -411,7 +419,7 @@ function Desktop() {
         const windowData = desktopIcons.find((icon) => icon.id === windowId);
         if (!windowData) return null;
 
-        const basePosition = getCenteredPosition();
+        const basePosition = getCenteredPosition(windowId);
         const cascadeOffset = 30;
         const adjustedPosition = {
           x: basePosition.x + index * cascadeOffset,

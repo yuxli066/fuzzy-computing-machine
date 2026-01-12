@@ -18,14 +18,21 @@ function Window({
   );
   const [size, setSize] = useState(() => {
     const isMobile = window.innerWidth <= 768;
-    const mobileHeight = window.innerHeight * 0.8 - 50; // calc(70vh - 50px)
 
-    if (isMobile && (id === "experience" || id === "about")) {
+    if (isMobile && id === "experience") {
+      const mobileHeight = window.innerHeight * 0.91 - 50;
       return {
         width: 900,
         height: mobileHeight,
       };
     }
+    // if (isMobile && id === "about") {
+    //   const mobileHeight = window.innerHeight * 0.72 - 50;
+    //   return {
+    //     width: 900,
+    //     height: mobileHeight,
+    //   };
+    // }
 
     return {
       width: 900,
