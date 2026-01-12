@@ -260,7 +260,7 @@ function Window({
         }}
       >
         <div className="window-title">
-          {icon && <span className="window-icon">{icon}</span>}
+          {icon && <img src={icon} alt={title} className="window-icon" />}
           <span>{title}</span>
         </div>
         <div className="window-controls">

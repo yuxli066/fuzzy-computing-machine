@@ -5,110 +5,7 @@ import batIcon from "../../icons/BAT.png";
 import briefcaseIcon from "../../icons/Briefcase.png";
 import folderOpenedIcon from "../../icons/FolderOpened.png";
 import activeContactIcon from "../../icons/ActiveContact.png";
-
-const portfolioData = {
-  about: {
-    title: "About Me",
-    content: [
-      "Hi! My name is Leo and I'm a software engineer who's passionate about technology and building software.",
-      "I have over 5 years of experience working with web technology.",
-      "I am a full stack developer, but my expertise lies within building scalable automation services using cutting edge tools & cloud technologies.",
-      "Outside of work, I enjoy working on cars, riding motorcycles, playing fps shooter games, snowboarding, and sightseeing.",
-      "For my next role, I am looking to work with a small collaborative team in order to gain more hands on experience with cloud technologies such as AWS or Azure and with building infrastructure for large scale web applications.",
-    ],
-  },
-  experience: {
-    title: "Work Experience",
-    content: [
-      {
-        company: "Walmart Global Tech - SDET - Nov 2023 – May 2025",
-        details: [
-          "Created and executed manual & automation tests, conducted periodic measurement analysis. Delivered, and communicated test results.",
-          "Designed and implemented functional and end-to-end tests working at UI, API and database levels.",
-          "Contributed to planning and estimation activities, including monitoring processes and reviewing QA deliverables and tasks.",
-        ],
-      },
-      {
-        company: "Visa - Sr. Software Test Engineer - April 2022 – August 2023",
-        details: [
-          "Created & executed test plans, test designs & test cases covering feature integration, regression, and system level testing.",
-          "Contributed to API & UI functional automation frameworks using industry wide tools and performed database testing on RDMBS & NoSQL based databases.",
-          "Helped debug Linux/Unix/Container based application servers in Docker/Kubernetes.",
-        ],
-      },
-      {
-        company:
-          "Extron Electronics - Automation Engineer - Nov 2020 – Nov 2021",
-        details: [
-          "Developed a software support dashboard used to execute 10,000 accessibility tests.",
-          "Created & configured a HAPROXY load balancer for network distribution.",
-          "Created & configured an Application Portal (layer 7) load balancer for Azure VMs.",
-          "Created scripts to automate database migrations and deployment cleanups.",
-          "Created multiple accessibility microservices with over 500 downloads on docker hub.",
-          "Provided guidance to team members with strategies to help improve code optimization.",
-        ],
-      },
-      {
-        company:
-          "Glidewell Dental Labs - QA Automation Engineer - Apr 2018 – Apr 2020",
-        details: [
-          "Designed and built an automation framework used to test both UIs and services.",
-          "Set up CI/CD pipelines using Jenkins, Docker & AWS to automate the execution of test builds.",
-          "Developed a software support tool used to run selenium tests and restart services.",
-        ],
-      },
-      {
-        company: "Software Engineer - DiagnosisAI - Feb 2017 - Oct 2018",
-        details: [
-          "Contributed to the development effort of an automated doctor to patient service.",
-          "Contributed to the development effort of the company's landing page.",
-        ],
-      },
-      {
-        company:
-          "Sony Pictures Entertainment - Automation Analyst - Sep 2017 – Apr 2018",
-        details: [
-          "Contributed to the development effort of a Java/Python automation framework.",
-          "Developed automation tests for web apps, REST APIs, thick clients, and other applications.",
-          "Collaborated with offshore developers for requirements gathering & framework development.",
-        ],
-      },
-    ],
-  },
-  projects: {
-    title: "My Projects",
-    content: [
-      {
-        name: "Auto Apply (Auto Apply to Jobs on LinkedIn)",
-        link: "https://github.com/yuxli066/HashiramaSenju",
-      },
-      { name: "Del Rosa Massage", link: "https://delrosamassage.co" },
-      { name: "Mom's Recipe Book", link: "https://asianmomrecipes.com/" },
-      {
-        name: "Bunny Battler",
-        link: "https://github.com/yuxli066/DanzoShimura",
-      },
-      { name: "Clueless", link: "https://github.com/yuxli066/Clueless" },
-      { name: "Stoxbot", link: "https://github.com/yuxli066/stoxbot" },
-      { name: "IdentifyAI", link: "https://x.com/identifyai" },
-      {
-        name: "Twitter Sentiment Analyzer",
-        link: "https://github.com/yuxli066/TwitterSentimentAnalyzer",
-      },
-      { name: "RC Auto Car", link: "https://github.com/yuxli066/RC-AUTO-Car" },
-    ],
-  },
-  contact: {
-    title: "Contact Me",
-    content: {
-      email: "leoli7405@gmail.com",
-      linkedin: "https://www.linkedin.com/in/li-leo/",
-      github: "https://github.com/yuxli066",
-      resume:
-        "https://drive.google.com/file/d/14yyn6ct_GIblKy87MSOG8N0wvak8SJpT/view?usp=sharing",
-    },
-  },
-};
+import portfolioInfo from "../../content/general/leo";
 
 function Desktop() {
   const [openWindows, setOpenWindows] = useState({ about: true });
@@ -269,7 +166,7 @@ function Desktop() {
             <h2>LeoOS XP 1.0</h2>
             <div className="content-divider" />
             <p style={{ whiteSpace: "pre-wrap" }}>
-              {portfolioData.about.content.join(" ")}
+              {portfolioInfo.about.content.join(" ")}
             </p>
             <div className="dialog-ok-button-container">
               <button
@@ -287,7 +184,7 @@ function Desktop() {
           <div className="window-text-content window-pdf-viewer">
             <div className="pdf-content">
               <h1 className="pdf-header">Work Experience</h1>
-              {portfolioData.experience.content.map((job) => (
+              {portfolioInfo.experience.content.map((job) => (
                 <div key={job.company} style={{ marginBottom: "16px" }}>
                   <h3 style={{ fontWeight: "bold", marginBottom: "8px" }}>
                     {job.company}
@@ -325,7 +222,7 @@ function Desktop() {
             <div className="pdf-content">
               <h1 className="pdf-header">Projects</h1>
               <ul style={{ listStyle: "disc", paddingLeft: "20px" }}>
-                {portfolioData.projects.content.map((project) => (
+                {portfolioInfo.projects.content.map((project) => (
                   <li key={project.name} style={{ marginBottom: "8px" }}>
                     <a
                       href={project.link}
@@ -358,38 +255,38 @@ function Desktop() {
               <p style={{ marginBottom: "12px" }}>Contact me via email:</p>
               <p style={{ marginBottom: "16px" }}>
                 <a
-                  href={`mailto:${portfolioData.contact.content.email}`}
+                  href={`mailto:${portfolioInfo.contact.content.email}`}
                   style={{ color: "#0000ff", textDecoration: "underline" }}
                 >
-                  {portfolioData.contact.content.email}
+                  {portfolioInfo.contact.content.email}
                 </a>
               </p>
               <p style={{ marginBottom: "8px" }}>LinkedIn:</p>
               <p style={{ marginBottom: "16px" }}>
                 <a
-                  href={portfolioData.contact.content.linkedin}
+                  href={portfolioInfo.contact.content.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "#0000ff", textDecoration: "underline" }}
                 >
-                  {portfolioData.contact.content.linkedin}
+                  {portfolioInfo.contact.content.linkedin}
                 </a>
               </p>
               <p style={{ marginBottom: "8px" }}>GitHub:</p>
               <p style={{ marginBottom: "16px" }}>
                 <a
-                  href={portfolioData.contact.content.github}
+                  href={portfolioInfo.contact.content.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "#0000ff", textDecoration: "underline" }}
                 >
-                  {portfolioData.contact.content.github}
+                  {portfolioInfo.contact.content.github}
                 </a>
               </p>
               <p style={{ marginBottom: "8px" }}>Resume:</p>
               <p>
                 <a
-                  href={portfolioData.contact.content.resume}
+                  href={portfolioInfo.contact.content.resume}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "#0000ff", textDecoration: "underline" }}
@@ -667,7 +564,14 @@ function Desktop() {
                   }
                 }}
               >
-                {windowData?.icon} {windowData?.label.replace(/\.\w+$/, "")}
+                {windowData?.icon && (
+                  <img
+                    src={windowData.icon}
+                    alt={windowData.label}
+                    className="taskbar-icon"
+                  />
+                )}
+                <span>{windowData?.label.replace(/\.\w+$/, "")}</span>
               </button>
             );
           })}

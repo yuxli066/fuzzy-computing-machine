@@ -148,16 +148,22 @@
   color: white;
   font-size: 13px;
   padding: 4px 12px;
-  cursor: pointer;
-  font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
-  height: 50px;
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+  font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+  height: 50px;
   white-space: nowrap;
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.taskbar-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .taskbar-task.minimized {
