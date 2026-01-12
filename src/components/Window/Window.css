@@ -134,6 +134,11 @@
   color: #000;
 }
 
+.window-experience {
+  max-height: 80vh;
+  height: 80vh;
+}
+
 @media (max-width: 768px) {
   .window {
     min-width: 90vw;
@@ -142,8 +147,8 @@
   }
 
   .window-experience {
-    max-height: 700px;
-    height: 700px;
+    max-height: 80vh;
+    height: 80vh;
   }
 
   .window-content {
