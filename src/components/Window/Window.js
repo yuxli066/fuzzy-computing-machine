@@ -18,7 +18,7 @@ function Window({
   );
   const [size, setSize] = useState(() => {
     const isMobile = window.innerWidth <= 768;
-    const mobileHeight = window.innerHeight * 0.7 - 50; // calc(70vh - 50px)
+    const mobileHeight = window.innerHeight * 0.8 - 50; // calc(70vh - 50px)
 
     if (isMobile && (id === "experience" || id === "about")) {
       return {
