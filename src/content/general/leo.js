@@ -12,7 +12,7 @@ const generalInfo = {
     title: "Work Experience",
     content: [
       {
-        company: "Walmart Global Tech - SDET - Nov 2023 – May 2025",
+        company: "Walmart Global Tech - SDET - Nov 2023 – Current",
         details: [
           "Created and executed manual & automation tests, conducted periodic measurement analysis. Delivered, and communicated test results.",
           "Designed and implemented functional and end-to-end tests working at UI, API and database levels.",
