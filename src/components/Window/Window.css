@@ -21,10 +21,11 @@
 
 .window-about .window-content {
   padding: 8px;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   flex: 1;
   min-height: 0;
+  scrollbar-gutter: stable;
 }
 
 .window-about .window-content::-webkit-scrollbar {
