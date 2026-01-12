@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Window from "../Window/Window";
 import "./Desktop.css";
+import batIcon from "../../icons/BAT.png";
+import briefcaseIcon from "../../icons/Briefcase.png";
+import folderOpenedIcon from "../../icons/FolderOpened.png";
+import activeContactIcon from "../../icons/ActiveContact.png";
 
 const portfolioData = {
   about: {
@@ -262,7 +266,7 @@ function Desktop() {
       case "about":
         return (
           <div className="window-text-content">
-            <h2>LeoXP 1</h2>
+            <h2>LeoOS XP 1.0</h2>
             <div className="content-divider" />
             <p style={{ whiteSpace: "pre-wrap" }}>
               {portfolioData.about.content.join(" ")}
@@ -411,10 +415,10 @@ function Desktop() {
   };
 
   const desktopIcons = [
-    { id: "about", label: "ABOUTME.EXE", icon: "📄" },
-    { id: "experience", label: "EXPERIENCE.XPS", icon: "📄" },
-    { id: "projects", label: "PROJECTS.XPS", icon: "📄" },
-    { id: "contact", label: "CONTACT.XPS", icon: "📄" },
+    { id: "about", label: "ABOUTME.EXE", icon: batIcon },
+    { id: "experience", label: "EXPERIENCE.XPS", icon: briefcaseIcon },
+    { id: "projects", label: "PROJECTS.XPS", icon: folderOpenedIcon },
+    { id: "contact", label: "CONTACT.XPS", icon: activeContactIcon },
   ];
 
   const getCenteredPosition = () => {
@@ -497,7 +501,9 @@ function Desktop() {
                 openWindow(icon.id);
               }}
             >
-              <div className="desktop-icon-image">{icon.icon}</div>
+              <div className="desktop-icon-image">
+                <img src={icon.icon} alt={icon.label} />
+              </div>
               <div className="desktop-icon-label">{icon.label}</div>
             </div>
           ))}
