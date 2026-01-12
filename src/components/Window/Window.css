@@ -151,6 +151,11 @@
     height: 80vh;
   }
 
+  .window-about {
+    max-height: 80vh;
+    height: 80vh;
+  }
+
   .window-content {
     font-size: 12px;
   }
