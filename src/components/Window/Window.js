@@ -16,9 +16,21 @@ function Window({
   const [position, setPosition] = useState(
     defaultPosition || { x: 100, y: 100 },
   );
-  const [size, setSize] = useState({
-    width: 900,
-    height: id === "experience" ? 850 : null,
+  const [size, setSize] = useState(() => {
+    const isMobile = window.innerWidth <= 768;
+    const mobileHeight = window.innerHeight * 0.7 - 50; // calc(70vh - 50px)
+
+    if (isMobile && (id === "experience" || id === "about")) {
+      return {
+        width: 900,
+        height: mobileHeight,
+      };
+    }
+
+    return {
+      width: 900,
+      height: id === "experience" ? 850 : null,
+    };
   });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
