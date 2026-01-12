@@ -147,13 +147,13 @@
   }
 
   .window-experience {
-    max-height: 80vh;
-    height: 80vh;
+    max-height: calc(100vh - 50px - 40px);
+    height: calc(100vh - 50px - 40px);
   }
 
   .window-about {
-    max-height: 80vh;
-    height: 80vh;
+    max-height: calc(100vh - 50px - 40px);
+    height: calc(100vh - 50px - 40px);
   }
 
   .window-content {
