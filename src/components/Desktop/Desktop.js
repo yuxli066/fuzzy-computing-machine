@@ -18,9 +18,9 @@ function Desktop() {
     if (isMobile) {
       return {
         about: { x: 20, y: 40 },
-        experience: { x: 20, y: 200 },
-        projects: { x: 20, y: 390 },
-        contact: { x: 20, y: 550 },
+        experience: { x: 20, y: 170 },
+        projects: { x: 20, y: 300 },
+        contact: { x: 20, y: 430 },
       };
     }
     return {
