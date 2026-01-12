@@ -29,8 +29,15 @@
 }
 
 @media (max-width: 768px) {
+  .desktop {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
   .desktop-background {
-    height: 95vh;
+    height: calc(100vh - 50px);
+    max-height: calc(100vh - 50px);
   }
 }
 
