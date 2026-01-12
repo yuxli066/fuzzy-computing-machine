@@ -141,6 +141,11 @@
     min-height: 300px;
   }
 
+  .window-experience {
+    max-height: 700px;
+    height: 700px;
+  }
+
   .window-content {
     font-size: 12px;
   }
