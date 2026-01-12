@@ -30,7 +30,7 @@
 
 @media (max-width: 768px) {
   .desktop-background {
-    height: calc(100% - 50px);
+    height: 95vh;
   }
 }
 
