@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import { Analytics } from "@vercel/analytics/react";
-import Desktop from './components/Desktop/Desktop';
-import './App.css';
+import DesktopPeel from "./components/DesktopPeel";
+import "./App.css";
 
 // OLD TERMINAL/LINUX VERSION - Commented out for future env flag toggle
 // import Container from '@mui/material/Container';
@@ -11,7 +11,7 @@ import './App.css';
 function App() {
   return (
     <div className="app">
-      <Desktop />
+      <DesktopPeel />
       <Analytics />
 
       {/* OLD TERMINAL/LINUX VERSION - Commented out for future env flag toggle

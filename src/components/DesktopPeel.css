@@ -1,0 +1,450 @@
+.peel-stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f7f6ee;
+  isolation: isolate;
+}
+.peel-underneath {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.peel-desktop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  will-change: clip-path;
+}
+.peel-desktop .desktop {
+  height: 100%;
+}
+.is-revealed .peel-desktop {
+  visibility: hidden;
+  pointer-events: none;
+}
+.is-peeling .peel-desktop {
+  pointer-events: none;
+}
+.peel-curl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  overflow: visible;
+  pointer-events: none;
+}
+.peel-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.peel-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  width: 100%;
+  min-height: 48px;
+  margin: 0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 0;
+  border-bottom: 1px solid #d9d8ce;
+  background: linear-gradient(#fffef8, #eeeee3);
+  color: #303f32;
+  box-shadow: 0 2px 8px #0002;
+  font:
+    14px/1.3 "Segoe UI",
+    sans-serif;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transition: opacity 120ms ease;
+}
+.peel-banner-title {
+  font-weight: 700;
+}
+.peel-banner-hint {
+  color: #606b5e;
+  font-size: 12px;
+}
+.peel-banner svg {
+  flex-shrink: 0;
+}
+.peel-banner:focus-visible {
+  outline: 2px solid #285f38;
+  outline-offset: -4px;
+}
+.is-peeling .peel-banner {
+  cursor: grabbing;
+}
+.is-opening .peel-banner {
+  opacity: 0;
+  pointer-events: none;
+}
+.peel-desktop .desktop-icons {
+  top: 48px;
+  height: calc(100% - 48px);
+}
+@media (max-width: 480px) {
+  .peel-banner {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .peel-banner-hint {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peel-curl {
+    display: none;
+  }
+  .peel-banner {
+    transition: none;
+  }
+}
+
+/* A cream fabric pull rail, with visible folds and a red stitched accent. */
+.peel-banner {
+  min-height: 62px;
+  padding: 11px 24px 15px;
+  gap: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    #fff9e9 0,
+    #f1e8d2 28px,
+    #fffbed 55px,
+    #e9dfc8 64px,
+    #fff9e9 82px
+  );
+  border-bottom: 3px solid #bd352b;
+  border-radius: 0 0 12px 12px;
+  color: #b62620;
+  box-shadow:
+    0 5px 14px #15241c30,
+    inset 0 1px #fff;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+.peel-banner::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 12px;
+  right: 12px;
+  border-top: 1px dashed #b7373055;
+  pointer-events: none;
+}
+.peel-banner-title {
+  color: #b62620;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.peel-banner-hint {
+  color: #b62620;
+  font-size: 13px;
+  font-weight: 600;
+}
+.peel-banner svg {
+  width: 26px;
+  height: 26px;
+  color: #c72b22;
+}
+.peel-desktop .desktop-icons {
+  top: 62px;
+  height: calc(100% - 62px);
+}
+.curtain-pleats {
+  position: absolute;
+  inset: 0;
+  z-index: 20001;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    #fff2 5%,
+    #0002 10%,
+    transparent 15%
+  );
+}
+.simple-header button {
+  color: #b62620;
+  background: #fff8e8;
+  border-color: #d3b3a6;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  font-weight: 700;
+}
+@media (max-width: 480px) {
+  .peel-banner {
+    gap: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .peel-banner-title {
+    font-size: 17px;
+  }
+  .peel-banner-hint {
+    font-size: 11px;
+  }
+}
+
+.peel-banner {
+  border-bottom: 0;
+}
+.peel-banner::after {
+  display: none;
+}
+
+/* Smooth paper replaces the fabric folds. */
+.peel-banner {
+  background: linear-gradient(180deg, #fffdf4, #f4eedc 65%, #e6ddc7);
+  border-radius: 0 0 8px 8px;
+  box-shadow:
+    0 3px 10px #15241c26,
+    inset 0 1px #fff;
+}
+
+/* The pull banner is itself a horizontal roll of warm ivory paper. */
+.peel-banner {
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(
+    180deg,
+    #b9ad91 0%,
+    #e5dcc4 9%,
+    #fffdf2 29%,
+    #fffaf0 45%,
+    #f0e6cd 72%,
+    #c8b995 94%,
+    #a29270 100%
+  );
+  box-shadow:
+    0 5px 12px #17231c38,
+    inset 0 2px 2px #fff9;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.peel-banner::before,
+.peel-banner::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 17px;
+  border: 1px solid #ac9d7b;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    ellipse at center,
+    #b6a47e 0 1px,
+    #f9f0d9 2px 4px,
+    #d7c9a8 5px 6px
+  );
+  box-shadow: inset 2px 0 4px #6e604b33;
+  pointer-events: none;
+}
+.peel-banner::before {
+  left: 2px;
+}
+.peel-banner::after {
+  left: auto;
+  right: 2px;
+}
+@media (max-width: 480px) {
+  .peel-banner {
+    padding-left: 24px;
+    padding-right: 24px;
+    gap: 8px;
+  }
+  .peel-banner::before,
+  .peel-banner::after {
+    width: 13px;
+  }
+}
+
+/* Illuminated parchment with gilded roller ends. */
+.peel-banner {
+  min-height: 74px;
+  padding: 14px 48px;
+  color: #85251f;
+  background:
+    linear-gradient(
+      90deg,
+      #8d642b22,
+      transparent 18%,
+      #fff6d72b 50%,
+      transparent 82%,
+      #8d642b22
+    ),
+    linear-gradient(
+      180deg,
+      #92703c 0%,
+      #d5ba79 4%,
+      #f1dfb0 12%,
+      #fff3d1 30%,
+      #f7e8bf 58%,
+      #e1c78e 84%,
+      #b28a47 96%,
+      #e4c783 100%
+    );
+  border-top: 1px solid #c9a657;
+  border-bottom: 1px solid #9a7437;
+  border-radius: 0 0 17px 17px;
+  box-shadow:
+    0 6px 18px #1c241a45,
+    inset 0 3px #f4dda5,
+    inset 0 -4px #aa813c55;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.peel-banner-title {
+  color: #85251f;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-shadow: 0 1px #fff6da;
+}
+.peel-banner-title::before,
+.peel-banner-title::after {
+  content: "✦";
+  display: inline-block;
+  margin: 0 12px;
+  color: #95702e;
+  font-size: 15px;
+  vertical-align: middle;
+}
+.peel-banner-hint {
+  color: #8b332b;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+}
+.peel-banner svg {
+  color: #85251f;
+  filter: drop-shadow(0 1px #fff2cf);
+}
+.peel-banner::before,
+.peel-banner::after {
+  top: 2px;
+  bottom: 2px;
+  width: 23px;
+  border: 1px solid #9b742f;
+  background: repeating-radial-gradient(
+    ellipse at center,
+    #77551f 0 1px,
+    #f1d897 2px 4px,
+    #b28a40 5px 6px,
+    #fff0b9 7px 8px
+  );
+  box-shadow:
+    0 1px 3px #50351150,
+    inset 3px 0 4px #fff4bc99;
+}
+.peel-banner::before {
+  left: 4px;
+}
+.peel-banner::after {
+  right: 4px;
+}
+.peel-desktop .desktop-icons {
+  top: 74px;
+  height: calc(100% - 74px);
+}
+@media (max-width: 600px) {
+  .peel-banner {
+    min-height: 70px;
+    padding: 10px 29px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-content: center;
+  }
+  .peel-banner-title {
+    font-size: 19px;
+    letter-spacing: 0.025em;
+  }
+  .peel-banner-title::before,
+  .peel-banner-title::after {
+    margin: 0 5px;
+    font-size: 11px;
+  }
+  .peel-banner-hint {
+    font-size: 12px;
+  }
+  .peel-banner svg {
+    width: 21px;
+    height: 21px;
+  }
+  .peel-banner::before,
+  .peel-banner::after {
+    width: 16px;
+  }
+  .peel-desktop .desktop-icons {
+    top: 70px;
+    height: calc(100% - 70px);
+  }
+}
+
+.peel-banner > svg {
+  animation: scroll-arrow-bounce 2.8s ease-in-out infinite;
+}
+@keyframes scroll-arrow-bounce {
+  0%,
+  65%,
+  100% {
+    transform: translateY(0);
+  }
+  76% {
+    transform: translateY(5px);
+  }
+  85% {
+    transform: translateY(0);
+  }
+  92% {
+    transform: translateY(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peel-banner > svg {
+    animation: none;
+  }
+}
+
+.peel-stage {
+  background: #f7e8bf;
+}
+.peel-banner > svg:last-child {
+  animation-delay: 140ms;
+}
+@media (max-width: 600px) {
+  .peel-banner {
+    column-gap: 7px;
+  }
+  .peel-banner-hint {
+    order: 3;
+    flex-basis: 100%;
+    font-size: 11px;
+  }
+}
+
+.peel-banner > svg:first-child { margin-right: 6px; }
+.peel-banner > svg:last-child { margin-left: 6px; }
+@media (max-width: 600px) {
+  .peel-banner { display: grid; grid-template-columns: 24px auto 24px; justify-content: center; column-gap: 10px; row-gap: 2px; }
+  .peel-banner > svg:first-child { grid-column: 1; grid-row: 1 / 3; align-self: center; margin: 0; }
+  .peel-banner-title { grid-column: 2; grid-row: 1; }
+  .peel-banner-hint { grid-column: 2; grid-row: 2; }
+  .peel-banner > svg:last-child { grid-column: 3; grid-row: 1 / 3; align-self: center; margin: 0; }
+}
+
+/* Keep all simple-view controls beneath the desktop until it is rolled away. */
+.peel-underneath { z-index: 0; isolation: isolate; }
