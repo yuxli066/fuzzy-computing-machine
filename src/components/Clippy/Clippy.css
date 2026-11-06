@@ -1,0 +1,138 @@
+.clippy {
+  position: fixed;
+  right: 84px;
+  bottom: 130px;
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 124px;
+  max-width: calc(100vw - 24px);
+  pointer-events: none;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  color: #222;
+}
+
+.clippy-bubble {
+  position: absolute;
+  bottom: 109px;
+  left: var(--bubble-left, -136px);
+  width: min(260px, calc(100vw - 16px));
+  box-sizing: border-box;
+  max-height: calc(100dvh - 125px);
+  overflow-y: auto;
+  background: #ffffdf;
+  border: 1px solid #494530;
+  border-radius: 12px;
+  padding: 18px 20px 16px;
+  box-shadow: 3px 4px 0 #0003;
+  font-size: 13px;
+  line-height: 1.5;
+  pointer-events: auto;
+}
+
+.clippy-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 51px;
+  width: 18px;
+  height: 18px;
+  background: #ffffdf;
+  border-right: 1px solid #494530;
+  border-bottom: 1px solid #494530;
+  transform: skewY(35deg);
+}
+
+.clippy-bubble p {
+  margin: 8px 0 12px;
+}
+.clippy-links {
+  display: grid;
+  gap: 6px;
+}
+.clippy-links button,
+.clippy-links a {
+  background: #ece9d8;
+  border: 1px solid #969381;
+  border-radius: 3px;
+  padding: 7px 9px;
+  text-align: left;
+  color: #173e83;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: inset 1px 1px white;
+  text-decoration: none;
+}
+.clippy-links button:hover,
+.clippy-links a:hover {
+  background: #fff;
+}
+.clippy-close {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: 0;
+  color: #555;
+  font-size: 20px;
+  cursor: pointer;
+}
+.clippy-character {
+  width: 124px;
+  height: 93px;
+  margin-top: 0;
+  touch-action: none;
+  user-select: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  pointer-events: auto;
+}
+.clippy-sprite {
+  display: block;
+  width: 124px;
+  height: 93px;
+  background-image: url("../../images/clippy-sprites.png");
+  background-size: 1860px 1674px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+.clippy-character:hover .clippy-sprite,
+.clippy-character:focus-visible .clippy-sprite {
+  background-position: -1736px 0;
+}
+.clippy-character:active .clippy-sprite {
+  background-position: -1488px -93px;
+}
+.clippy button:focus-visible,
+.clippy a:focus-visible {
+  outline: 2px dotted #173e83;
+  outline-offset: 3px;
+}
+@media (max-width: 768px) {
+  .clippy {
+    right: 36px;
+    bottom: 100px;
+    width: 124px;
+  }
+  .clippy-bubble::after {
+    right: 51px;
+  }
+}
+
+.clippy-dragging .clippy-character {
+  cursor: grabbing;
+}
+.clippy-bubble-below .clippy-bubble {
+  bottom: auto;
+  top: 109px;
+}
+.clippy-bubble-below .clippy-bubble::after {
+  bottom: auto;
+  top: -10px;
+  transform: rotate(180deg) skewY(35deg);
+}

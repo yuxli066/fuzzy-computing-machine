@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Window from "../Window/Window";
+import Clippy from "../Clippy/Clippy";
 import "./Desktop.css";
 import batIcon from "../../icons/BAT.png";
 import briefcaseIcon from "../../icons/Briefcase.png";
@@ -334,7 +335,11 @@ function Desktop() {
       centerY = Math.max(0, centerY - offset);
     }
 
-    return { x: Math.max(0, centerX), y: Math.max(0, centerY) };
+    const horizontalOffset = windowId === "about" ? (isMobile ? 12 : 60) : 0;
+    return {
+      x: Math.max(0, centerX - horizontalOffset),
+      y: Math.max(0, centerY),
+    };
   };
 
   useEffect(() => {
@@ -380,6 +385,7 @@ function Desktop() {
 
   return (
     <div className="desktop">
+      <Clippy onNavigate={openWindow} />
       <div className="desktop-background">
         <div className="desktop-icons">
           {desktopIcons.map((icon) => (
