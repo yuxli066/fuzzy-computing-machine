@@ -84,7 +84,7 @@ function Clippy({ onNavigate }) {
           >
             ×
           </button>
-          <strong>Hi! I’m Clippy.</strong>
+          <strong>Hi! I’m Clippy. Click Me!</strong>
           <p>It looks like you’re getting to know Leo. Can I help?</p>
           <div className="clippy-links">
             <button
