@@ -105,7 +105,7 @@ const generalInfo = {
       linkedin: "https://www.linkedin.com/in/li-leo/",
       github: "https://github.com/yuxli066",
       resume:
-        "https://drive.google.com/file/d/1vOrvMbCCfWm4WXGuTCZC8N4qwXTFzPMY/view?usp=sharing",
+        "https://drive.google.com/file/d/1lshX7VfWHqmo9YEyUE89WUVdyXLmmzz_/view?usp=sharing",
     },
   },
 };
