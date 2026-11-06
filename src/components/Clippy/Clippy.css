@@ -86,6 +86,8 @@
   margin-top: 0;
   touch-action: none;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   padding: 0;
   border: 0;
   background: none;
@@ -93,6 +95,10 @@
   pointer-events: auto;
 }
 .clippy-sprite {
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   display: block;
   width: 124px;
   height: 93px;
@@ -101,11 +107,15 @@
   background-repeat: no-repeat;
   background-position: 0 0;
 }
-.clippy-character:hover .clippy-sprite,
+@media (hover: hover) and (pointer: fine) {
+  .clippy-character:hover .clippy-sprite {
+    background-position: -1736px 0;
+  }
+}
 .clippy-character:focus-visible .clippy-sprite {
   background-position: -1736px 0;
 }
-.clippy-character:active .clippy-sprite {
+.clippy-character.clippy-pressed .clippy-sprite {
   background-position: -1488px -93px;
 }
 .clippy button:focus-visible,
@@ -135,4 +145,35 @@
   bottom: auto;
   top: -10px;
   transform: rotate(180deg) skewY(35deg);
+}
+
+.clippy-sprite {
+  animation: clippy-hop 5s ease-in-out infinite;
+}
+
+.clippy-dragging .clippy-sprite,
+.clippy-pressed .clippy-sprite {
+  animation: none;
+}
+
+@keyframes clippy-hop {
+  0%,
+  76%,
+  82%,
+  88%,
+  94%,
+  100% {
+    transform: translateY(0);
+  }
+  79%,
+  85%,
+  91% {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clippy-sprite {
+    animation: none;
+  }
 }

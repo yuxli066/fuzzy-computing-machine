@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Window from "../Window/Window";
 import Clippy from "../Clippy/Clippy";
 import "./Desktop.css";
@@ -9,7 +9,9 @@ import activeContactIcon from "../../icons/ActiveContact.png";
 import portfolioInfo from "../../content/general/leo";
 
 function Desktop() {
-  const [openWindows, setOpenWindows] = useState({ about: true });
+  const [openWindows, setOpenWindows] = useState(() =>
+    window.innerWidth > 768 ? { about: true } : {},
+  );
   const [minimizedWindows, setMinimizedWindows] = useState({});
   const [zIndexCounter, setZIndexCounter] = useState(100);
   const [windowZIndices, setWindowZIndices] = useState({ about: 100 });
@@ -31,12 +33,8 @@ function Desktop() {
       contact: { x: 440, y: 50 },
     };
   });
-  const [draggingIcon, setDraggingIcon] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const iconDragRef = useRef(null);
   const [showStartMenu, setShowStartMenu] = useState(false);
-  const [touchStartPos, setTouchStartPos] = useState(null);
-  const [touchStartIcon, setTouchStartIcon] = useState(null);
-  const [hasMoved, setHasMoved] = useState(false);
   // TODO: Re-enable tooltip feature
   // const [showResizeHelper, setShowResizeHelper] = useState(false);
   // const [resizeHandlePosition, setResizeHandlePosition] = useState(null);
@@ -94,70 +92,62 @@ function Desktop() {
     }));
   };
 
-  const handleIconMouseDown = (e, iconId) => {
-    e.preventDefault();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    setTouchStartPos({ x: clientX, y: clientY });
-    setTouchStartIcon(iconId);
-    setHasMoved(false);
-    setDraggingIcon(iconId);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOffset({
-      x: (e.touches ? e.touches[0].clientX : e.clientX) - rect.left,
-      y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top,
-    });
+  const handleIconPointerDown = (event, iconId) => {
+    if (!event.isPrimary || event.button !== 0) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    iconDragRef.current = {
+      id: event.pointerId,
+      iconId,
+      startX: event.clientX,
+      startY: event.clientY,
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
   };
 
-  useEffect(() => {
-    const handleMove = (e) => {
-      if (!draggingIcon) return;
+  const handleIconPointerMove = (event) => {
+    const drag = iconDragRef.current;
+    if (!drag || drag.id !== event.pointerId) return;
+    if (
+      !drag.moved &&
+      Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) < 8
+    )
+      return;
+    drag.moved = true;
+    const bounds = event.currentTarget.parentElement.getBoundingClientRect();
+    const icon = event.currentTarget.getBoundingClientRect();
+    const x = Math.max(
+      0,
+      Math.min(
+        event.clientX - bounds.left - drag.offsetX,
+        bounds.width - icon.width,
+      ),
+    );
+    const y = Math.max(
+      0,
+      Math.min(
+        event.clientY - bounds.top - drag.offsetY,
+        bounds.height - icon.height,
+      ),
+    );
+    setIconPositions((previous) => ({
+      ...previous,
+      [drag.iconId]: { x, y },
+    }));
+  };
 
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const handleIconPointerUp = (event) => {
+    const drag = iconDragRef.current;
+    if (!drag || drag.id !== event.pointerId) return;
+    iconDragRef.current = null;
+    if (!drag.moved) openWindow(drag.iconId);
+  };
 
-      if (touchStartPos) {
-        const deltaX = Math.abs(clientX - touchStartPos.x);
-        const deltaY = Math.abs(clientY - touchStartPos.y);
-        if (deltaX > 5 || deltaY > 5) {
-          setHasMoved(true);
-        }
-      }
-
-      setIconPositions((prev) => {
-        const newPos = { ...prev };
-        newPos[draggingIcon] = {
-          x: clientX - dragOffset.x,
-          y: clientY - dragOffset.y,
-        };
-        return newPos;
-      });
-    };
-
-    const handleUp = () => {
-      if (draggingIcon && !hasMoved && touchStartIcon) {
-        openWindow(touchStartIcon);
-      }
-      setDraggingIcon(null);
-      setTouchStartPos(null);
-      setTouchStartIcon(null);
-      setHasMoved(false);
-    };
-
-    if (draggingIcon) {
-      document.addEventListener("mousemove", handleMove);
-      document.addEventListener("mouseup", handleUp);
-      document.addEventListener("touchmove", handleMove, { passive: false });
-      document.addEventListener("touchend", handleUp);
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMove);
-      document.removeEventListener("mouseup", handleUp);
-      document.removeEventListener("touchmove", handleMove);
-      document.removeEventListener("touchend", handleUp);
-    };
-  }, [draggingIcon, dragOffset, hasMoved, touchStartIcon, touchStartPos]);
+  const cancelIconDrag = () => {
+    iconDragRef.current = null;
+  };
 
   const renderWindowContent = (type) => {
     switch (type) {
@@ -398,8 +388,11 @@ function Desktop() {
                 left: `${iconPositions[icon.id].x}px`,
                 top: `${iconPositions[icon.id].y}px`,
               }}
-              onMouseDown={(e) => handleIconMouseDown(e, icon.id)}
-              onTouchStart={(e) => handleIconMouseDown(e, icon.id)}
+              onPointerDown={(e) => handleIconPointerDown(e, icon.id)}
+              onPointerMove={handleIconPointerMove}
+              onPointerUp={handleIconPointerUp}
+              onPointerCancel={cancelIconDrag}
+              onLostPointerCapture={cancelIconDrag}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -413,7 +406,7 @@ function Desktop() {
               }}
             >
               <div className="desktop-icon-image">
-                <img src={icon.icon} alt={icon.label} />
+                <img src={icon.icon} alt={icon.label} draggable={false} />
               </div>
               <div className="desktop-icon-label">{icon.label}</div>
             </div>

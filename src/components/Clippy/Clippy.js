@@ -10,6 +10,7 @@ function Clippy({ onNavigate }) {
   const suppressClick = useRef(false);
   const [position, setPosition] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
   const clampPosition = (x, y) => ({
     x: Math.max(0, Math.min(x, window.innerWidth - 124)),
     y: Math.max(0, Math.min(y, window.innerHeight - 93)),
@@ -25,6 +26,7 @@ function Clippy({ onNavigate }) {
 
   const startDrag = (event) => {
     if (!event.isPrimary || event.button !== 0) return;
+    setIsPressed(true);
     const rect = characterRef.current.getBoundingClientRect();
     suppressClick.current = false;
     dragRef.current = {
@@ -51,6 +53,7 @@ function Clippy({ onNavigate }) {
   };
 
   const endDrag = () => {
+    setIsPressed(false);
     dragRef.current = null;
     setIsDragging(false);
   };
@@ -112,8 +115,11 @@ function Clippy({ onNavigate }) {
       )}
       <button
         type="button"
-        className="clippy-character"
+        className={`clippy-character${isPressed ? " clippy-pressed" : ""}`}
         ref={characterRef}
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()}
+        onDragStart={(event) => event.preventDefault()}
         onPointerDown={startDrag}
         onPointerMove={moveDrag}
         onPointerUp={endDrag}
