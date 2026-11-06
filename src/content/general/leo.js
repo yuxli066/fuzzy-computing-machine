@@ -12,19 +12,28 @@ const generalInfo = {
     title: "Work Experience",
     content: [
       {
-        company: "Walmart Global Tech - SDET - Nov 2023 – Current",
+        company: "WPP Production (Client: Apple) - SDET - Aug 2026 – Nov 2026",
         details: [
-          "Created and executed manual & automation tests, conducted periodic measurement analysis. Delivered, and communicated test results.",
-          "Designed and implemented functional and end-to-end tests working at UI, API and database levels.",
+          "Designed and maintained automation frameworks and test suites to expand test coverage and streamline regression testing for web applications.",
+          "Built internal tools and scripts to automate repetitive QA tasks, simplify test execution, and improve test reporting across teams.",
+          "Collaborated with developers, QA leads, and cross-functional teams to gather requirements, define test plans, and improve application testability.",
+          "Performed manual and exploratory testing to validate features, investigate defects, and identify automation opportunities, partnering with developers to troubleshoot failures and verify fixes.",
+        ],
+      },
+      {
+        company: "Walmart Global Tech - SDET - Nov 2023 – Jul 2026",
+        details: [
+          "Created and executed manual and automated tests, conducted periodic measurement analysis, and communicated test results.",
+          "Designed and implemented functional and end-to-end tests at the UI, API, and database levels.",
           "Contributed to planning and estimation activities, including monitoring processes and reviewing QA deliverables and tasks.",
         ],
       },
       {
-        company: "Visa - Sr. Software Test Engineer - April 2022 – August 2023",
+        company: "Visa - Sr. Software Test Engineer - Apr 2022 – Aug 2023",
         details: [
-          "Created & executed test plans, test designs & test cases covering feature integration, regression, and system level testing.",
-          "Contributed to API & UI functional automation frameworks using industry wide tools and performed database testing on RDMBS & NoSQL based databases.",
-          "Helped debug Linux/Unix/Container based application servers in Docker/Kubernetes.",
+          "Created and executed test plans, test designs, and test cases covering feature integration, regression, and system-level testing.",
+          "Contributed to API and UI functional automation frameworks using industry-standard tools and performed testing on relational and NoSQL databases.",
+          "Helped debug application servers running in Linux/Unix environments and Docker/Kubernetes containers.",
         ],
       },
       {
@@ -32,10 +41,10 @@ const generalInfo = {
           "Extron Electronics - Automation Engineer - Nov 2020 – Nov 2021",
         details: [
           "Developed a software support dashboard used to execute 10,000 accessibility tests.",
-          "Created & configured a HAPROXY load balancer for network distribution.",
-          "Created & configured an Application Portal (layer 7) load balancer for Azure VMs.",
+          "Created and configured an HAProxy load balancer for network distribution.",
+          "Created and configured a layer 7 load balancer to route requests to Azure VMs based on HTTP headers.",
           "Created scripts to automate database migrations and deployment cleanups.",
-          "Created multiple accessibility microservices with over 500 downloads on docker hub.",
+          "Created multiple accessibility microservices with over 500 downloads on Docker Hub.",
           "Provided guidance to team members with strategies to help improve code optimization.",
         ],
       },
@@ -44,14 +53,14 @@ const generalInfo = {
           "Glidewell Dental Labs - QA Automation Engineer - Apr 2018 – Apr 2020",
         details: [
           "Designed and built an automation framework used to test both UIs and services.",
-          "Set up CI/CD pipelines using Jenkins, Docker & AWS to automate the execution of test builds.",
-          "Developed a software support tool used to run selenium tests and restart services.",
+          "Set up CI/CD pipelines using Jenkins, Docker, and AWS to automate the execution of test builds.",
+          "Developed a software support tool used to run Selenium tests and restart services.",
         ],
       },
       {
-        company: "Software Engineer - DiagnosisAI - Feb 2017 - Oct 2018",
+        company: "DiagnosisAI - Software Engineer - Feb 2017 – Oct 2018",
         details: [
-          "Contributed to the development effort of an automated doctor to patient service.",
+          "Contributed to the development effort of an automated doctor-to-patient service.",
           "Contributed to the development effort of the company's landing page.",
         ],
       },
@@ -60,8 +69,8 @@ const generalInfo = {
           "Sony Pictures Entertainment - Automation Analyst - Sep 2017 – Apr 2018",
         details: [
           "Contributed to the development effort of a Java/Python automation framework.",
-          "Developed automation tests for web apps, REST APIs, thick clients, and other applications.",
-          "Collaborated with offshore developers for requirements gathering & framework development.",
+          "Developed automated tests for web apps, REST APIs, thick clients, and other applications.",
+          "Collaborated with offshore developers for requirements gathering and framework development.",
         ],
       },
     ],
