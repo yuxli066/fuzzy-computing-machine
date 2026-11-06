@@ -177,3 +177,28 @@
     animation: none;
   }
 }
+
+@media (max-width: 768px) {
+  .clippy-bubble {
+    width: min(220px, calc(100vw - 24px));
+    padding: 14px 14px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    left: var(--bubble-left, -96px);
+  }
+  .clippy-bubble p {
+    margin: 7px 0 9px;
+  }
+  .clippy-links {
+    gap: 5px;
+  }
+  .clippy-links button,
+  .clippy-links a {
+    padding: 7px 8px;
+    min-height: 32px;
+  }
+  .clippy-close {
+    top: 0;
+    right: 2px;
+  }
+}

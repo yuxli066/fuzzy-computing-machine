@@ -12,7 +12,7 @@ export default function SimplePage({
     <div className="simple-page">
       <header className="simple-header">
         <a href="#simple-home">
-          Leo Li<span> / Software engineer</span>
+          Leo Li<span>Software engineer</span>
         </a>
         <button
           type="button"
@@ -26,11 +26,13 @@ export default function SimplePage({
       </header>
       <main id="simple-home" className="simple-main" tabIndex={-1}>
         <div className="simple-intro">
-          <p className="simple-eyebrow">A simpler view</p>
-          <h1>
-            Same Leo.
-            <br />A fresh page.
-          </h1>
+          <div className="simple-heading">
+            <p className="simple-eyebrow">A simpler view</p>
+            <h1>
+              Same Leo.
+              <br />A fresh page.
+            </h1>
+          </div>
           <p>{portfolioInfo.about.content[0]}</p>
           <p>
             This portfolio is taking shape. In the meantime, take a look at my

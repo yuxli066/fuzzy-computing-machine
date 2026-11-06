@@ -8,6 +8,111 @@ import folderOpenedIcon from "../../icons/FolderOpened.png";
 import activeContactIcon from "../../icons/ActiveContact.png";
 import portfolioInfo from "../../content/general/leo";
 
+const iconIds = ["about", "experience", "projects", "contact"];
+
+function automaticIconPositions(width, height) {
+  const mobile = width <= 768;
+  const horizontal = width > height || height < 480;
+  const columns =
+    mobile && !horizontal
+      ? 1
+      : Math.min(4, Math.max(1, Math.floor((width - 24) / 90)));
+  const gapX = columns === 1 ? 0 : Math.min(130, (width - 100) / (columns - 1));
+  const rows = Math.ceil(iconIds.length / columns);
+  const gapY = Math.min(
+    130,
+    Math.max(85, (height - 110) / Math.max(1, rows - 1)),
+  );
+  return Object.fromEntries(
+    iconIds.map((id, index) => [
+      id,
+      {
+        x: Math.max(
+          0,
+          Math.min((mobile ? 12 : 35) + (index % columns) * gapX, width - 80),
+        ),
+        y: Math.max(
+          0,
+          Math.min(20 + Math.floor(index / columns) * gapY, height - 110),
+        ),
+      },
+    ]),
+  );
+}
+
+function overlapsIcon(a, b) {
+  const gap = 8;
+  return (
+    a.x < b.x + b.width + gap &&
+    a.x + a.width + gap > b.x &&
+    a.y < b.y + b.height + gap &&
+    a.y + a.height + gap > b.y
+  );
+}
+
+function arrangeWithoutOverlaps(container, current, moved) {
+  const { width, height } = container.getBoundingClientRect();
+  const defaults = automaticIconPositions(width, height);
+  const placed = [];
+  const result = {};
+  // Respect deliberate placements first, then fit untouched icons around them.
+  const order = [...iconIds].sort(
+    (a, b) => Number(moved.has(b)) - Number(moved.has(a)),
+  );
+  for (const id of order) {
+    const element = container.querySelector(`[data-icon-id="${id}"]`);
+    const size = { width: element.offsetWidth, height: element.offsetHeight };
+    const maxX = Math.max(0, width - size.width);
+    const maxY = Math.max(0, height - size.height);
+    const preferred = moved.has(id) ? current[id] : defaults[id];
+    let candidate = {
+      x: Math.max(0, Math.min(preferred.x, maxX)),
+      y: Math.max(0, Math.min(preferred.y, maxY)),
+      ...size,
+    };
+    if (placed.some((other) => overlapsIcon(candidate, other))) {
+      let best = null;
+      let distance = Infinity;
+      const xs = [
+        ...new Set([
+          0,
+          maxX,
+          ...Array.from(
+            { length: Math.floor(maxX / 12) + 1 },
+            (_, n) => n * 12,
+          ),
+        ]),
+      ];
+      const ys = [
+        ...new Set([
+          0,
+          maxY,
+          ...Array.from(
+            { length: Math.floor(maxY / 12) + 1 },
+            (_, n) => n * 12,
+          ),
+        ]),
+      ];
+      for (const x of xs)
+        for (const y of ys) {
+          const option = { x, y, ...size };
+          const score = (x - preferred.x) ** 2 + (y - preferred.y) ** 2;
+          if (
+            score < distance &&
+            !placed.some((other) => overlapsIcon(option, other))
+          ) {
+            best = option;
+            distance = score;
+          }
+        }
+      if (best) candidate = best;
+    }
+    result[id] = { x: candidate.x, y: candidate.y };
+    placed.push(candidate);
+  }
+  return result;
+}
+
 function Desktop() {
   const [openWindows, setOpenWindows] = useState(() =>
     window.innerWidth > 768 ? { about: true } : {},
@@ -16,23 +121,28 @@ function Desktop() {
   const [zIndexCounter, setZIndexCounter] = useState(100);
   const [windowZIndices, setWindowZIndices] = useState({ about: 100 });
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [iconPositions, setIconPositions] = useState(() => {
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      return {
-        about: { x: 20, y: 40 },
-        experience: { x: 20, y: 170 },
-        projects: { x: 20, y: 300 },
-        contact: { x: 20, y: 430 },
-      };
-    }
-    return {
-      about: { x: 50, y: 50 },
-      experience: { x: 180, y: 50 },
-      projects: { x: 310, y: 50 },
-      contact: { x: 440, y: 50 },
+  const [iconPositions, setIconPositions] = useState(() =>
+    automaticIconPositions(window.innerWidth, window.innerHeight - 144),
+  );
+  const iconsRef = useRef(null);
+  const [scrollHeight, setScrollHeight] = useState(74);
+  const movedIcons = useRef(new Set());
+  useEffect(() => {
+    const container = iconsRef.current;
+    const arrange = () => {
+      const banner = document.querySelector(".peel-stage > .peel-banner");
+      if (banner)
+        setScrollHeight(Math.ceil(banner.getBoundingClientRect().height) + 8);
+      setIconPositions((current) =>
+        arrangeWithoutOverlaps(container, current, movedIcons.current),
+      );
     };
-  });
+    const observer = new ResizeObserver(arrange);
+    observer.observe(container);
+    const banner = document.querySelector(".peel-stage > .peel-banner");
+    if (banner) observer.observe(banner);
+    return () => observer.disconnect();
+  }, []);
   const iconDragRef = useRef(null);
   const [showStartMenu, setShowStartMenu] = useState(false);
   // TODO: Re-enable tooltip feature
@@ -116,6 +226,7 @@ function Desktop() {
     )
       return;
     drag.moved = true;
+    movedIcons.current.add(drag.iconId);
     const bounds = event.currentTarget.parentElement.getBoundingClientRect();
     const icon = event.currentTarget.getBoundingClientRect();
     const x = Math.max(
@@ -132,10 +243,19 @@ function Desktop() {
         bounds.height - icon.height,
       ),
     );
-    setIconPositions((previous) => ({
-      ...previous,
-      [drag.iconId]: { x, y },
-    }));
+    setIconPositions((previous) => {
+      const candidate = { x, y, width: icon.width, height: icon.height };
+      const collision = iconIds.some((id) => {
+        if (id === drag.iconId) return false;
+        const other = iconsRef.current.querySelector(`[data-icon-id="${id}"]`);
+        return overlapsIcon(candidate, {
+          ...previous[id],
+          width: other.offsetWidth,
+          height: other.offsetHeight,
+        });
+      });
+      return collision ? previous : { ...previous, [drag.iconId]: { x, y } };
+    });
   };
 
   const handleIconPointerUp = (event) => {
@@ -377,11 +497,19 @@ function Desktop() {
     <div className="desktop">
       <Clippy onNavigate={openWindow} />
       <div className="desktop-background">
-        <div className="desktop-icons">
+        <div
+          className="desktop-icons"
+          ref={iconsRef}
+          style={{
+            top: scrollHeight,
+            height: `calc(100% - ${scrollHeight}px)`,
+          }}
+        >
           {desktopIcons.map((icon) => (
             <div
               key={icon.id}
               className="desktop-icon"
+              data-icon-id={icon.id}
               role="button"
               tabIndex={0}
               style={{

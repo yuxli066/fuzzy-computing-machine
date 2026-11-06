@@ -1,5 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import "./Window.css";
+
+function getWindowArea() {
+  const banner = document.querySelector(".peel-stage > .peel-banner");
+  const top = (banner?.getBoundingClientRect().height || 74) + 8;
+  const bottom = window.innerHeight - (window.innerWidth <= 768 ? 50 : 65) - 8;
+  return { width: window.innerWidth, height: window.innerHeight, top, bottom };
+}
 
 function Window({
   id,
@@ -54,6 +61,26 @@ function Window({
   const resizeHandleRef = useRef(null);
   const hasMeasuredRef = useRef(false);
 
+  const [area, setArea] = useState(getWindowArea);
+  const [measuredHeight, setMeasuredHeight] = useState(300);
+  useLayoutEffect(() => {
+    const updateBounds = () => setArea(getWindowArea());
+    const observer = new ResizeObserver(() => {
+      updateBounds();
+      if (windowRef.current)
+        setMeasuredHeight(windowRef.current.getBoundingClientRect().height);
+    });
+    const banner = document.querySelector(".peel-stage > .peel-banner");
+    if (banner) observer.observe(banner);
+    if (windowRef.current) observer.observe(windowRef.current);
+    window.addEventListener("resize", updateBounds);
+    updateBounds();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateBounds);
+    };
+  }, [minimized]);
+
   // Measure actual window height and recalculate centered position after render
   useEffect(() => {
     if (!windowRef.current || hasMeasuredRef.current || hasUserDragged) return;
@@ -85,6 +112,7 @@ function Window({
   }, [hasUserDragged, defaultPosition]);
 
   const handleMouseDown = (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
     if (e.target.closest(".window-controls")) return;
     if (e.target.closest(".window-resize-handle")) return;
     if (onFocus) onFocus(id);
@@ -108,7 +136,8 @@ function Window({
       const isMobile = window.innerWidth <= 768;
       const taskbarHeight = isMobile ? 50 : 65;
       const maxX = window.innerWidth - rect.width;
-      const maxY = window.innerHeight - taskbarHeight - rect.height;
+      const bounds = getWindowArea();
+      const maxY = Math.max(bounds.top, bounds.bottom - rect.height);
 
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -117,7 +146,7 @@ function Window({
 
       // Constrain to viewport
       newX = Math.max(0, Math.min(newX, maxX));
-      newY = Math.max(0, Math.min(newY, maxY));
+      newY = Math.max(bounds.top, Math.min(newY, maxY));
 
       setPosition({
         x: newX,
@@ -134,6 +163,7 @@ function Window({
       document.addEventListener("mouseup", handleUp);
       document.addEventListener("touchmove", handleMove, { passive: false });
       document.addEventListener("touchend", handleUp);
+      document.addEventListener("touchcancel", handleUp);
     }
 
     return () => {
@@ -141,6 +171,7 @@ function Window({
       document.removeEventListener("mouseup", handleUp);
       document.removeEventListener("touchmove", handleMove);
       document.removeEventListener("touchend", handleUp);
+      document.removeEventListener("touchcancel", handleUp);
     };
   }, [isDragging, dragOffset]);
 
@@ -229,6 +260,7 @@ function Window({
         passive: false,
       });
       document.addEventListener("touchend", handleResizeEnd);
+      document.addEventListener("touchcancel", handleResizeEnd);
     }
 
     return () => {
@@ -236,17 +268,33 @@ function Window({
       document.removeEventListener("mouseup", handleResizeEnd);
       document.removeEventListener("touchmove", handleResizeMove);
       document.removeEventListener("touchend", handleResizeEnd);
+      document.removeEventListener("touchcancel", handleResizeEnd);
     };
   }, [isResizing, resizeStart, position]);
 
   if (minimized) return null;
 
+  const availableHeight = Math.max(80, area.bottom - area.top);
+  const visibleWidth = Math.min(size.width, area.width * 0.9);
+  const visibleHeight = Math.min(
+    size.height || measuredHeight,
+    availableHeight,
+  );
+  const safeY = Math.max(
+    area.top,
+    Math.min(position.y, area.bottom - visibleHeight),
+  );
   const windowStyle = {
     position: "absolute",
-    left: `${position.x}px`,
-    top: `${position.y}px`,
-    width: `${size.width}px`,
-    height: size.height ? `${size.height}px` : "auto",
+    left: `${Math.max(0, Math.min(position.x, area.width - visibleWidth))}px`,
+    top: `${safeY}px`,
+    width: `${visibleWidth}px`,
+    minWidth: 0,
+    minHeight: Math.min(250, availableHeight),
+    maxHeight: `${Math.max(80, area.bottom - safeY)}px`,
+    height: size.height
+      ? `${Math.min(size.height, availableHeight)}px`
+      : "auto",
   };
 
   const windowStyleWithZIndex = {
@@ -274,7 +322,8 @@ function Window({
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
-            handleMouseDown(e);
+            e.preventDefault();
+            if (onFocus) onFocus(id);
           }
         }}
       >

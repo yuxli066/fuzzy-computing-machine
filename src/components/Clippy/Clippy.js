@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import "./Clippy.css";
 import portfolioInfo from "../../content/general/leo";
 
@@ -23,6 +23,45 @@ function Clippy({ onNavigate }) {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  const bubbleRef = useRef(null);
+  const [bubbleStyle, setBubbleStyle] = useState({});
+  useLayoutEffect(() => {
+    if (!isOpen) return undefined;
+    const placeBubble = () => {
+      const bubble = bubbleRef.current;
+      const character = characterRef.current;
+      if (!bubble || !character) return;
+      const anchor = character.getBoundingClientRect();
+      const parent = character.parentElement.getBoundingClientRect();
+      const { width, height } = bubble.getBoundingClientRect();
+      const x = Math.max(
+        8,
+        Math.min(anchor.right - width, window.innerWidth - width - 8),
+      );
+      const above = anchor.top - height - 16;
+      const y = Math.max(
+        8,
+        Math.min(
+          above >= 8 ? above : anchor.bottom + 16,
+          window.innerHeight - height - 8,
+        ),
+      );
+      setBubbleStyle({
+        left: x - parent.left,
+        top: y - parent.top,
+        bottom: "auto",
+      });
+    };
+    placeBubble();
+    const observer = new ResizeObserver(placeBubble);
+    observer.observe(bubbleRef.current);
+    window.addEventListener("resize", placeBubble);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", placeBubble);
+    };
+  }, [isOpen, position]);
 
   const startDrag = (event) => {
     if (!event.isPrimary || event.button !== 0) return;
@@ -75,7 +114,12 @@ function Clippy({ onNavigate }) {
       }
     >
       {isOpen && (
-        <div className="clippy-bubble" id="clippy-menu">
+        <div
+          className="clippy-bubble"
+          id="clippy-menu"
+          ref={bubbleRef}
+          style={bubbleStyle}
+        >
           <button
             type="button"
             className="clippy-close"
