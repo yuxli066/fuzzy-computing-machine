@@ -45,7 +45,7 @@ const generalInfo = {
           "Created and configured a layer 7 load balancer to route requests to Azure VMs based on HTTP headers.",
           "Created scripts to automate database migrations and deployment cleanups.",
           "Created multiple accessibility microservices with over 500 downloads on Docker Hub.",
-          "Provided guidance to team members with strategies to help improve code optimization.",
+          "Provided guidance to team members on strategies for optimizing code.",
         ],
       },
       {
