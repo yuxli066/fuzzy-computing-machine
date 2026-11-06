@@ -44,17 +44,50 @@ export default function SimplePage({
               target="_blank"
               rel="noopener noreferrer"
             >
-              View resume ↗
+              View resume{" "}
+              <svg
+                className="simple-link-arrow"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d="M5 19 19 5M6 5h13v13"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
             <a href={`mailto:${portfolioInfo.contact.content.email}`}>
-              Get in touch ↗
+              Get in touch{" "}
+              <svg
+                className="simple-link-arrow"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d="M5 19 19 5M6 5h13v13"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
           </div>
         </div>
         <Portrait />
       </main>
       <footer className="simple-footer">
-        Yuxuan (Leo) Li <span>Built with a little curiosity.</span>
+        <span className="simple-footer-name">Yuxuan (Leo) Li</span>
+        <span className="simple-footer-note">
+          Built with a little curiosity.
+        </span>
       </footer>
       <button
         type="button"
