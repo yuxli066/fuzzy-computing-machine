@@ -70,7 +70,7 @@
   border-top: 1px solid #dcded3;
   font-size: 13px;
 }
-.simple-page :focus-visible {
+.simple-page :is(a, button, input, select, textarea):focus-visible {
   outline: 2px solid #3e694d;
   outline-offset: 5px;
 }
@@ -203,7 +203,7 @@
   background: #fff3d1;
   border-color: #b28a47;
 }
-.simple-page :focus-visible {
+.simple-page :is(a, button, input, select, textarea):focus-visible {
   outline-color: #85251f;
 }
 
@@ -607,4 +607,9 @@
     font-size: 10px;
     gap: 8px;
   }
+}
+
+.simple-page .simple-main:focus,
+.simple-page .simple-main:focus-visible {
+  outline: none;
 }
