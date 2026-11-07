@@ -273,6 +273,10 @@ export default function DesktopPeel() {
           ref={returnButton}
           type="button"
           className="peel-banner"
+          style={{
+            opacity: progress > 0.005 || settling ? 0 : 1,
+            pointerEvents: progress > 0.005 && !dragging ? "none" : undefined,
+          }}
           disabled={settling}
           aria-label="Open simple portfolio view"
           onPointerDown={start}
