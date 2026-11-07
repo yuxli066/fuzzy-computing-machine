@@ -102,8 +102,13 @@ export default function DesktopPeel() {
   };
 
   const release = (event) => {
-    if (drag.current?.id !== event.pointerId) return;
-    finish(!drag.current.moved || progressRef.current > 0.22);
+    const current = drag.current;
+    if (!current || current.id !== event.pointerId) return;
+    const distance = Math.max(0, event.clientY - current.y);
+    const moved =
+      current.moved ||
+      Math.hypot(event.clientX - current.x, event.clientY - current.y) > 6;
+    finish(!moved || distance >= window.innerHeight / 3);
   };
 
   const startReturn = (event) => {
@@ -111,6 +116,7 @@ export default function DesktopPeel() {
     cancelAnimationFrame(animation.current);
     drag.current = {
       id: event.pointerId,
+      x: event.clientX,
       y: event.clientY,
       moved: false,
       returning: true,
@@ -122,13 +128,19 @@ export default function DesktopPeel() {
     const current = drag.current;
     if (!current?.returning || current.id !== event.pointerId) return;
     const distance = Math.max(0, current.y - event.clientY);
-    if (Math.abs(current.y - event.clientY) > 6) current.moved = true;
+    if (Math.hypot(event.clientX - current.x, event.clientY - current.y) > 6)
+      current.moved = true;
     update(1 - Math.min(1, distance / (window.innerHeight * 0.65)));
   };
   const releaseReturn = (event) => {
     const current = drag.current;
     if (!current?.returning || current.id !== event.pointerId) return;
-    finish(current.moved && progressRef.current > 0.78);
+    const distance = Math.max(0, current.y - event.clientY);
+    const moved =
+      current.moved ||
+      Math.hypot(event.clientX - current.x, event.clientY - current.y) > 6;
+    const shouldReturn = !moved || distance >= window.innerHeight / 3;
+    finish(!shouldReturn);
   };
   const cancelReturn = () => {
     if (drag.current?.returning) finish(true);
